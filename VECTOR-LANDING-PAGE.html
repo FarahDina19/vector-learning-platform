@@ -981,7 +981,7 @@
                     </div>
                     <div class="card-meta">
                         <span>Contoh: 25°C</span>
-                        <span>50 km/j</span>
+                        <span>50 km/h</span>
                     </div>
                 </div>
 
@@ -992,7 +992,7 @@
                         Kuantiti yang mempunyai <strong>magnitud DAN arah</strong>. Kedua-dua penting.
                     </div>
                     <div class="card-meta">
-                        <span>Contoh: 50 km/j Utara</span>
+                        <span>Contoh: 50 km/h Utara</span>
                         <span>500 N ke bawah</span>
                     </div>
                 </div>
@@ -1012,7 +1012,7 @@
                 <div class="feature-box">
                     <div class="feature-box-icon">➕</div>
                     <div class="feature-box-title">Penambahan</div>
-                    <div class="feature-box-text">Skalar: 3+2=5 | Vektor: Mesti guna gambar</div>
+                    <div class="feature-box-text">Skalar: 3 + 2 = 5 | Vektor: tambah komponen sepadan</div>
                 </div>
                 <div class="feature-box">
                     <div class="feature-box-icon">🔤</div>
@@ -1028,8 +1028,8 @@
                     <strong>Vektor Null:</strong> Tiada panjang, tiada arah (0)<br>
                     <strong>Vektor Unit:</strong> Panjang = 1 unit (i, j)<br>
                     <strong>Vektor Selari:</strong> Arah sama atau bertentangan, panjang mungkin berbeza<br>
-                    <strong>Vektor Sama:</strong> Arah sama DAN panjang sama<br>
-                    <strong>Vektor Negatif:</strong> Arah bertentangan
+                    <strong>Vektor Sama:</strong> Arah sama DAN panjang sama (kedudukan pangkal boleh berbeza)<br>
+                    <strong>Vektor Negatif:</strong> Magnitud sama, arah bertentangan
                 </div>
                 <div class="difficulty-badge difficulty-easy">Mudah - Asas</div>
             </div>
@@ -1049,7 +1049,7 @@
                     <div class="card-icon">📐</div>
                     <div class="card-title">Bentuk Komponen (i, j)</div>
                     <div class="card-description">
-                        Vektor = xi + yj<br>
+                        v = xi + yj<br>
                         <strong>i:</strong> Unit vektor arah x (Timur)<br>
                         <strong>j:</strong> Unit vektor arah y (Utara)
                     </div>
@@ -1063,8 +1063,7 @@
                     <div class="card-title">Bentuk Kolom</div>
                     <div class="card-description">
                         Vektor boleh ditulis dalam bentuk kolom:<br>
-                        [3]<br>
-                        [4]<br>
+                        <span id="columnExample"></span><br>
                         Bererti 3 unit Timur, 4 unit Utara
                     </div>
                     <div class="card-meta">
@@ -1089,9 +1088,9 @@
             <div class="learning-path">
                 <h3>📍 Koordinat ↔️ Bentuk Komponen:</h3>
                 <ol>
-                    <li><strong>Titik (2, 3):</strong> Vektor = 2i + 3j</li>
-                    <li><strong>Titik (5, -1):</strong> Vektor = 5i - 1j</li>
-                    <li><strong>Titik (-3, 4):</strong> Vektor = -3i + 4j</li>
+                    <li><strong>P(2, 3), dari O:</strong> OP = 2i + 3j</li>
+                    <li><strong>P(5, −1), dari O:</strong> OP = 5i − j</li>
+                    <li><strong>P(−3, 4), dari O:</strong> OP = −3i + 4j</li>
                     <li><strong>Ingat:</strong> Negatif bermakna arah sebaliknya</li>
                 </ol>
             </div>
@@ -1115,7 +1114,7 @@
                 <div class="feature-box">
                     <div class="feature-box-icon">➡️</div>
                     <div class="feature-box-title">Arah</div>
-                    <div class="feature-box-text">θ = atan2(y, x), ikut kuadran</div>
+                    <div class="feature-box-text">θ = atan2(y, x). Sudut diukur lawan jam dari paksi x positif; vektor sifar tiada arah.</div>
                 </div>
             </div>
 
@@ -1159,7 +1158,7 @@
                     <div class="card-title">Penambahan Algebra</div>
                     <div class="card-description">
                         <strong>Formula:</strong><br>
-                        (a+c)i + (b+d)j<br><br>
+                        (A_x + B_x)i + (A_y + B_y)j<br><br>
                         <strong>Contoh:</strong><br>
                         (3i+4j) + (2i-1j) = 5i+3j
                     </div>
@@ -1171,7 +1170,7 @@
                     <div class="card-title">Pengurangan</div>
                     <div class="card-description">
                         <strong>Formula:</strong><br>
-                        (a-c)i + (b-d)j<br><br>
+                        (A_x − B_x)i + (A_y − B_y)j<br><br>
                         <strong>Ingat:</strong> A - B = A + (-B)
                     </div>
                     <div class="difficulty-badge difficulty-medium">Sederhana</div>
@@ -1195,8 +1194,8 @@
                 <div class="card-description">
                     <strong>Komutatif:</strong> A + B = B + A<br>
                     <strong>Asosiatif:</strong> (A + B) + C = A + (B + C)<br>
-                    <strong>Identiti:</strong> A + 0 = A<br>
-                    <strong>Songsang:</strong> A + (-A) = 0
+                    <strong>Identiti:</strong> A + zero = A<br>
+                    <strong>Songsang:</strong> A + (−A) = zero
                 </div>
                 <div class="difficulty-badge difficulty-hard">Mencabar</div>
             </div>
@@ -1414,14 +1413,15 @@
                 <div class="card-icon">📐</div>
                 <div class="card-title">Formula Penting</div>
                 <div class="card-description">
+                    <strong>Notasi:</strong> Huruf tebal menandakan vektor; i dan j ialah vektor unit. A_x dan A_y ialah komponen skalar vektor A.<br><br>
                     <strong>Bentuk Komponen:</strong> v = xi + yj<br>
                     <strong>Magnitud:</strong> |v| = √(x² + y²)<br>
-                    <strong>Unit Vektor:</strong> u = v / |v|<br>
-                    <strong>Penambahan:</strong> (a+c)i + (b+d)j<br>
-                    <strong>Pengurangan:</strong> (a-c)i + (b-d)j<br>
+                    <strong>Unit Vektor:</strong> u = v / |v|, bagi v ≠ zero<br>
+                    <strong>Penambahan:</strong> (A_x + B_x)i + (A_y + B_y)j<br>
+                    <strong>Pengurangan:</strong> (A_x − B_x)i + (A_y − B_y)j<br>
                     <strong>Pendaraban Skalar:</strong> kv = (kx)i + (ky)j<br>
-                    <strong>Vektor Selari:</strong> A || B jika A = kB<br>
-                    <strong>Vektor Sama:</strong> A = B jika i dan j komponen sama
+                    <strong>Vektor Selari:</strong> A ∥ B jika A = kB, dengan k ≠ 0 dan kedua-dua vektor bukan sifar<br>
+                    <strong>Vektor Sama:</strong> A = B jika komponen x dan y sepadan adalah sama
                 </div>
             </div>
 
@@ -1435,8 +1435,8 @@
                     🟢 Hijau = Vektor paduan<br><br>
                     
                     <strong>Nota Ringkas:</strong><br>
-                    • Skalar: Magnitud sahaja (25°C, 50 km/j)<br>
-                    • Vektor: Magnitud + Arah (50 km/j Utara)<br>
+                    • Skalar: Magnitud sahaja (25°C, 50 km/h)<br>
+                    • Vektor: Magnitud + Arah (50 km/h Utara)<br>
                     • Komponen: Bahagi kepada x dan y<br>
                     • Penambahan: Tambah i dengan i, j dengan j
                 </div>
@@ -1485,6 +1485,8 @@
         <p style="margin-top: 15px; font-size: 12px; opacity: 0.85; line-height: 1.6;">Dirancang untuk pelajar dengan fokus kepada pembelajaran interaktif yang berkesan dan menyeronokkan. © 2026</p>
     </div>
 
+    <script src="vector-math.js"></script>
+    <script src="vector-diagrams.js"></script>
     <script>
         // Tab Switching Function
         function switchTab(tabName) {
@@ -1559,53 +1561,6 @@
 
         // ---------- SVG Cartesian-plane diagram builder ----------
         const VECTOR_COLORS = { blue: '#2f6fed', red: '#e0483a', green: '#2f9e5c', orange: '#c98a1f', purple: '#7b4fc9' };
-        function buildDiagramSVG(vectors) {
-            const width = 280, height = 280, pad = 32;
-            let xs = [0], ys = [0];
-            vectors.forEach(v => { xs.push(v.ox, v.ox + v.dx); ys.push(v.oy, v.oy + v.dy); });
-            let minX = Math.min.apply(null, xs) - 1, maxX = Math.max.apply(null, xs) + 1;
-            let minY = Math.min.apply(null, ys) - 1, maxY = Math.max.apply(null, ys) + 1;
-            if (maxX - minX < 4) { const c = (maxX + minX) / 2; minX = c - 2; maxX = c + 2; }
-            if (maxY - minY < 4) { const c = (maxY + minY) / 2; minY = c - 2; maxY = c + 2; }
-            const rangeX = maxX - minX, rangeY = maxY - minY;
-            const scale = Math.min((width - 2 * pad) / rangeX, (height - 2 * pad) / rangeY);
-            const px = x => pad + (x - minX) * scale;
-            const py = y => height - pad - (y - minY) * scale;
-
-            let defs = '<defs>';
-            const colorKeys = Object.keys(VECTOR_COLORS);
-            colorKeys.forEach(key => {
-                defs += `<marker id="arrow-${key}" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="${VECTOR_COLORS[key]}"/></marker>`;
-            });
-            defs += '</defs>';
-
-            let grid = '';
-            for (let gx = Math.ceil(minX); gx <= Math.floor(maxX); gx++) {
-                grid += `<line x1="${px(gx)}" y1="${pad}" x2="${px(gx)}" y2="${height - pad}" stroke="#e8dcc8" stroke-width="1"/>`;
-            }
-            for (let gy = Math.ceil(minY); gy <= Math.floor(maxY); gy++) {
-                grid += `<line x1="${pad}" y1="${py(gy)}" x2="${width - pad}" y2="${py(gy)}" stroke="#e8dcc8" stroke-width="1"/>`;
-            }
-
-            let axes = `<line x1="${pad}" y1="${py(0)}" x2="${width - pad}" y2="${py(0)}" stroke="#5a4a42" stroke-width="1.5"/>`;
-            axes += `<line x1="${px(0)}" y1="${pad}" x2="${px(0)}" y2="${height - pad}" stroke="#5a4a42" stroke-width="1.5"/>`;
-
-            let lines = '';
-            vectors.forEach(v => {
-                const hex = VECTOR_COLORS[v.color] || VECTOR_COLORS.green;
-                const x1 = px(v.ox), y1 = py(v.oy), x2 = px(v.ox + v.dx), y2 = py(v.oy + v.dy);
-                const dash = v.dashed ? 'stroke-dasharray="4,3"' : '';
-                lines += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${hex}" stroke-width="2.5" marker-end="url(#arrow-${v.color})" ${dash}/>`;
-                if (v.label) {
-                    lines += `<text x="${(x1 + x2) / 2 + 8}" y="${(y1 + y2) / 2 - 6}" font-size="12" font-weight="600" fill="${hex}">${v.label}</text>`;
-                }
-            });
-
-            lines += `<circle cx="${px(0)}" cy="${py(0)}" r="3" fill="#5a4a42"/><text x="${px(0) - 14}" y="${py(0) + 16}" font-size="11" fill="#6b6159">O</text>`;
-
-            return `<svg viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img" aria-label="Rajah vektor">${defs}${grid}${axes}${lines}</svg>`;
-        }
-
         // ---------- problem generators (Pattern 1-5 + quiz) ----------
         function genExpress(diff) {
             let x, y;
@@ -1684,15 +1639,17 @@
             let b1, b2;
             if (type === 'equal') { b1 = a1; b2 = a2; }
             else if (type === 'parallel') {
-                const k = diff === 'hard' ? randInt(2, 4) : randInt(2, 3);
+                const k = diff === 'hard' ? randInt(2, 4) * (Math.random() < 0.5 ? -1 : 1) : randInt(2, 3);
                 b1 = a1 * k; b2 = a2 * k;
             } else {
-                b1 = a1 + randNonZeroInt(1, 4);
-                b2 = a2 + randNonZeroInt(1, 4);
+                do {
+                    b1 = a1 + randInt(1, 4);
+                    b2 = a2 + randInt(1, 4);
+                } while (a1 * b2 === a2 * b1);
             }
 
             const choiceKeys = diff === 'hard' ? ['equal', 'parallel', 'notequal'] : ['equal', 'notequal'];
-            const choiceLabels = { equal: 'SAMA (Equal)', parallel: 'SELARI (Parallel)', notequal: 'TIADA HUBUNGAN' };
+            const choiceLabels = { equal: 'SAMA (Equal)', parallel: 'SELARI TETAPI TIDAK SAMA', notequal: 'TIDAK SAMA DAN TIDAK SELARI' };
 
             const diagram = buildDiagramSVG([
                 { ox: 0, oy: 0, dx: a1, dy: a2, color: 'blue', label: 'X' },
@@ -1701,8 +1658,8 @@
 
             const hints = [
                 'Bandingkan komponen-i kedua-dua vektor. Adakah sama?',
-                `Komponen-i: X = ${fmtNum(a1)}, Y = ${fmtNum(b1)}.`,
-                'Jika Y = kX untuk suatu skalar k, maka X dan Y SELARI.'
+                `Komponen-i: X_x = ${fmtNum(a1)}, Y_x = ${fmtNum(b1)}.`,
+                'Jika Y = kX dengan k ≠ 0, maka dua vektor bukan sifar ini selari (termasuk vektor yang sama).'
             ];
             let verdict;
             if (type === 'equal') { hints.push('Kedua-dua komponen sama tepat, jadi X = Y (SAMA).'); verdict = 'X = Y (SAMA — magnitud dan arah serupa)'; }
@@ -1716,7 +1673,7 @@
                 choices: choiceKeys.map(k => ({ key: k, label: choiceLabels[k] })),
                 answers: { choice: type },
                 hints,
-                solution: `Komponen-i: X = ${fmtNum(a1)}, Y = ${fmtNum(b1)}\nKomponen-j: X = ${fmtNum(a2)}, Y = ${fmtNum(b2)}\nKesimpulan: ${verdict}`
+                solution: `Komponen-i: X_x = ${fmtNum(a1)}, Y_x = ${fmtNum(b1)}\nKomponen-j: X_y = ${fmtNum(a2)}, Y_y = ${fmtNum(b2)}\nKesimpulan: ${verdict}`
             };
         }
 
@@ -1794,9 +1751,9 @@
                         'Pergerakan mendatar (Timur/Barat) ialah komponen-i.',
                         `Komponen-i = ${fmtNum(x)} km (positif = Timur, negatif = Barat).`,
                         'Pergerakan menegak (Utara/Selatan) ialah komponen-j.',
-                        `Vektor sesaran = ${fmtVector(x, y)} km${showMag ? `, |sesaran| = √(${fmtNum(x)}² + ${fmtNum(y)}²) ≈ ${mag} km` : ''}`
+                        `Vektor sesaran = ${fmtVector(x, y)} km${showMag ? `, |sesaran| = √((${fmtNum(x)})² + (${fmtNum(y)})²) ≈ ${mag} km` : ''}`
                     ],
-                    solution: `Sesaran = ${fmtVector(x, y)} km` + (showMag ? `\n|sesaran| = √(${fmtNum(x)}² + ${fmtNum(y)}²) ≈ ${mag} km` : '')
+                    solution: `Sesaran = ${fmtVector(x, y)} km` + (showMag ? `\n|sesaran| = √((${fmtNum(x)})² + (${fmtNum(y)})²) ≈ ${mag} km` : '')
                 };
             } else if (roll < 0.67) {
                 const v = diff === 'easy' ? randInt(200, 320) : diff === 'medium' ? randInt(150, 350) : randDecimal(150, 350);
@@ -1808,20 +1765,20 @@
                     { ox: 0, oy: v, dx: w, dy: 0, color: 'blue', label: 'Angin' },
                     { ox: 0, oy: 0, dx: w, dy: v, color: 'green', label: 'Paduan' }
                 ]);
-                let inputsHTML = `Kelajuan paduan = <input class="ans-input" data-key="i"> i + <input class="ans-input" data-key="j"> j km/j`;
-                if (showMag) inputsHTML += `, magnitud = <input class="ans-input" data-key="mag"> km/j`;
+                let inputsHTML = `Halaju paduan = <input class="ans-input" data-key="i"> i + <input class="ans-input" data-key="j"> j km/h`;
+                if (showMag) inputsHTML += `, magnitud = <input class="ans-input" data-key="mag"> km/h`;
                 return {
                     diagram,
-                    text: `Sebuah pesawat terbang pada <strong>${fmtNum(v)} km/j ke Utara</strong>. Angin bertiup pada <strong>${fmtNum(Math.abs(w))} km/j ke ${wDir}</strong>.<br>Cari vektor kelajuan paduan (resultant velocity) pesawat.`,
+                    text: `Sebuah pesawat terbang pada <strong>${fmtNum(v)} km/h ke Utara</strong>. Angin bertiup pada <strong>${fmtNum(Math.abs(w))} km/h ke ${wDir}</strong>.<br>Cari vektor halaju paduan (resultant velocity) pesawat.`,
                     inputsHTML,
                     answers: showMag ? { i: w, j: v, mag } : { i: w, j: v },
                     hints: [
-                        'Kelajuan pesawat (Utara) ialah komponen-j; kelajuan angin (Timur/Barat) ialah komponen-i.',
-                        `Komponen-i (angin) = ${fmtNum(w)} km/j`,
-                        `Komponen-j (pesawat) = ${fmtNum(v)} km/j`,
-                        `Kelajuan paduan = ${fmtVector(w, v)} km/j${showMag ? `, magnitud ≈ ${mag} km/j` : ''}`
+                        'Halaju pesawat (Utara) ialah komponen-j; halaju angin (Timur/Barat) ialah komponen-i.',
+                        `Komponen-i (angin) = ${fmtNum(w)} km/h`,
+                        `Komponen-j (pesawat) = ${fmtNum(v)} km/h`,
+                        `Halaju paduan = ${fmtVector(w, v)} km/h${showMag ? `, magnitud ≈ ${mag} km/h` : ''}`
                     ],
-                    solution: `Kelajuan paduan = ${fmtVector(w, v)} km/j` + (showMag ? `\nMagnitud = √(${fmtNum(w)}² + ${fmtNum(v)}²) ≈ ${mag} km/j` : '')
+                    solution: `Halaju paduan = ${fmtVector(w, v)} km/h` + (showMag ? `\nMagnitud = √((${fmtNum(w)})² + (${fmtNum(v)})²) ≈ ${mag} km/h` : '')
                 };
             } else {
                 const a1 = pickVal(diff, [5, 15], [-15, 15], [-15, 15]);
@@ -1848,7 +1805,7 @@
                         `Komponen-j: ${fmtNum(a2)} + ${fmtNum(b2)} = ${fmtNum(rj)}`,
                         `Daya paduan = ${fmtVector(ri, rj)} N${showMag ? `, magnitud ≈ ${mag} N` : ''}`
                     ],
-                    solution: `Daya paduan = F₁ + F₂ = ${fmtVector(ri, rj)} N` + (showMag ? `\nMagnitud = √(${fmtNum(ri)}² + ${fmtNum(rj)}²) ≈ ${mag} N` : '')
+                    solution: `Daya paduan = F₁ + F₂ = ${fmtVector(ri, rj)} N` + (showMag ? `\nMagnitud = √((${fmtNum(ri)})² + (${fmtNum(rj)})²) ≈ ${mag} N` : '')
                 };
             }
         }
@@ -1919,7 +1876,7 @@
         }
 
         function setDifficulty(diff) {
-            if (!session) return;
+            if (!session || CATEGORY_CONFIG[session.category].isWorkbook) return;
             session.difficulty = diff;
             setDifficultyButtons(diff);
             renderQuestion(CATEGORY_CONFIG[session.category].gen(diff));
@@ -1945,6 +1902,7 @@
 
             document.getElementById('problemDiagram').innerHTML = problem.diagram;
             let textHTML = problem.text;
+            if (problem.answers.mag !== undefined) textHTML += '<br><small>Bulatkan magnitud kepada 2 tempat perpuluhan.</small>';
             if (problem.tag) textHTML = `<div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">${problem.tag}</div>` + textHTML;
             document.getElementById('problemText').innerHTML = textHTML;
 
@@ -1972,6 +1930,7 @@
             document.getElementById('btnSolution').disabled = false;
             document.getElementById('btnNext').style.display = 'none';
 
+            ['problemText','answerArea'].forEach(id => VectorMath.render(document.getElementById(id)));
             document.getElementById('qIndex').textContent = session.index + 1;
             document.getElementById('qCorrect').textContent = session.correct;
             const acc = session.index > 0 ? Math.round(session.correct / session.index * 100) : 0;
@@ -2009,10 +1968,11 @@
                 let allFilled = true, allCorrect = true;
                 inputs.forEach(inp => {
                     const key = inp.dataset.key;
-                    const val = parseFloat(inp.value);
-                    if (inp.value.trim() === '' || isNaN(val)) { allFilled = false; return; }
+                    const raw = inp.value.trim();
+                    const val = Number(raw);
+                    if (!/^[-+]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(raw) || !Number.isFinite(val)) { allFilled = false; return; }
                     const expected = problem.answers[key];
-                    const ok = Math.abs(val - expected) < 0.06;
+                    const ok = Math.abs(val - expected) < (key === "mag" ? 0.011 : 0.000001);
                     inp.classList.remove('state-typing');
                     inp.classList.toggle('state-correct', ok);
                     inp.classList.toggle('state-wrong', !ok);
@@ -2060,6 +2020,7 @@
             let html = '';
             for (let i = 0; i < session.hintLevel; i++) html += `<div>💡 Petua ${i + 1}: ${problem.hints[i]}</div>`;
             hintBox.innerHTML = html;
+            VectorMath.render(hintBox);
             if (session.hintLevel >= problem.hints.length) {
                 document.getElementById('btnHint').disabled = true;
                 document.getElementById('btnHint').textContent = '💡 Semua petua ditunjuk';
@@ -2073,6 +2034,7 @@
             const solBox = document.getElementById('solutionBox');
             solBox.style.display = 'block';
             solBox.innerHTML = `<strong>Penyelesaian penuh:</strong>\n${problem.solution}`;
+            VectorMath.render(solBox);
             document.getElementById('btnCheck').disabled = true;
             document.getElementById('btnHint').disabled = true;
             document.getElementById('btnSolution').disabled = true;
@@ -2126,5 +2088,6 @@
         }
     </script>
     <script src="vector-labs.js"></script>
+    <script>document.getElementById("columnExample").innerHTML = VectorMath.column(3,4); VectorMath.render(document.body);</script>
 </body>
 </html>

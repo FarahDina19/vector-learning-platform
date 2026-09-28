@@ -13,5 +13,13 @@
 .lab-caption { line-height: 1.65; min-height: 80px; }
 .lab-kicker { font-size: 12px; text-transform: uppercase; letter-spacing: 1.4px; color: #6b6159; margin-bottom: 10px; }
 .workbook-links { display:flex; flex-wrap:wrap; gap:12px; margin-top:16px; }
+math { font-family: "Cambria Math", "STIX Two Math", math; font-size: 1.12em; text-transform:none; letter-spacing:normal; }
+.lab-equation { overflow-x:auto; line-height:2; }
+.lab-equation math { font-size:1.05em; }
+.card-description math, .feature-box-text math { margin: 3px 0; }
+#columnExample { display:inline-block; margin:10px 0; }
+#problemText, #solutionBox, #hintBox { line-height:1.9; overflow-wrap:anywhere; }
+#problemDiagram { min-width:0; }
+.lab-diagram text { font-family:"Cambria Math", Cambria, serif; }
 @media(max-width:700px) { .lab-layout { grid-template-columns:1fr; } .vector-lab { padding:16px; } .tab-button { flex: 1 0 45%; white-space:normal; } }
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto!important; } *, *::before, *::after { animation:none!important; transition:none!important; } }
