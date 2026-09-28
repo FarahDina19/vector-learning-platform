@@ -1,0 +1,5 @@
+# Scratch / build artifacts not part of the published app
+tmp/
+vector-labs.css
+vector-labs.js
+*.log
