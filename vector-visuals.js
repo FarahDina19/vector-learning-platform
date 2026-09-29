@@ -19,8 +19,7 @@
       'Jika a = (3, 1), maka −a membalikkan arah setiap komponen. Jumlah a + (−a) ialah vektor sifar.',
       [v(0, 0, 3, 1, 'blue', 'a'), v(0, 0, -3, -1, 'red', '−a')]]
   ];
-  host.querySelector('.card-description').remove();
-  host.querySelector('.difficulty-badge').remove();
+  // Keep the original summary notes and badge; diagrams supplement them below.
   const intro = document.createElement('p');
   intro.className = 'visual-intro';
   intro.textContent = 'Bandingkan panjang dan arah anak panah. Setiap diagram menggunakan skala yang sama pada paksi x dan y; semak nilai unit per petak di bawah diagram.';
