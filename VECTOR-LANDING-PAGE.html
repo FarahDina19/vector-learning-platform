@@ -1043,13 +1043,17 @@
                 <div class="card-icon">🎯</div>
                 <div class="card-title">Jenis-jenis Vektor</div>
                 <div class="card-description">
-                    <strong>Vektor Null:</strong> Tiada panjang, tiada arah (0)<br>
-                    <strong>Vektor Unit:</strong> Panjang = 1 unit (i, j)<br>
-                    <strong>Vektor Selari:</strong> Arah sama atau bertentangan, panjang mungkin berbeza<br>
-                    <strong>Vektor Sama:</strong> Arah sama DAN panjang sama (kedudukan pangkal boleh berbeza)<br>
-                    <strong>Vektor Negatif:</strong> Magnitud sama, arah bertentangan
+                    <strong>Vektor Null (Sifar):</strong> Vektor dengan magnitud sifar, tiada panjang dan tiada arah yang ditakrifkan. Dilambangkan sebagai <strong>0</strong> atau <strong>𝟎</strong>.<br><br>
+
+                    <strong>Vektor Unit:</strong> Vektor yang mempunyai magnitud tepat 1 unit. Unit vektor arah x ialah <strong>i = (1, 0)</strong> dan arah y ialah <strong>j = (0, 1)</strong>.<br><br>
+
+                    <strong>Vektor Selari (Parallel):</strong> Dua vektor A dan B adalah selari jika <strong>A = kB</strong> untuk beberapa skalar k ≠ 0. Mereka mempunyai arah sama (k > 0) atau bertentangan (k < 0), tetapi magnitud mungkin berbeza. Contoh: Jika A = 2i + 4j dan B = i + 2j, maka A = 2B (selari).<br><br>
+
+                    <strong>Vektor Sama (Equal):</strong> Dua vektor A dan B adalah sama jika mereka mempunyai komponen-i dan komponen-j yang tepat sama: A_x = B_x DAN A_y = B_y. Arah sama DAN magnitud sama, walaupun kedudukan pangkal berlainan.<br><br>
+
+                    <strong>Vektor Negatif:</strong> Negatif vektor A (ditulis −A) mempunyai magnitud yang sama tetapi arah bertentangan. Jika A = 3i + 4j, maka −A = −3i − 4j.
                 </div>
-                <div class="difficulty-badge difficulty-easy">Mudah - Asas</div>
+                <div class="difficulty-badge difficulty-medium">Sederhana - Penting</div>
             </div>
 
             <button class="cta-button" onclick="switchTab('concept2')">Seterusnya: Bentuk Komponen</button>
@@ -1104,12 +1108,13 @@
             </div>
 
             <div class="learning-path">
-                <h3>📍 Koordinat ↔️ Bentuk Komponen:</h3>
+                <h3>📍 Koordinat ↔️ Bentuk Komponen - Contoh Terperinci:</h3>
                 <ol>
-                    <li><strong>P(2, 3), dari O:</strong> OP = 2i + 3j</li>
-                    <li><strong>P(5, −1), dari O:</strong> OP = 5i − j</li>
-                    <li><strong>P(−3, 4), dari O:</strong> OP = −3i + 4j</li>
-                    <li><strong>Ingat:</strong> Negatif bermakna arah sebaliknya</li>
+                    <li><strong>P(2, 3), dari O:</strong> OP = 2i + 3j (2 unit Timur, 3 unit Utara)</li>
+                    <li><strong>P(5, −1), dari O:</strong> OP = 5i − j (5 unit Timur, 1 unit Selatan)</li>
+                    <li><strong>P(−3, 4), dari O:</strong> OP = −3i + 4j (3 unit Barat, 4 unit Utara)</li>
+                    <li><strong>P(−2, −5), dari O:</strong> OP = −2i − 5j (2 unit Barat, 5 unit Selatan)</li>
+                    <li><strong>Petua:</strong> Negatif bermakna arah sebaliknya pada paksi itu. Komponen positif = ke Timur/Utara, Negatif = ke Barat/Selatan</li>
                 </ol>
             </div>
 
@@ -1149,24 +1154,30 @@
             <div class="card-grid">
                 <div class="card">
                     <div class="card-icon">△</div>
-                    <div class="card-title">Hukum Segitiga</div>
+                    <div class="card-title">Hukum Segitiga (Triangle Law)</div>
                     <div class="card-description">
-                        1. Lukis vektor A dari O<br>
-                        2. Dari hujung A, lukis vektor B<br>
-                        3. Vektor paduan: O ke hujung B<br>
-                        <strong>Hasil:</strong> A + B
+                        <strong>Penyataan Formal:</strong> Untuk menambah dua vektor A dan B, lukis A dari titik O, kemudian dari hujung A, lukis B. Vektor paduan adalah garis lurus dari O ke hujung B.<br><br>
+                        <strong>Langkah-langkah:</strong><br>
+                        1. Lukis vektor <strong>A</strong> dari O ke titik pertengahan<br>
+                        2. Dari hujung A, lukis vektor <strong>B</strong><br>
+                        3. Vektor paduan: Garis lurus dari O ke hujung B<br>
+                        <strong>Hasil Akhir:</strong> A + B = C<br><br>
+                        <strong>Contoh:</strong> Jika A = 3i + 4j dan B = 2i − 1j, maka A + B = 5i + 3j
                     </div>
-                    <div class="difficulty-badge difficulty-medium">Sederhana</div>
+                    <div class="difficulty-badge difficulty-medium">Sederhana - Sering Digunakan</div>
                 </div>
 
                 <div class="card">
                     <div class="card-icon">▭</div>
-                    <div class="card-title">Hukum Segiempat Selari</div>
+                    <div class="card-title">Hukum Segiempat Selari (Parallelogram Law)</div>
                     <div class="card-description">
-                        1. Lukis A dan B dari O<br>
-                        2. Lengkapkan segiempat selari<br>
-                        3. Pepenjuru = vektor paduan<br>
-                        <strong>Hasil:</strong> Sama dengan hukum segitiga
+                        <strong>Penyataan Formal:</strong> Untuk menambah dua vektor A dan B, lukis kedua-duanya dari titik O yang sama. Lengkapkan segiempat selari dengan kedua vektor sebagai sisi bersebelahan. Pepenjuru dari O adalah vektor paduan.<br><br>
+                        <strong>Langkah-langkah:</strong><br>
+                        1. Lukis <strong>A</strong> dan <strong>B</strong> dari O<br>
+                        2. Dari hujung A, lukis garis selari dengan B<br>
+                        3. Dari hujung B, lukis garis selari dengan A<br>
+                        4. Pepenjuru utama = vektor paduan A + B<br>
+                        <strong>Hasil Akhir:</strong> Sama dengan hukum segitiga
                     </div>
                     <div class="difficulty-badge difficulty-medium">Sederhana</div>
                 </div>
@@ -1208,14 +1219,19 @@
 
             <div class="card" style="margin-top: 30px;">
                 <div class="card-icon">🔑</div>
-                <div class="card-title">Sifat-sifat Penambahan Vektor</div>
+                <div class="card-title">Sifat-sifat Penambahan & Pendaraban Vektor (Vector Algebra)</div>
                 <div class="card-description">
-                    <strong>Komutatif:</strong> A + B = B + A<br>
-                    <strong>Asosiatif:</strong> (A + B) + C = A + (B + C)<br>
-                    <strong>Identiti:</strong> A + zero = A<br>
-                    <strong>Songsang:</strong> A + (−A) = zero
+                    <strong>1. Komutatif:</strong> A + B = B + A (urutan tidak penting dalam penambahan)<br>
+                    <strong>2. Asosiatif:</strong> (A + B) + C = A + (B + C) (pengelompokan tidak penting)<br>
+                    <strong>3. Identiti Penambahan:</strong> A + <strong>0</strong> = A (menambah vektor sifar tidak mengubah vektor)<br>
+                    <strong>4. Songsang Penambahan:</strong> A + (−A) = <strong>0</strong> (vektor dan negatifnya menghasilkan sifar)<br><br>
+
+                    <strong>5. Komutatif Pendaraban Skalar:</strong> k₁(k₂A) = k₂(k₁A) = (k₁k₂)A<br>
+                    <strong>6. Distributif ke Vektor:</strong> k(A + B) = kA + kB (skalar boleh diagihkan)<br>
+                    <strong>7. Distributif ke Skalar:</strong> (k₁ + k₂)A = k₁A + k₂A (skalar boleh diagihkan)<br>
+                    <strong>8. Identiti Pendaraban:</strong> 1 × A = A (skalar 1 tidak mengubah vektor)
                 </div>
-                <div class="difficulty-badge difficulty-hard">Mencabar</div>
+                <div class="difficulty-badge difficulty-hard">Mencabar - Hukum Vektor</div>
             </div>
 
             <button class="cta-button" onclick="switchTab('practice')">Seterusnya: Latihan Interaktif</button>
@@ -1414,49 +1430,87 @@
 
             <div class="card">
                 <div class="card-icon">⚠️</div>
-                <div class="card-title">Kesilapan Biasa</div>
+                <div class="card-title">Kesilapan Biasa dan Cara Mengelaknya</div>
                 <div class="card-description">
-                    <strong>❌ Salah:</strong> "3i + 4j = 7" (mencampurkan komponen)<br>
-                    <strong>✓ Betul:</strong> Komponen i dan j harus ditambah secara berasingan<br><br>
-                    
-                    <strong>❌ Salah:</strong> "Untuk tambah vektor, cukup tambah magnitud"<br>
-                    <strong>✓ Betul:</strong> Mesti guna hukum segitiga atau segiempat selari<br><br>
-                    
-                    <strong>❌ Salah:</strong> "-3i bermakna tiada komponen i"<br>
-                    <strong>✓ Betul:</strong> Negatif bermakna arah sebaliknya (3 unit ke Barat)
+                    <strong>❌ KESILAPAN 1: Mencampurkan Komponen</strong><br>
+                    Salah: "3i + 4j = 7"<br>
+                    ✓ Betul: Vektor 3i + 4j adalah DUO komponen, bukan satu nombor. Magnitud ialah √(3² + 4²) = 5<br><br>
+
+                    <strong>❌ KESILAPAN 2: Menambah Magnitud Terus</strong><br>
+                    Salah: "Untuk tambah A + B, cukup tambah |A| + |B|"<br>
+                    ✓ Betul: Mesti gunakan hukum segitiga (tail-to-head) atau segiempat selari. Contoh: (3i+0j) + (0i+4j) = 3i+4j dengan |hasil| = 5, bukan 7<br><br>
+
+                    <strong>❌ KESILAPAN 3: Salah Tafsir Negatif</strong><br>
+                    Salah: "−3i bermakna tiada komponen i"<br>
+                    ✓ Betul: −3i bermakna 3 unit dalam arah NEGATIF i (ke Barat). Komponen x = −3, bukan 0<br><br>
+
+                    <strong>❌ KESILAPAN 4: Salah Kesamaan Vektor</strong><br>
+                    Salah: "Vektor A = 2i+3j dan B = 2i+3j sama dengan kedudukannya berlainan"<br>
+                    ✓ Betul: A dan B ADALAH sama! Vektor sama jika komponen sama, kedudukan pangkal boleh berbeza<br><br>
+
+                    <strong>❌ KESILAPAN 5: Salah Parallel</strong><br>
+                    Salah: "A = 4i+2j dan B = 2i+j tidak selari kerana tiada skalar k"<br>
+                    ✓ Betul: A = 2B, jadi A dan B ADALAH selari dengan k = 2. Kira nisbah: (4/2) = (2/1) = 2 ✓
                 </div>
             </div>
 
             <div class="card" style="margin-top: 25px;">
                 <div class="card-icon">📐</div>
-                <div class="card-title">Formula Penting</div>
+                <div class="card-title">Formula Penting dan Takrifan Matematik</div>
                 <div class="card-description">
-                    <strong>Notasi:</strong> Huruf tebal menandakan vektor; i dan j ialah vektor unit. A_x dan A_y ialah komponen skalar vektor A.<br><br>
-                    <strong>Bentuk Komponen:</strong> v = xi + yj<br>
-                    <strong>Magnitud:</strong> |v| = √(x² + y²)<br>
-                    <strong>Unit Vektor:</strong> u = v / |v|, bagi v ≠ zero<br>
-                    <strong>Penambahan:</strong> (A_x + B_x)i + (A_y + B_y)j<br>
-                    <strong>Pengurangan:</strong> (A_x − B_x)i + (A_y − B_y)j<br>
-                    <strong>Pendaraban Skalar:</strong> kv = (kx)i + (ky)j<br>
-                    <strong>Vektor Selari:</strong> A ∥ B jika A = kB, dengan k ≠ 0 dan kedua-dua vektor bukan sifar<br>
-                    <strong>Vektor Sama:</strong> A = B jika komponen x dan y sepadan adalah sama
+                    <strong>NOTASI:</strong> Huruf tebal (A, B, v) menandakan vektor; i dan j ialah vektor unit asas. A_x dan A_y ialah komponen skalar vektor A. |A| atau ‖A‖ menandakan magnitud.<br><br>
+
+                    <strong>BENTUK VEKTOR:</strong><br>
+                    • Bentuk Komponen: v = xi + yj = x(1,0) + y(0,1)<br>
+                    • Bentuk Pasangan: v = (x, y)<br>
+                    • Bentuk Kolom: v = [x / y]<br><br>
+
+                    <strong>MAGNITUD DAN ARAH:</strong><br>
+                    • Magnitud: |v| = √(x² + y²) (panjang vektor)<br>
+                    • Arah: θ = atan2(y, x) (sudut dari paksi x positif, lawan jam)<br>
+                    • Unit Vektor: û = v / |v|, bagi v ≠ 0 (arah dengan magnitud 1)<br><br>
+
+                    <strong>OPERASI VEKTOR:</strong><br>
+                    • Penambahan: A + B = (A_x + B_x)i + (A_y + B_y)j<br>
+                    • Pengurangan: A − B = (A_x − B_x)i + (A_y − B_y)j<br>
+                    • Pendaraban Skalar: kv = (kx)i + (ky)j, k adalah skalar<br>
+                    • Magnitud kv: |kv| = |k| × |v|<br><br>
+
+                    <strong>JENIS VEKTOR:</strong><br>
+                    • Vektor Sama: A = B ⟺ A_x = B_x AND A_y = B_y<br>
+                    • Vektor Selari: A ∥ B ⟺ A = kB dengan k ≠ 0 (kedua-dua bukan sifar)<br>
+                    • Vektor Songsang: −A mempunyai magnitud |A| dengan arah bertentangan<br>
+                    • Vektor Sifar: 0 = 0i + 0j (tiada arah)
                 </div>
             </div>
 
             <div class="card" style="margin-top: 25px;">
                 <div class="card-icon">📚</div>
-                <div class="card-title">Rujukan Cepat</div>
+                <div class="card-title">Rujukan Cepat & Teknik Penyelesaian</div>
                 <div class="card-description">
-                    <strong>Warna Kod:</strong><br>
-                    🔵 Biru = Komponen i (arah x)<br>
-                    🔴 Merah = Komponen j (arah y)<br>
-                    🟢 Hijau = Vektor paduan<br><br>
-                    
-                    <strong>Nota Ringkas:</strong><br>
-                    • Skalar: Magnitud sahaja (25°C, 50 km/h)<br>
-                    • Vektor: Magnitud + Arah (50 km/h Utara)<br>
-                    • Komponen: Bahagi kepada x dan y<br>
-                    • Penambahan: Tambah i dengan i, j dengan j
+                    <strong>WARNA SISTEM KOD DALAM GAMBAR:</strong><br>
+                    🔵 <strong>Biru</strong> = Komponen i (arah x, Timur/Barat)<br>
+                    🔴 <strong>Merah</strong> = Komponen j (arah y, Utara/Selatan)<br>
+                    🟢 <strong>Hijau</strong> = Vektor paduan (hasil akhir)<br><br>
+
+                    <strong>PERBEZAAN SKALAR vs VEKTOR:</strong><br>
+                    • Skalar: Magnitud sahaja (25°C, 50 km/h, 5 kg)<br>
+                    • Vektor: Magnitud + Arah (50 km/h Utara, 500 N ke bawah)<br><br>
+
+                    <strong>TEKNIK KOMPONEN:</strong><br>
+                    1. Bahagi vektor kepada komponen i (mendatar) dan j (menegak)<br>
+                    2. Operasi: Lakukan pada setiap komponen secara berasingan<br>
+                    3. Gabung: Tulis semula sebagai bentuk xi + yj<br><br>
+
+                    <strong>OPERASI ASAS:</strong><br>
+                    • Penambahan: Tambah i dengan i, j dengan j ➜ A + B = (A_x+B_x)i + (A_y+B_y)j<br>
+                    • Pengurangan: Tolak i dengan i, j dengan j ➜ A − B = (A_x−B_x)i + (A_y−B_y)j<br>
+                    • Pendaraban: k(xi+yj) = kxi + kyj (darab setiap komponen dengan k)<br><br>
+
+                    <strong>ANALISIS VEKTOR:</strong><br>
+                    • Magnitud: Gunakan Teorem Pythagoras |v| = √(x² + y²)<br>
+                    • Arah: Gunakan tangen songsang tan⁻¹(y/x), perhatian kepada kuadran<br>
+                    • Parallelogram: Untuk visualisasi penambahan vektor dua vektor
                 </div>
             </div>
 
