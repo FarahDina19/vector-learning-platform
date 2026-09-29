@@ -857,6 +857,24 @@
             color: var(--text-muted);
         }
 
+        .resource-links {
+            margin-top: 14px;
+            padding-left: 20px;
+        }
+
+        .resource-links li + li {
+            margin-top: 8px;
+        }
+
+        .resource-links a {
+            color: var(--primary-brown);
+            font-weight: 600;
+        }
+
+        .resource-links a:hover {
+            color: var(--primary-gold);
+        }
+
         @media (max-width: 768px) {
             .problem-card {
                 grid-template-columns: 1fr;
@@ -1446,11 +1464,13 @@
                 <div class="card-icon">🔗</div>
                 <div class="card-title">Pautan Berguna</div>
                 <div class="card-description">
-                    📖 <strong>Syllabus:</strong> Lihat rancangan pembelajaran lengkap<br>
-                    📊 <strong>Kalkulator Vektor:</strong> Sahkan jawapan anda<br>
-                    🎥 <strong>Video Pembelajaran:</strong> Penjelasan visual langkah demi langkah<br>
-                    👨‍🏫 <strong>Forum Bantuan:</strong> Tanya soalan kepada guru dan rakan sekelas<br>
-                    📝 <strong>Nota Ujian:</strong> Mula sedia untuk peperiksaan
+                    Akses dokumen dan artifak utama yang disimpan bersama projek gabungan ini:
+                    <ul class="resource-links">
+                        <li>📘 <a href="DETAILED_VECTOR_PROMPT_PRODUCTION.md">Spesifikasi projek VECTOR (Markdown)</a></li>
+                        <li>📄 <a href="DETAILED_VECTOR_PROMPT_PRODUCTION.md.pdf">Spesifikasi projek VECTOR (PDF)</a></li>
+                        <li>🧭 <a href="README.md">README repositori gabungan</a></li>
+                        <li>🗂️ <a href="https://github.com/FarahDina19/VECTOR">Repositori sumber asal VECTOR</a></li>
+                    </ul>
                 </div>
             </div>
 
