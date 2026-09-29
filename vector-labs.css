@@ -1,4 +1,29 @@
 .vector-lab { margin: 28px 0; padding: 26px; border: 1px solid #c4a574; background: #fff; border-radius: 12px; }
+.visual-intro { max-width: 850px; line-height: 1.7; color: #6b6159; margin: 12px 0 24px; }
+.vector-type-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.vector-type-card { min-width: 0; padding: 20px; border: 1px solid #e0d4c2; border-radius: 10px; background: #faf8f5; }
+.visual-number { display: inline-block; color: #80633c; font-size: 13px; letter-spacing: 2px; margin-bottom: 12px; }
+.vector-type-card h3 { font-size: 21px; margin-bottom: 8px; }
+.vector-type-card p { line-height: 1.65; font-size: 15px; }
+.type-subtitle { color: #6b6159; min-height: 50px; }
+.vector-type-card figure { margin: 12px 0; background: white; border-radius: 8px; overflow: hidden; }
+.vector-type-card svg { display: block; width: 100%; }
+.vector-type-card figcaption { padding: 12px; text-align: center; font-size: 18px; background: #eee7dc; color: #3d2817; }
+.anatomy-layout { display: grid; grid-template-columns: 1.3fr 1fr; align-items: center; gap: 24px; }
+.anatomy-layout svg { width: 100%; height: auto; }
+.anatomy-layout p { line-height: 1.7; margin: 12px 0; }
+.anatomy-example { padding: 14px; border-left: 3px solid #227849; background: #faf8f5; }
+.extension-lesson > p, .extension-steps { line-height: 1.8; margin: 16px 0; }
+.extension-steps { padding-left: 24px; }
+.extension-lesson svg { display: block; width: 100%; height: auto; }
+.unit-diagram-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 20px 0; }
+.unit-diagram-grid figure { margin: 0; padding: 14px; background: #faf8f5; border: 1px solid #e0d4c2; border-radius: 8px; }
+.unit-diagram-grid figcaption { line-height: 1.65; font-size: 14px; padding: 12px 4px; }
+.extension-lesson .lab-layout > *, .unit-diagram-grid > * { min-width: 0; }
+.extension-lesson .lab-equation { font-size: 17px; }
+@media(max-width:700px) { .unit-diagram-grid { grid-template-columns: 1fr; } }
+@media(max-width:1000px) { .vector-type-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media(max-width:700px) { .vector-type-grid, .anatomy-layout { grid-template-columns: 1fr; } .vector-type-card { padding: 16px; } .type-subtitle { min-height: 0; } }
 .vector-lab h3 { font-size: 23px; margin-bottom: 10px; }
 .lab-intro { color: #6b6159; line-height: 1.65; max-width: 850px; }
 .lab-layout { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(260px,1fr); gap: 24px; margin-top: 20px; align-items: center; }

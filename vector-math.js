@@ -1,17 +1,17 @@
 /* Offline, native MathML for the finite notation used by this lesson. */
 const VectorMath = (() => {
   const escape = s => String(s).replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  const names = new Set(['a','b','c','d','x','y','k','v','u','i','j','A','B','C','X','Y','R','OP','OB','OC','OD','OF','OG','OH','OQ','OR','kv','kx','ky','xi','yj','kB','F₁','F₂','θ','atan2','m','km','s','N','A_x','A_y','B_x','B_y','zero','r','h','kX','X_x','X_y','Y_x','Y_y']);
+  const names = new Set(['AB','BA','AC','CA','AD','DA','BC','CB','BD','DB','CD','DC','r_x','r_y','a','b','c','d','x','y','k','v','u','i','j','A','B','C','X','Y','R','OP','OB','OC','OD','OF','OG','OH','OQ','OR','kv','kx','ky','xi','yj','kB','F₁','F₂','θ','atan2','m','km','s','N','A_x','A_y','B_x','B_y','zero','r','h','kX','X_x','X_y','Y_x','Y_y']);
   function tokenize(text) {
     return text.match(/atan2|[A-Za-z]+(?:_[xy]|[₁₂])?|\d+(?:\.\d+)?|θ|[²³]|[+−\-×÷=≈≠<>∥√|()[\],/½]/g)||[];
   }
   const row = s => `<mrow>${s}</mrow>`;
   function symbol(s) {
     if(s==='zero')return '<mn mathvariant="bold">0</mn>';
-    if(/^[A-Z]_[xy]$/.test(s))return `<msub><mi mathvariant="bold-italic">${s[0]}</mi><mi>${s[2]}</mi></msub>`;
+    if(/^[A-Za-z]_[xy]$/.test(s))return `<msub><mi mathvariant="bold-italic">${s[0]}</mi><mi>${s[2]}</mi></msub>`;
     if(s==='F₁'||s==='F₂')return `<msub><mi mathvariant="bold-italic">F</mi><mn>${s==='F₁'?1:2}</mn></msub>`;
     if(s==='i'||s==='j')return `<mover accent="true"><mi>${s}</mi><mo>^</mo></mover>`;
-    if(/^O[A-Z]$/.test(s))return `<mover accent="true"><mi>${s}</mi><mo stretchy="true">→</mo></mover>`;
+    if(/^(?:O[A-Z]|[A-D][A-D])$/.test(s))return `<mover accent="true"><mi>${s}</mi><mo stretchy="true">→</mo></mover>`;
     if(['m','km','s','h','N','atan2'].includes(s))return `<mi mathvariant="normal">${s}</mi>`;
     if(['kv','kx','ky','xi','yj','kB','kX'].includes(s))return row([...s].map(symbol).join(''));
     return `<mi${/^[abcuvrABCXYR]$/.test(s)?' mathvariant="bold-italic"':''}>${escape(s)}</mi>`;

@@ -23,7 +23,7 @@ function buildDiagramSVG(vectors) {
     const color=VECTOR_COLORS[v.color]||VECTOR_COLORS.green;
     const x1=px(v.ox),y1=py(v.oy),x2=px(v.ox+v.dx),y2=py(v.oy+v.dy);
     const length=Math.hypot(x2-x1,y2-y1),angle=Math.atan2(y2-y1,x2-x1),head=Math.min(9,length*.4);
-    if(length<1e-7){lines+=`<circle cx="${x1}" cy="${y1}" r="4" fill="${color}"/><text x="${x1+8}" y="${y1-10}" fill="${color}">0</text>`;return;}
+    if(length<1e-7){lines+=`<circle cx="${x1}" cy="${y1}" r="4" fill="${color}"/><text x="${x1+8}" y="${y1-10}" fill="${color}">${esc(v.label ? v.label+' = 0' : '0')}</text>`;return;}
     lines+=`<path data-vector="${index}" d="M${x1} ${y1}L${x2} ${y2}" stroke="${color}" stroke-width="2.5" ${v.dashed?'stroke-dasharray="5 4"':''} fill="none"/><path d="M${x2-head*Math.cos(angle-.45)} ${y2-head*Math.sin(angle-.45)}L${x2} ${y2}L${x2-head*Math.cos(angle+.45)} ${y2-head*Math.sin(angle+.45)}" stroke="${color}" stroke-width="2.5" fill="none"/>`;
     if(v.label){const lx=Math.max(pad,Math.min(size-pad,(x1+x2)/2+12)),ly=Math.max(20,Math.min(size-25,(y1+y2)/2-10-index*3));lines+=`<text x="${lx}" y="${ly}" text-anchor="middle" fill="${color}" font-weight="bold" paint-order="stroke" stroke="white" stroke-width="4">${esc(v.label)}</text>`;}
   });

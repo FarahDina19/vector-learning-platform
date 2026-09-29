@@ -1021,7 +1021,7 @@
                 </div>
             </div>
 
-            <div class="card" style="margin-top: 30px;">
+            <div class="card" id="vector-types" style="margin-top: 30px;">
                 <div class="card-icon">🎯</div>
                 <div class="card-title">Jenis-jenis Vektor</div>
                 <div class="card-description">
@@ -1972,7 +1972,8 @@
                     const val = Number(raw);
                     if (!/^[-+]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(raw) || !Number.isFinite(val)) { allFilled = false; return; }
                     const expected = problem.answers[key];
-                    const ok = Math.abs(val - expected) < (key === "mag" ? 0.011 : 0.000001);
+                    const tolerance = problem.tolerances?.[key] ?? (key === "mag" ? 0.005001 : 0.000001);
+                    const ok = Math.abs(val - expected) < tolerance;
                     inp.classList.remove('state-typing');
                     inp.classList.toggle('state-correct', ok);
                     inp.classList.toggle('state-wrong', !ok);
@@ -2088,6 +2089,8 @@
         }
     </script>
     <script src="vector-labs.js"></script>
+    <script src="vector-visuals.js"></script>
+    <script src="vector-extensions.js"></script>
     <script>document.getElementById("columnExample").innerHTML = VectorMath.column(3,4); VectorMath.render(document.body);</script>
 </body>
 </html>
