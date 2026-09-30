@@ -78,7 +78,7 @@ To keep deployment working:
 
 ## Added screenshot-based lessons
 
-- **5.3 / Addition:** step through DB, AC and CD using the ABCD diagram. AC and BD intersect at a calculated E; E is not assumed to be a midpoint. The given x and y are oblique basis vectors, not Cartesian axes.
+- **5.3 / Addition:** step through DB, AC and CD using the ABCD diagram. The first `examRoutes` item is the Figure 3 question with AB = 4y, AD = 5x and BC = 2x; its DB solution follows D → A → B, so DA = −5x and DB = −5x + 4y. AC and BD intersect at a calculated E; E is not assumed to be a midpoint. The given x and y are oblique basis vectors, not Cartesian axes.
 - **5.2 / Component Form:** change k in ka − b; inspect the resultant, magnitude and normalized vector on a separate unit-circle diagram. The original example starts at k = 4.
 - **Practice:** two new sets, each with 6 questions (original question parts plus variations), hints, solutions and existing XP/progress support. Unit-vector answers use four decimal places; magnitudes use two.
 - `vector-extensions.js` contains these lessons and exercises. `vector-visuals.js` contains vector anatomy and five vector-type diagrams.
