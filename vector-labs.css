@@ -15,6 +15,13 @@
 .anatomy-example { padding: 14px; border-left: 3px solid #227849; background: #faf8f5; }
 .extension-lesson > p, .extension-steps { line-height: 1.8; margin: 16px 0; }
 .extension-steps { padding-left: 24px; }
+.lesson-steps { display: grid; gap: 14px; margin: 20px 0; }
+.lesson-step { padding: 16px; border-left: 4px solid #227849; background: #faf8f5; }
+.lesson-step h4 { margin: 0 0 8px; color: #3d2817; }
+.lesson-step p { line-height: 1.8; margin: 8px 0; }
+.lesson-memory, .lesson-warning { padding: 12px 16px; border-radius: 4px; }
+.lesson-memory { background: #eef6f0; }
+.lesson-warning { background: #fff4df; border-left: 4px solid #b56b00; }
 .extension-lesson svg { display: block; width: 100%; height: auto; }
 .unit-diagram-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 20px 0; }
 .unit-diagram-grid figure { margin: 0; padding: 14px; background: #faf8f5; border: 1px solid #e0d4c2; border-radius: 8px; }
