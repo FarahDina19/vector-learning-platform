@@ -1333,6 +1333,58 @@
                     </div>
 
                     <div class="card">
+                        <div class="card-icon">➖</div>
+                        <div class="card-title">Tolak Vektor</div>
+                        <div class="card-description">
+                            Selesaikan pengurangan vektor. Fahami perbezaan antara P - Q dan Q - P.
+                        </div>
+                        <div class="card-meta">
+                            <span>12 soalan</span>
+                            <span>Semua tahap</span>
+                        </div>
+                        <button class="cta-button" style="width: 100%; margin-top: 15px; justify-content: center;" onclick="startPractice('subtract')">Mulai →</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">📏</div>
+                        <div class="card-title">Cari Magnitud</div>
+                        <div class="card-description">
+                            Kira panjang vektor menggunakan formula Pythagoras dan magnitud.
+                        </div>
+                        <div class="card-meta">
+                            <span>10 soalan</span>
+                            <span>Semua tahap</span>
+                        </div>
+                        <button class="cta-button" style="width: 100%; margin-top: 15px; justify-content: center;" onclick="startPractice('magnitude')">Mulai →</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">⭕</div>
+                        <div class="card-title">Vektor Unit</div>
+                        <div class="card-description">
+                            Cari vektor unit dengan membahagi vektor dengan magnitudnya.
+                        </div>
+                        <div class="card-meta">
+                            <span>10 soalan</span>
+                            <span>Semua tahap</span>
+                        </div>
+                        <button class="cta-button" style="width: 100%; margin-top: 15px; justify-content: center;" onclick="startPractice('unitvector')">Mulai →</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">🔍</div>
+                        <div class="card-title">Kenal Pasti Jenis</div>
+                        <div class="card-description">
+                            Tentukan hubungan antara dua vektor (sama, selari, atau tiada hubungan).
+                        </div>
+                        <div class="card-meta">
+                            <span>9 soalan</span>
+                            <span>Semua tahap</span>
+                        </div>
+                        <button class="cta-button" style="width: 100%; margin-top: 15px; justify-content: center;" onclick="startPractice('typeid')">Mulai →</button>
+                    </div>
+
+                    <div class="card">
                         <div class="card-icon">🌍</div>
                         <div class="card-title">Masalah Dunia Nyata</div>
                         <div class="card-description">
@@ -1906,10 +1958,162 @@
             }
         }
 
-        const GENERATORS = { express: genExpress, add: genAdd, equality: genEquality, scalar: genScalar, realworld: genRealWorld };
+        function genSubtract(diff) {
+            let a1, a2, b1, b2;
+            if (diff === 'easy') { a1 = randInt(1, 6); a2 = randInt(1, 6); b1 = randInt(1, 4); b2 = randInt(1, 4); }
+            else if (diff === 'medium') { a1 = randNonZeroInt(-8, 8); a2 = randNonZeroInt(-8, 8); b1 = randNonZeroInt(-6, 6); b2 = randNonZeroInt(-6, 6); }
+            else { a1 = randDecimal(-9, 9); a2 = randDecimal(-9, 9); b1 = randDecimal(-8, 8); b2 = randDecimal(-8, 8); }
+
+            const ri = round1(a1 - b1), rj = round1(a2 - b2);
+            const diagram = buildDiagramSVG([
+                { ox: 0, oy: 0, dx: a1, dy: a2, color: 'blue', label: 'P' },
+                { ox: 0, oy: 0, dx: b1, dy: b2, color: 'red', label: 'Q' },
+                { ox: b1, oy: b2, dx: ri, dy: rj, color: 'green', dashed: true, label: 'P-Q' }
+            ]);
+
+            return {
+                diagram,
+                text: `Diberi <strong>P = ${fmtVector(a1, a2)}</strong> dan <strong>Q = ${fmtVector(b1, b2)}</strong>.<br>Cari <strong>P − Q</strong>.`,
+                inputsHTML: `P − Q = <input class="ans-input" data-key="i"> i + <input class="ans-input" data-key="j"> j`,
+                answers: { i: ri, j: rj },
+                hints: [
+                    'Tolak setiap komponen: (P_i − Q_i)i + (P_j − Q_j)j',
+                    `Komponen-i: ${fmtNum(a1)} − ${fmtNum(b1)} = ${fmtNum(ri)}`,
+                    `Komponen-j: ${fmtNum(a2)} − ${fmtNum(b2)} = ${fmtNum(rj)}`,
+                    `Jawapan penuh: P − Q = ${fmtVector(ri, rj)}`
+                ],
+                solution: `P − Q = (${fmtNum(a1)} − ${fmtNum(b1)})i + (${fmtNum(a2)} − ${fmtNum(b2)})j\n= ${fmtVector(ri, rj)}`
+            };
+        }
+
+        function genMagnitude(diff) {
+            let x, y;
+            if (diff === 'easy') {
+                const pairs = [[3, 4, 5], [5, 12, 13], [8, 15, 17]];
+                const p = pairs[randInt(0, pairs.length - 1)];
+                x = p[0] * (Math.random() < 0.5 ? 1 : -1);
+                y = p[1] * (Math.random() < 0.5 ? 1 : -1);
+            } else if (diff === 'medium') {
+                x = randNonZeroInt(-10, 10);
+                y = randNonZeroInt(-10, 10);
+            } else {
+                x = randDecimal(-12, 12);
+                y = randDecimal(-12, 12);
+            }
+
+            const mag = round2(Math.sqrt(x * x + y * y));
+            const diagram = buildDiagramSVG([{ ox: 0, oy: 0, dx: x, dy: y, color: 'blue', label: 'v' }]);
+
+            return {
+                diagram,
+                text: `Diberi vektor <strong>v = ${fmtVector(x, y)}</strong>.<br>Cari magnitud |v| (panjang vektor).`,
+                inputsHTML: `|v| = <input class="ans-input" data-key="mag">`,
+                answers: { mag },
+                hints: [
+                    'Magnitud dikira dengan formula Pythagoras: |v| = √(x² + y²)',
+                    `Komponen-i = ${fmtNum(x)}, Komponen-j = ${fmtNum(y)}`,
+                    `|v| = √((${fmtNum(x)})² + (${fmtNum(y)})²) = √(${round1(x*x)} + ${round1(y*y)})`,
+                    `|v| ≈ ${mag}`
+                ],
+                solution: `|v| = √(x² + y²)\n= √((${fmtNum(x)})² + (${fmtNum(y)})²)\n= √(${round1(x*x)} + ${round1(y*y)})\n≈ ${mag}`
+            };
+        }
+
+        function genUnitVector(diff) {
+            let x, y;
+            if (diff === 'easy') {
+                const pairs = [[3, 4, 5], [5, 12, 13]];
+                const p = pairs[randInt(0, pairs.length - 1)];
+                x = p[0]; y = p[1];
+            } else if (diff === 'medium') {
+                x = randNonZeroInt(2, 8);
+                y = randNonZeroInt(2, 8);
+            } else {
+                x = randDecimal(2, 10);
+                y = randDecimal(2, 10);
+            }
+
+            const mag = round2(Math.sqrt(x * x + y * y));
+            const ux = round3(x / mag), uy = round3(y / mag);
+            const diagram = buildDiagramSVG([
+                { ox: 0, oy: 0, dx: x, dy: y, color: 'blue', label: 'v' },
+                { ox: 0, oy: 0, dx: ux * 5, dy: uy * 5, color: 'green', label: 'û' }
+            ]);
+
+            return {
+                diagram,
+                text: `Diberi vektor <strong>v = ${fmtVector(x, y)}</strong>.<br>Cari vektor unit û dalam arah v (û = v/|v|).`,
+                inputsHTML: `û = <input class="ans-input" data-key="i"> i + <input class="ans-input" data-key="j"> j`,
+                answers: { i: ux, j: uy },
+                hints: [
+                    'Vektor unit diperoleh dengan membahagi vektor dengan magnitudnya: û = v/|v|',
+                    `Magnitud |v| = √((${fmtNum(x)})² + (${fmtNum(y)})²) ≈ ${mag}`,
+                    `Komponen-i: ${fmtNum(x)} ÷ ${mag} ≈ ${ux}`,
+                    `Jawapan penuh: û = ${fmtNum(ux)}i + ${fmtNum(uy)}j (atau dalam bentuk pecahan)`
+                ],
+                solution: `û = v/|v| = (${fmtVector(x, y)})/${mag}\n≈ ${fmtNum(ux)}i + ${fmtNum(uy)}j\n\nPemeriksaan: |û| = √((${ux})² + (${uy})²) = √(${round3(ux*ux + uy*uy)}) ≈ 1 ✓`
+            };
+        }
+
+        function genTypeIdentify(diff) {
+            const types = ['parallel', 'equal', 'perpendicular'];
+            const type = types[randInt(0, types.length - 1)];
+
+            let x1, y1, x2, y2, verdict, relationship;
+            if (type === 'parallel') {
+                x1 = randNonZeroInt(1, 5);
+                y1 = randNonZeroInt(1, 5);
+                const k = randNonZeroInt(2, 4) * (Math.random() < 0.5 ? 1 : -1);
+                x2 = k * x1;
+                y2 = k * y1;
+                verdict = `Vektor A dan B adalah SELARI kerana A = ${k}B`;
+                relationship = 'parallel';
+            } else if (type === 'equal') {
+                x1 = randNonZeroInt(-6, 6);
+                y1 = randNonZeroInt(-6, 6);
+                x2 = x1;
+                y2 = y1;
+                verdict = `Vektor A dan B adalah SAMA kerana komponen mereka sama (${fmtNum(x1)}, ${fmtNum(y1)})`;
+                relationship = 'equal';
+            } else {
+                do {
+                    x1 = randNonZeroInt(-5, 5);
+                    y1 = randNonZeroInt(-5, 5);
+                    x2 = randNonZeroInt(-5, 5);
+                    y2 = randNonZeroInt(-5, 5);
+                } while (x1 * x2 + y1 * y2 === 0 || (x1 * y2 - x2 * y1) === 0);
+                verdict = `Vektor A dan B tidak mempunyai hubungan istimewa`;
+                relationship = 'unrelated';
+            }
+
+            const diagram = buildDiagramSVG([
+                { ox: 0, oy: 0, dx: x1, dy: y1, color: 'blue', label: 'A' },
+                { ox: 2, oy: 2, dx: x2, dy: y2, color: 'red', label: 'B' }
+            ]);
+
+            const choices = { equal: 'SAMA', parallel: 'SELARI', perpendicular: 'BERSERENJANG', unrelated: 'TIADA HUBUNGAN' };
+            const choiceKeys = Object.keys(choices);
+
+            return {
+                diagram,
+                text: `Diberi <strong>A = ${fmtVector(x1, y1)}</strong> dan <strong>B = ${fmtVector(x2, y2)}</strong>.<br>Apakah hubungan antara A dan B?`,
+                choiceMode: true,
+                choices: choiceKeys.map(k => ({ key: k, label: choices[k] })),
+                answers: { choice: relationship },
+                hints: [
+                    'Periksa: (1) Adakah komponen sama? (2) Adakah A = kB untuk k ≠ 0? (3) Adakah A·B = 0?',
+                    `A_x = ${fmtNum(x1)}, A_y = ${fmtNum(y1)}`,
+                    `B_x = ${fmtNum(x2)}, B_y = ${fmtNum(y2)}`,
+                    verdict
+                ],
+                solution: `Perbandingan:\nA = ${fmtVector(x1, y1)}\nB = ${fmtVector(x2, y2)}\n\n${verdict}`
+            };
+        }
+
+        const GENERATORS = { express: genExpress, add: genAdd, equality: genEquality, scalar: genScalar, subtract: genSubtract, magnitude: genMagnitude, unitvector: genUnitVector, typeid: genTypeIdentify, realworld: genRealWorld };
 
         function genQuiz(diff) {
-            const types = ['express', 'add', 'equality', 'scalar', 'realworld'];
+            const types = ['express', 'add', 'equality', 'scalar', 'subtract', 'magnitude', 'unitvector', 'realworld'];
             const t = types[randInt(0, types.length - 1)];
             const d = ['easy', 'medium', 'hard'][randInt(0, 2)];
             const problem = GENERATORS[t](d);
@@ -1922,6 +2126,10 @@
             add: { title: 'Tambah / Tolak Vektor', total: 15, gen: genAdd },
             equality: { title: 'Periksa Kesamaan', total: 12, gen: genEquality },
             scalar: { title: 'Pendaraban Skalar', total: 10, gen: genScalar },
+            subtract: { title: 'Tolak Vektor', total: 12, gen: genSubtract },
+            magnitude: { title: 'Cari Magnitud', total: 10, gen: genMagnitude },
+            unitvector: { title: 'Vektor Unit', total: 10, gen: genUnitVector },
+            typeid: { title: 'Kenal Pasti Jenis', total: 9, gen: genTypeIdentify },
             realworld: { title: 'Masalah Dunia Nyata', total: 8, gen: genRealWorld },
             quiz: { title: 'Ujian Akhir', total: 20, gen: genQuiz, isQuiz: true }
         };
