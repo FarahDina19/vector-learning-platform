@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vector Mathematics Glossary - VECTOR Learning Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Cambria', 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .nav-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            background: #ecf0f1;
+            border-bottom: 2px solid #bdc3c7;
+            padding: 0;
+            margin: 0;
+        }
+        .nav-tabs button {
+            flex: 1;
+            min-width: 150px;
+            padding: 15px 20px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c3e50;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .nav-tabs button:hover {
+            background: #d5dbdb;
+            border-bottom-color: #3498db;
+        }
+        .nav-tabs button.active {
+            background: white;
+            color: #2980b9;
+            border-bottom-color: #2980b9;
+        }
+        .content {
+            padding: 40px;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .section h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2em;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 15px;
+        }
+        .glossary-item {
+            margin-bottom: 30px;
+            border-left: 4px solid #3498db;
+            padding-left: 20px;
+            page-break-inside: avoid;
+        }
+        .term {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2980b9;
+            margin-bottom: 8px;
+        }
+        .definition {
+            font-size: 1em;
+            margin-bottom: 10px;
+            color: #333;
+            line-height: 1.8;
+        }
+        .example {
+            background: #ecf0f1;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-style: italic;
+        }
+        .example-title {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        .symbol {
+            background: #fff3cd;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+        .related {
+            color: #7f8c8d;
+            font-size: 0.95em;
+            margin-top: 10px;
+        }
+        .related strong {
+            color: #2c3e50;
+        }
+        .visual-example {
+            background: #f8f9fa;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+        svg {
+            max-width: 100%;
+            height: auto;
+        }
+        .search-box {
+            margin-bottom: 30px;
+        }
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            font-size: 1em;
+            border: 2px solid #3498db;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        .search-box input::placeholder {
+            color: #bdc3c7;
+        }
+        .no-results {
+            text-align: center;
+            color: #7f8c8d;
+            padding: 40px 20px;
+            font-size: 1.1em;
+        }
+        footer {
+            background: #ecf0f1;
+            padding: 20px;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 0.9em;
+            border-top: 1px solid #bdc3c7;
+        }
+        @media (max-width: 600px) {
+            .nav-tabs {
+                flex-direction: column;
+            }
+            .nav-tabs button {
+                min-width: 100%;
+                border-right: none;
+            }
+            .content {
+                padding: 20px;
+            }
+            header h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📐 Vector Mathematics Glossary</h1>
+            <p>Essential terms and concepts for learning vectors</p>
+        </header>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" data-tab="basics">Basics</button>
+            <button class="tab-btn" data-tab="components">Components</button>
+            <button class="tab-btn" data-tab="operations">Operations</button>
+            <button class="tab-btn" data-tab="applications">Applications</button>
+            <button class="tab-btn" data-tab="notation">Notation</button>
+        </div>
+
+        <div class="content">
+            <!-- BASICS SECTION -->
+            <section id="basics" class="section active">
+                <h2>Basic Concepts</h2>
+
+                <div class="glossary-item">
+                    <div class="term">Vector</div>
+                    <div class="definition">
+                        A quantity that has both <strong>magnitude</strong> (size) and <strong>direction</strong>. Unlike scalars (which have only size), vectors need both pieces of information to be completely defined.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        "Drive 5 km North" is a vector (magnitude = 5 km, direction = North). Just saying "5 km" is a scalar because it doesn't tell you which way to go.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Scalar, Magnitude, Direction
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Scalar</div>
+                    <div class="definition">
+                        A quantity that has only <strong>magnitude</strong> (size), with no direction. Scalars are ordinary numbers that follow basic arithmetic rules.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Examples:</div>
+                        Distance (5 km), temperature (20°C), mass (2 kg), and time (3 seconds) are all scalars. They are just numbers without any sense of direction.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Vector, Magnitude
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Magnitude</div>
+                    <div class="definition">
+                        The <strong>length or size</strong> of a vector. For a vector starting at the origin and ending at point (x, y), the magnitude is calculated using the Pythagorean Theorem: <span class="symbol">|v| = √(x² + y²)</span>
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        For vector v = 3i + 4j, the magnitude is |v| = √(3² + 4²) = √(9 + 16) = √25 = 5. This is also written as ‖v‖.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Pythagorean Theorem, Vector
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Direction</div>
+                    <div class="definition">
+                        The <strong>path or bearing</strong> that a vector points towards. In 2D, direction is often described using compass directions (North, East, South, West) or an angle from the positive x-axis.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        A vector pointing from the origin to (3, 3) has a direction of 45° from the positive x-axis (Northeast). The direction angle θ is found using: θ = atan2(y, x).
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Angle, atan2, Bearing
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Origin</div>
+                    <div class="definition">
+                        The <strong>starting point</strong> of a vector, usually labeled as O or (0, 0) in a coordinate system. All position vectors begin at the origin.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        The point (0, 0) on a coordinate plane is the origin. A vector drawn from (0, 0) to (2, 3) is a position vector with magnitude √13.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Position Vector, Coordinate System
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Position Vector</div>
+                    <div class="definition">
+                        A vector that starts at the <strong>origin</strong> (0, 0) and ends at a specific point. Its components directly represent the coordinates of that point.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        The position vector to point P(5, 2) is <span class="symbol">OP = 5i + 2j</span>. This vector starts at O(0, 0) and ends at P(5, 2).
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Origin, Component Form, Displacement Vector
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Displacement Vector</div>
+                    <div class="definition">
+                        A vector that represents the <strong>change in position</strong> from one point to another, calculated as: <span class="symbol">PQ = Q - P</span>
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        If you move from point P(1, 2) to point Q(4, 5), the displacement vector is <span class="symbol">PQ = (4-1)i + (5-2)j = 3i + 3j</span>. Magnitude = √18 ≈ 4.24 units.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Position Vector, Distance, Magnitude
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Unit Vector</div>
+                    <div class="definition">
+                        A vector with <strong>magnitude exactly equal to 1</strong>. Unit vectors are used to show direction without size. Any vector can be scaled to a unit vector: <span class="symbol">u = v / |v|</span>
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        Vector v = 3i + 4j has magnitude |v| = 5. The unit vector is u = (3/5)i + (4/5)j = 0.6i + 0.8j, with magnitude 1.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Magnitude, Normalization, i-vector, j-vector
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Equal Vectors</div>
+                    <div class="definition">
+                        Two vectors are <strong>equal</strong> if they have the <strong>same magnitude and direction</strong>, regardless of where they are positioned. This means: <span class="symbol">A = B if A_x = B_x AND A_y = B_y</span>
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        A vector from (0, 0) to (2, 3) equals a vector from (5, 7) to (7, 10), because both have components 2i + 3j. They point the same direction and have the same length.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Component, Parallel Vectors, Negative Vector
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Negative Vector</div>
+                    <div class="definition">
+                        The opposite of a vector, with the <strong>same magnitude but opposite direction</strong>. If v = ai + bj, then -v = -ai - bj
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        If v = 3i + 4j, then -v = -3i - 4j. Both have magnitude 5, but they point in opposite directions. v + (-v) = 0 (zero vector).
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Vector Subtraction, Zero Vector, Direction
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Zero Vector</div>
+                    <div class="definition">
+                        A special vector with <strong>zero magnitude</strong> and <strong>no defined direction</strong>. Written as <span class="symbol">0</span> or <span class="symbol">0i + 0j</span>. It represents no displacement or movement.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        If a car drives 5 km East then 5 km West, the total displacement is the zero vector (you're back where you started). Also: v + (-v) = 0 for any vector v.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Magnitude, Negative Vector, Displacement
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Parallel Vectors</div>
+                    <div class="definition">
+                        Two vectors are <strong>parallel</strong> if one is a scalar multiple of the other. They point in the same direction (or opposite if the scalar is negative) but may have different lengths.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        Vectors a = 2i + 4j and b = 6i + 12j are parallel because b = 3a (b is 3 times a). They point in the same direction but b is longer.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Scalar Multiplication, Equal Vectors, Collinear
+                    </div>
+                </div>
+            </section>
+
+            <!-- COMPONENTS SECTION -->
+            <section id="components" class="section">
+                <h2>Vector Components</h2>
+
+                <div class="glossary-item">
+                    <div class="term">Component Form</div>
+                    <div class="definition">
+                        A way of writing a vector using its <strong>horizontal (i) and vertical (j) parts</strong>. Written as: <span class="symbol">v = xi + yj</span> or <span class="symbol">v = (x, y)</span>
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        Vector v pointing to (3, 4) is written as v = 3i + 4j. The component 3i is horizontal, and 4j is vertical. This form makes calculations much easier.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> i-component, j-component, Column Form, Position Vector
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">i-component (x-component)</div>
+                    <div class="definition">
+                        The <strong>horizontal part</strong> of a vector. It shows how far the vector moves left or right. Positive means moving right (East), negative means moving left (West).
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        In vector v = 3i + 4j, the i-component is 3. This means the vector moves 3 units to the right. For w = -2i + 5j, the i-component is -2, moving 2 units to the left.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> j-component, Component Form, Horizontal, Displacement
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">j-component (y-component)</div>
+                    <div class="definition">
+                        The <strong>vertical part</strong> of a vector. It shows how far the vector moves up or down. Positive means moving up (North), negative means moving down (South).
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        In vector v = 3i + 4j, the j-component is 4. This means the vector moves 4 units upward. For w = 2i - 3j, the j-component is -3, moving 3 units downward.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> i-component, Component Form, Vertical, Displacement
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Component Decomposition</div>
+                    <div class="definition">
+                        Breaking a vector into its <strong>horizontal and vertical parts</strong>. The original vector forms the hypotenuse of a right triangle, with components as the two sides.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        Vector v = 3i + 4j is shown as a right triangle: horizontal side = 3, vertical side = 4, hypotenuse (the vector) has magnitude √(3² + 4²) = 5.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Pythagorean Theorem, Component Form, Magnitude, Right Triangle
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Column Vector Notation</div>
+                    <div class="definition">
+                        A way of writing vectors as a column of numbers, where the top number is the x-component and the bottom is the y-component. Written as: <span class="symbol">[x]</span> or <span class="symbol">(x, y)</span> or sometimes <span class="symbol">⎧x⎫</span><br><span class="symbol">⎩y⎭</span>
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        Vector v = 3i + 4j can be written in column form as <span class="symbol">⎧3⎫</span><br><span class="symbol">⎩4⎭</span> or sometimes (3, 4) in coordinate notation.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Component Form, i-component, j-component, Matrix
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Magnitude from Components</div>
+                    <div class="definition">
+                        Using the <strong>Pythagorean Theorem</strong> to find the length of a vector from its components: <span class="symbol">|v| = √(x² + y²)</span>
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        For v = 5i + 12j: |v| = √(5² + 12²) = √(25 + 144) = √169 = 13. The components form a 5-12-13 right triangle.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Magnitude, Pythagorean Theorem, Component Decomposition
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Pythagorean Theorem</div>
+                    <div class="definition">
+                        For any right triangle with sides a and b and hypotenuse c: <span class="symbol">a² + b² = c²</span>. Vector components always form a right triangle with the vector as the hypotenuse.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        A 3-4-5 triangle: 3² + 4² = 9 + 16 = 25 = 5². Vector v = 3i + 4j has magnitude 5, and its components are the perpendicular sides.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Right Triangle, Magnitude, Component Decomposition, Hypotenuse
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Direction Angle</div>
+                    <div class="definition">
+                        The <strong>angle measured counterclockwise</strong> from the positive x-axis to the vector, usually in the range 0° to 360°. Calculated using: <span class="symbol">θ = atan2(y, x)</span>
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        For v = 3i + 3j: θ = atan2(3, 3) ≈ 45°. For w = -3i + 3j in Quadrant II: θ ≈ 135°. Always check the quadrant!
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> atan2, Angle, Quadrant, Direction
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Quadrant</div>
+                    <div class="definition">
+                        One of the four regions of the coordinate plane created by the x and y axes. Quadrant I (both positive), II (x negative, y positive), III (both negative), IV (x positive, y negative).
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        Vector 3i + 4j is in Quadrant I (45° angle, both components positive). Vector -3i + 4j is in Quadrant II (135° angle, pointing upper left).
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Direction Angle, atan2, Coordinate System, Bearing
+                    </div>
+                </div>
+            </section>
+
+            <!-- OPERATIONS SECTION -->
+            <section id="operations" class="section">
+                <h2>Vector Operations</h2>
+
+                <div class="glossary-item">
+                    <div class="term">Vector Addition</div>
+                    <div class="definition">
+                        Combining two vectors to create a resultant vector. <strong>Add component by component:</strong> <span class="symbol">(a₁i + a₂j) + (b₁i + b₂j) = (a₁+b₁)i + (a₂+b₂)j</span>
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        (2i + 3j) + (1i + 4j) = (2+1)i + (3+4)j = 3i + 7j. Geometrically: place the tail of the second vector at the head of the first; the result goes from the starting point to the final point.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Vector Subtraction, Resultant Vector, Triangle Law
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Vector Subtraction</div>
+                    <div class="definition">
+                        Subtracting one vector from another. Rewrite as adding the negative: <span class="symbol">A - B = A + (-B)</span>. Then add components: <span class="symbol">(a₁-b₁)i + (a₂-b₂)j</span>
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        (5i + 7j) - (2i + 3j) = (5-2)i + (7-3)j = 3i + 4j. It's like reversing the second vector and then adding it to the first.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Vector Addition, Negative Vector, Resultant Vector
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Scalar Multiplication</div>
+                    <div class="definition">
+                        Multiplying a vector by a number (scalar) to change its <strong>length or direction</strong>: <span class="symbol">k(ai + bj) = (ka)i + (kb)j</span>
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        2(3i + 4j) = 6i + 8j. This doubles the vector's length. If k is negative, the vector reverses direction. 0.5(3i + 4j) = 1.5i + 2j (halves the length).
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Scalar, Linear Combination, Parallel Vectors
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Linear Combination</div>
+                    <div class="definition">
+                        A sum of scalar multiples of vectors. Given vectors a and b: <span class="symbol">pa + qb</span> where p and q are scalars. Any vector in the plane can be expressed this way.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        If a = 2i + j and b = i + 3j, then 2a - 3b = 2(2i + j) - 3(i + 3j) = 4i + 2j - 3i - 9j = i - 7j.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Scalar Multiplication, Vector Addition, Basis Vectors
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Resultant Vector</div>
+                    <div class="definition">
+                        The final vector obtained by adding or combining other vectors. It represents the <strong>net effect</strong> of all the individual vectors acting together.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        If you walk 3 km East then 4 km North, your resultant displacement is 5 km Northeast (vector 3i + 4j with magnitude 5 km).
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Vector Addition, Displacement, Net Effect, Triangle Law
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Triangle Law</div>
+                    <div class="definition">
+                        A geometric method for adding vectors: place the tail of the second vector at the head (tip) of the first; the resultant goes from the starting point to the final point, forming a triangle.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        Add vectors A and B using the triangle law: draw A, then from its endpoint, draw B. The result R goes from the start of A to the end of B, and R = A + B.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Vector Addition, Parallelogram Law, Resultant Vector
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Parallelogram Law</div>
+                    <div class="definition">
+                        An alternative geometric method for adding vectors: place both vectors at the same starting point and complete a parallelogram; the diagonal from the starting point to the opposite corner is the resultant.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        For vectors A and B starting at the origin, complete the parallelogram. The diagonal equals A + B. Useful for understanding forces acting at the same point.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Vector Addition, Triangle Law, Resultant Vector, Forces
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Dot Product (not covered in basic course)</div>
+                    <div class="definition">
+                        A way to multiply two vectors to get a scalar (single number): <span class="symbol">a · b = a₁b₁ + a₂b₂ = |a||b|cos(θ)</span>. Useful for finding angles between vectors.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        For a = 2i + 3j and b = 1i + 1j: a · b = (2)(1) + (3)(1) = 5. If a · b = 0, the vectors are perpendicular.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Scalar, Perpendicular, Angle Between Vectors
+                    </div>
+                </div>
+            </section>
+
+            <!-- APPLICATIONS SECTION -->
+            <section id="applications" class="section">
+                <h2>Real-World Applications</h2>
+
+                <div class="glossary-item">
+                    <div class="term">Displacement vs Distance</div>
+                    <div class="definition">
+                        <strong>Distance</strong> is the total path length (scalar, always positive). <strong>Displacement</strong> is the straight-line change in position (vector, can be positive or negative).
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        Drive 5 km East then 3 km West: distance = 5 + 3 = 8 km. Displacement = (5-3)i = 2i km (2 km East). Distance tells how far you traveled; displacement tells where you ended up.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Vector, Scalar, Resultant Vector, Position
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Velocity</div>
+                    <div class="definition">
+                        A <strong>vector quantity</strong> showing how fast something is moving and in which direction. <span class="symbol">Velocity = Displacement / Time</span>. Unlike speed (scalar), velocity includes direction.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        An airplane flies 500 km North in 1 hour. Its velocity is 500 km/h North. If we say speed is 500 km/h, we lose the direction information.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Speed, Displacement, Direction, Resultant Velocity
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Force</div>
+                    <div class="definition">
+                        A <strong>vector quantity</strong> that pushes or pulls on an object, with both magnitude (newtons) and direction. Multiple forces can be combined using vector addition.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        A 10 N force East and a 5 N force North combine to give a resultant force of √(10² + 5²) = √125 ≈ 11.2 N at about 27° North of East.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Vector Addition, Resultant, Magnitude, Equilibrium
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Equilibrium</div>
+                    <div class="definition">
+                        A state where all forces are balanced, so the <strong>resultant force is zero</strong>. An object in equilibrium has no net force acting on it and won't accelerate.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        A picture hanging on a wall is in equilibrium: tension pulls up, gravity pulls down, and they're equal. The resultant is the zero vector.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Force, Zero Vector, Resultant, Newton's First Law
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Wind Correction (Airplane Navigation)</div>
+                    <div class="definition">
+                        When an airplane must adjust its heading to account for wind. The plane's velocity vector and wind vector combine to give the resultant velocity (actual direction traveled).
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        Plane heading: 200 km/h East. Wind: 50 km/h North. Resultant velocity = √(200² + 50²) ≈ 206 km/h at about 14° North of East (actual path).
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Velocity, Resultant Vector, Vector Addition, Navigation
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Object on an Incline</div>
+                    <div class="definition">
+                        Gravity force can be decomposed into components parallel and perpendicular to the incline. The parallel component causes the object to slide; the perpendicular component presses into the surface.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        A box on a 30° incline has weight 100 N downward. Component along incline ≈ 50 N (pulls it down). Component perpendicular ≈ 87 N (presses into surface).
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Component Decomposition, Force, Gravity, Friction
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Navigation & Bearing</div>
+                    <div class="definition">
+                        Vectors are used to describe positions, headings, and distances in navigation. Bearing is the direction angle, often measured clockwise from North (unlike math's counterclockwise from East).
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        "100 km at bearing 45°" means 100 km from North towards East. In math coordinates, this is the vector pointing at angle 45° from the East direction.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Direction Angle, Displacement, Bearing, Compass
+                    </div>
+                </div>
+            </section>
+
+            <!-- NOTATION SECTION -->
+            <section id="notation" class="section">
+                <h2>Mathematical Notation</h2>
+
+                <div class="glossary-item">
+                    <div class="term">Vector Notation Symbols</div>
+                    <div class="definition">
+                        Different ways to write vectors in mathematics. Common notations include: boldface <strong>v</strong>, arrow <span class="symbol">→v</span>, hats <span class="symbol">v̂</span>, and bold letters <strong>a</strong>.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        All of these mean the same thing: <strong>v</strong>, <span class="symbol">→v</span>, (2, 3), 2i + 3j, and <span class="symbol">⎧2⎫</span><br><span class="symbol">⎩3⎭</span>
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Component Form, Column Form, Arrow Notation
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Magnitude Notation</div>
+                    <div class="definition">
+                        The magnitude of vector v is written as: <span class="symbol">|v|</span> or <span class="symbol">‖v‖</span> or sometimes just the letter without the vector mark. Both mean the "length" or "size" of the vector.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        If v = 3i + 4j, then |v| = 5 and ‖v‖ = 5. Both notations mean the same thing: the magnitude is 5 units.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Magnitude, Vector Notation, Length
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">i and j (Standard Basis Vectors)</div>
+                    <div class="definition">
+                        Unit vectors: i points East (1, 0) and j points North (0, 1). Any vector can be written as <span class="symbol">v = xi + yj</span> where x and y are scalars. These form the "basis" for 2D vectors.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        Vector v = 3i + 4j means "move 3 units in the i-direction and 4 units in the j-direction." i and j are the building blocks of all 2D vectors.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Unit Vector, Component Form, Basis, Standard Notation
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Coordinate Notation</div>
+                    <div class="definition">
+                        Writing vectors as ordered pairs: <span class="symbol">(x, y)</span> or sometimes with brackets <span class="symbol">[x, y]</span>. The first number is the x-component, the second is the y-component.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        Vector v = 3i + 4j can be written as (3, 4) in coordinate notation. Be careful not to confuse this with a point: the vector goes from (0,0) to (3,4).
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Component Form, Column Form, Ordered Pair, Point
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Greek Letters in Vectors</div>
+                    <div class="definition">
+                        Greek letters are commonly used for angles and parameters: θ (theta) for angle, λ (lambda) and μ (mu) for scalar parameters, and Σ (sigma) for summation.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        "Find θ such that vector v makes angle θ with the x-axis." Or "Find λ such that λa + μb = c." These Greek letters are just placeholders for unknown numbers.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Direction Angle, Parameter, Angle, Linear Combination
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Subscript Notation</div>
+                    <div class="definition">
+                        Using subscripts to denote components: <span class="symbol">v₁</span> for the first component (x-component) and <span class="symbol">v₂</span> for the second component (y-component). So <span class="symbol">v = v₁i + v₂j</span>.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        For vector a = 5i + 2j, we write <span class="symbol">a₁ = 5</span> and <span class="symbol">a₂ = 2</span>. This notation is especially useful in formulas: <span class="symbol">|a| = √(a₁² + a₂²)</span>.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Component Form, i-component, j-component, Notation
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">atan2 Function</div>
+                    <div class="definition">
+                        A function that finds the angle of a vector from its components: <span class="symbol">θ = atan2(y, x)</span>. Unlike arctan, it correctly handles all four quadrants.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        For v = 3i + 3j: θ = atan2(3, 3) = 45°. For w = -3i + 3j: θ = atan2(3, -3) = 135° (Quadrant II). atan2 always gives the right angle!
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Direction Angle, Quadrant, Arctangent, Angle Calculation
+                    </div>
+                </div>
+
+                <div class="glossary-item">
+                    <div class="term">Matrix Notation</div>
+                    <div class="definition">
+                        Vectors can be written as matrices (single column or row): <span class="symbol">v = ⎧3⎫</span><br><span class="symbol">⎩4⎭</span> (column matrix) or v = [3 4] (row matrix). Useful for calculations and computer programming.
+                    </div>
+                    <div class="example">
+                        <div class="example-title">Example:</div>
+                        Vector v = 3i + 4j as column matrix: <span class="symbol">⎧3⎫</span><br><span class="symbol">⎩4⎭</span>. Matrix operations are used in computer graphics and linear algebra.
+                    </div>
+                    <div class="related">
+                        <strong>Related:</strong> Matrix, Column Vector, Row Vector, Computer Graphics
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer>
+            <p>&copy; 2026 VECTOR Learning Platform | Glossary for Weak Mathematics Students</p>
+            <p>Designed to support learning vectors with clear definitions, examples, and real-world applications.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Tab switching functionality
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const sections = document.querySelectorAll('.section');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons and sections
+                tabBtns.forEach(b => b.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+
+                // Add active class to clicked button and corresponding section
+                btn.classList.add('active');
+                const tabId = btn.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
+        // Optional: Add search functionality for future enhancement
+        console.log('Vector Glossary loaded successfully!');
+    </script>
+</body>
+</html>

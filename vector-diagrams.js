@@ -1,3 +1,44 @@
+/* Helper: Draw component decomposition (i and j) with right-angle indicator, magnitude, and directional arrows */
+function drawComponentDecomposition(x, y, px, py, scale, color, label) {
+  const x1=px(0), y1=py(0), x2=px(x), y2=py(y);
+  const cornerSize=8;
+  const ixEnd=px(x), iyEnd=py(y);
+  const jxEnd=px(0), jyEnd=py(y);
+  const absx=Math.abs(x), absy=Math.abs(y);
+  const arrowSize=5;
+
+  // Draw i-component (horizontal, dashed, lighter) with directional arrow
+  const iMid=(x1+ixEnd)/2;
+  const iArrow=x>0
+    ? `<path d="M${ixEnd-arrowSize} ${y2-arrowSize}L${ixEnd} ${y2}L${ixEnd-arrowSize} ${y2+arrowSize}" stroke="${color}" stroke-width="1" fill="none" opacity="0.6"/>`
+    : `<path d="M${x1+arrowSize} ${y2-arrowSize}L${x1} ${y2}L${x1+arrowSize} ${y2+arrowSize}" stroke="${color}" stroke-width="1" fill="none" opacity="0.6"/>`;
+
+  const iElements=[
+    `<path d="M${x1} ${y2}L${ixEnd} ${y2}" stroke="${color}" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6" fill="none"/>`,
+    iArrow,
+    `<text x="${iMid}" y="${y2+15}" text-anchor="middle" font-size="11" fill="${color}" opacity="0.8">${x.toFixed(0)}i</text>`,
+    `<text x="${iMid}" y="${y2+27}" text-anchor="middle" font-size="9" fill="${color}" opacity="0.6">(|${absx.toFixed(0)}|)</text>`
+  ];
+
+  // Draw j-component (vertical, dashed, lighter) with directional arrow
+  const jMid=(y1+y2)/2;
+  const jArrow=y>0
+    ? `<path d="M${ixEnd-arrowSize} ${y2-arrowSize}L${ixEnd} ${y2}L${ixEnd+arrowSize} ${y2-arrowSize}" stroke="${color}" stroke-width="1" fill="none" opacity="0.6"/>`
+    : `<path d="M${ixEnd-arrowSize} ${y1+arrowSize}L${ixEnd} ${y1}L${ixEnd+arrowSize} ${y1+arrowSize}" stroke="${color}" stroke-width="1" fill="none" opacity="0.6"/>`;
+
+  const jElements=[
+    `<path d="M${ixEnd} ${y1}L${ixEnd} ${y2}" stroke="${color}" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6" fill="none"/>`,
+    jArrow,
+    `<text x="${ixEnd+16}" y="${jMid+4}" text-anchor="start" font-size="11" fill="${color}" opacity="0.8">${y.toFixed(0)}j</text>`,
+    `<text x="${ixEnd+16}" y="${jMid+15}" text-anchor="start" font-size="9" fill="${color}" opacity="0.6">(|${absy.toFixed(0)}|)</text>`
+  ];
+
+  // Draw right-angle indicator at corner (small square for 90° angle)
+  const corner=`<rect x="${ixEnd-cornerSize}" y="${y2-cornerSize}" width="${cornerSize}" height="${cornerSize}" stroke="${color}" stroke-width="1" opacity="0.6" fill="none"/>`;
+
+  return iElements.concat(jElements).concat([corner]).join('');
+}
+
 /* All Cartesian diagrams use one scale for both axes. Tick spacing adapts to range. */
 function buildDiagramSVG(vectors) {
   const size=360,pad=48,plot=size-2*pad;
@@ -14,22 +55,34 @@ function buildDiagramSVG(vectors) {
   const gridPaths=[],axesLabels=[];
   for(let i=0;i<=Math.round(span/step);i++){
     const x=minX+i*step,y=minY+i*step;
-    gridPaths.push(`<path d="M${px(x)} ${pad}V${size-pad} M${pad} ${py(y)}H${size-pad}" stroke="#e8dcc8" fill="none"/>`);
-    if(Math.abs(x)>1e-8)axesLabels.push(`<text x="${px(x)}" y="${py(0)+17}" text-anchor="middle">${num(x)}</text>`);
-    if(Math.abs(y)>1e-8)axesLabels.push(`<text x="${px(0)-7}" y="${py(y)+4}" text-anchor="end">${num(y)}</text>`);
+    gridPaths.push(`<path d="M${px(x)} ${pad}V${size-pad} M${pad} ${py(y)}H${size-pad}" stroke="#e8e8e8" fill="none" stroke-width="0.5" opacity="0.6"/>`);
+    if(Math.abs(x)>1e-8)axesLabels.push(`<text x="${px(x)}" y="${py(0)+19}" text-anchor="middle" font-size="12" font-weight="500">${num(x)}</text>`);
+    if(Math.abs(y)>1e-8)axesLabels.push(`<text x="${px(0)-10}" y="${py(y)+5}" text-anchor="end" font-size="12" font-weight="500">${num(y)}</text>`);
   }
-  const grid=gridPaths.join(''),axes=axesLabels.join('')+`<path d="M${pad} ${py(0)}H${size-pad+10}l-6 -3m6 3l-6 3 M${px(0)} ${size-pad}V${pad-10}l-3 6m3 -6l3 6" stroke="#5a4a42" fill="none"/><text x="${size-pad+20}" y="${py(0)+4}">x</text><text x="${px(0)+8}" y="${pad-13}">y</text><text x="${px(0)-13}" y="${py(0)+17}">O</text>`;
+  const grid=gridPaths.join(''),axes=axesLabels.join('')+`<path d="M${pad} ${py(0)}H${size-pad+10}l-6 -3m6 3l-6 3 M${px(0)} ${size-pad}V${pad-10}l-3 6m3 -6l3 6" stroke="#333333" stroke-width="2.5" fill="none"/><text x="${size-pad+22}" y="${py(0)+5}" font-size="14" font-weight="bold" fill="#333">x</text><text x="${px(0)+10}" y="${pad-15}" font-size="14" font-weight="bold" fill="#333">y</text><text x="${px(0)-16}" y="${py(0)+19}" font-size="13" font-weight="bold" fill="#333">O</text>`;
   let lines='';
   const lineElements=[];
+
+  // Draw component decomposition for vectors that request it
+  const componentElements=[];
+  vectors.forEach((v)=>{
+    if(v.showComponents && Math.hypot(v.dx,v.dy)>0.1){
+      const color=VECTOR_COLORS[v.color]||VECTOR_COLORS.green;
+      componentElements.push(drawComponentDecomposition(v.dx,v.dy,px,py,scale,color,v.label));
+    }
+  });
+  const components=componentElements.join('');
+
   vectors.forEach((v,index)=>{
     const color=VECTOR_COLORS[v.color]||VECTOR_COLORS.green;
     const x1=px(v.ox),y1=py(v.oy),x2=px(v.ox+v.dx),y2=py(v.oy+v.dy);
     const length=Math.hypot(x2-x1,y2-y1),angle=Math.atan2(y2-y1,x2-x1),head=Math.min(9,length*.4);
-    if(length<1e-7){lineElements.push(`<circle cx="${x1}" cy="${y1}" r="4" fill="${color}"/><text x="${x1+8}" y="${y1-10}" fill="${color}">${esc(v.label ? v.label+' = 0' : '0')}</text>`);return;}
-    lineElements.push(`<path data-vector="${index}" d="M${x1} ${y1}L${x2} ${y2}" stroke="${color}" stroke-width="2.5" ${v.dashed?'stroke-dasharray="5 4"':''} fill="none"/><path d="M${x2-head*Math.cos(angle-.45)} ${y2-head*Math.sin(angle-.45)}L${x2} ${y2}L${x2-head*Math.cos(angle+.45)} ${y2-head*Math.sin(angle+.45)}" stroke="${color}" stroke-width="2.5" fill="none"/>`);
-    if(v.label){const lx=Math.max(pad,Math.min(size-pad,(x1+x2)/2+12)),ly=Math.max(20,Math.min(size-25,(y1+y2)/2-10-index*3));lineElements.push(`<text x="${lx}" y="${ly}" text-anchor="middle" fill="${color}" font-weight="bold" paint-order="stroke" stroke="white" stroke-width="4">${esc(v.label)}</text>`);}
+    const realMag=Math.hypot(v.dx,v.dy);
+    if(length<1e-7){lineElements.push(`<circle cx="${x1}" cy="${y1}" r="4" fill="${color}"/><text x="${x1+8}" y="${y1-10}" fill="${color}" font-weight="bold">${esc(v.label ? v.label+' = 0' : '0')}</text>`);return;}
+    lineElements.push(`<path data-vector="${index}" d="M${x1} ${y1}L${x2} ${y2}" stroke="${color}" stroke-width="2.8" ${v.dashed?'stroke-dasharray="5 4"':''} fill="none"/><path d="M${x2-head*Math.cos(angle-.45)} ${y2-head*Math.sin(angle-.45)}L${x2} ${y2}L${x2-head*Math.cos(angle+.45)} ${y2-head*Math.sin(angle+.45)}" stroke="${color}" stroke-width="2.8" fill="none"/>`);
+    if(v.label){const lx=Math.max(pad+15,Math.min(size-pad-15,(x1+x2)/2+15)),ly=Math.max(25,Math.min(size-20,(y1+y2)/2-12-index*3));lineElements.push(`<text x="${lx}" y="${ly}" text-anchor="middle" fill="${color}" font-weight="bold" font-size="13" paint-order="stroke" stroke="white" stroke-width="4">${esc(v.label)}</text>`);if(realMag>0.1){const magLabel=realMag.toFixed(1);lineElements.push(`<text x="${lx}" y="${ly+16}" text-anchor="middle" fill="${color}" font-size="11" opacity="0.8" paint-order="stroke" stroke="white" stroke-width="3">|${esc(v.label)}|=${magLabel}</text>`);}}
   });
   lines=lineElements.join('');
-  const description=vectors.map(v=>`${v.label||'Vektor'}: (${num(v.ox)}, ${num(v.oy)}) ke (${num(v.ox+v.dx)}, ${num(v.oy+v.dy)})`).join('; ');
-  return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" style="max-width:100%;height:auto" role="img" aria-label="${esc(description)}"><title>${esc(description)}</title><g font-family="Cambria,serif" font-size="11">${grid}${axes}${lines}<text x="180" y="350" text-anchor="middle" fill="#6b6159">1 petak = ${num(step)} unit · skala x dan y sama</text></g></svg>`;
+  const description=vectors.map(v=>`${v.label||'Vector'}: (${num(v.ox)}, ${num(v.oy)}) to (${num(v.ox+v.dx)}, ${num(v.oy+v.dy)})`).join('; ');
+  return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" style="max-width:100%;height:auto" role="img" aria-label="${esc(description)}"><title>${esc(description)}</title><g font-family="Cambria,serif" font-size="12">${grid}${axes}${components}${lines}<text x="180" y="350" text-anchor="middle" fill="#3a3a3a" font-size="13" font-weight="bold">1 square = ${num(step)} unit · same scale for x and y</text></g></svg>`;
 }
