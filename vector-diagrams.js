@@ -1,23 +1,26 @@
-/* Helper: Draw component decomposition (i and j) with right-angle indicator */
+/* Helper: Draw component decomposition (i and j) with right-angle indicator and magnitude */
 function drawComponentDecomposition(x, y, px, py, scale, color, label) {
   const x1=px(0), y1=py(0), x2=px(x), y2=py(y);
   const cornerSize=8;
   const ixEnd=px(x), iyEnd=py(y);
   const jxEnd=px(0), jyEnd=py(y);
+  const absx=Math.abs(x), absy=Math.abs(y);
 
   // Draw i-component (horizontal, dashed, lighter)
   const iElements=[
     `<path d="M${x1} ${y2}L${ixEnd} ${y2}" stroke="${color}" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6" fill="none"/>`,
-    `<text x="${(x1+ixEnd)/2}" y="${y2+15}" text-anchor="middle" font-size="11" fill="${color}" opacity="0.8">${x.toFixed(0)}i</text>`
+    `<text x="${(x1+ixEnd)/2}" y="${y2+15}" text-anchor="middle" font-size="11" fill="${color}" opacity="0.8">${x.toFixed(0)}i</text>`,
+    `<text x="${(x1+ixEnd)/2}" y="${y2+27}" text-anchor="middle" font-size="9" fill="${color}" opacity="0.6">(|${absx.toFixed(0)}|)</text>`
   ];
 
   // Draw j-component (vertical, dashed, lighter)
   const jElements=[
     `<path d="M${ixEnd} ${y1}L${ixEnd} ${y2}" stroke="${color}" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6" fill="none"/>`,
-    `<text x="${ixEnd+16}" y="${(y1+y2)/2+4}" text-anchor="start" font-size="11" fill="${color}" opacity="0.8">${y.toFixed(0)}j</text>`
+    `<text x="${ixEnd+16}" y="${(y1+y2)/2+4}" text-anchor="start" font-size="11" fill="${color}" opacity="0.8">${y.toFixed(0)}j</text>`,
+    `<text x="${ixEnd+16}" y="${(y1+y2)/2+15}" text-anchor="start" font-size="9" fill="${color}" opacity="0.6">(|${absy.toFixed(0)}|)</text>`
   ];
 
-  // Draw right-angle indicator at corner
+  // Draw right-angle indicator at corner (small square for 90° angle)
   const corner=`<rect x="${ixEnd-cornerSize}" y="${y2-cornerSize}" width="${cornerSize}" height="${cornerSize}" stroke="${color}" stroke-width="1" opacity="0.6" fill="none"/>`;
 
   return iElements.concat(jElements).concat([corner]).join('');
