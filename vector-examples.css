@@ -1,0 +1,52 @@
+/* Progressive example ladders: six interactive examples per existing example area. */
+.example-ladder { margin: 28px 0; padding: 26px; border: 1px solid #c4a574; border-radius: 12px; background: #fff; }
+.example-ladder > h3 { font-size: 23px; margin-bottom: 10px; }
+.ex-ladder-intro { color: #6b6159; line-height: 1.65; max-width: 850px; margin-bottom: 8px; }
+.ex-ladder-scale { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 22px; padding: 0; list-style: none; }
+.ex-ladder-scale li { font-size: 12px; letter-spacing: .6px; text-transform: uppercase; padding: 6px 10px; border-radius: 999px; border: 1px solid #e0d4c2; background: #faf8f5; color: #6b6159; }
+.ex-card { margin: 0 0 18px; padding: 18px; border: 1px solid #e0d4c2; border-left: 5px solid #2f9e5c; border-radius: 10px; background: #faf8f5; }
+.ex-card:last-child { margin-bottom: 0; }
+.ex-card[data-tier="medium"] { border-left-color: #c98a1f; }
+.ex-card[data-tier="hard"] { border-left-color: #c73c32; }
+.ex-head { display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; margin-bottom: 10px; }
+.ex-badge { font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; padding: 5px 10px; border-radius: 999px; background: #e9f3ec; color: #1d5c38; white-space: nowrap; }
+.ex-card[data-tier="medium"] .ex-badge { background: #fdf1dc; color: #80540a; }
+.ex-card[data-tier="hard"] .ex-badge { background: #fbe7e5; color: #8d2a22; }
+.ex-card h4 { margin: 0; font-size: 19px; color: #3d2817; }
+.ex-controls { display: flex; flex-wrap: wrap; gap: 14px 22px; margin: 0 0 14px; }
+.ex-controls label { display: grid; gap: 4px; font-size: 14px; color: #3d2817; min-width: 0; }
+.ex-controls .ex-slider { grid-template-columns: 1fr; }
+.ex-controls .ex-slider span { display: flex; justify-content: space-between; gap: 10px; }
+.ex-controls input[type="range"] { width: 190px; max-width: 100%; accent-color: #5a4a42; }
+.example-ladder select, .example-ladder input[type="text"] { font: inherit; padding: 8px 10px; border: 1px solid #9c8160; border-radius: 6px; background: #fff; color: #3d2817; max-width: 100%; }
+.example-ladder input[type="text"] { width: 130px; }
+.ex-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 20px; align-items: start; }
+.ex-grid.ex-single { grid-template-columns: minmax(0, 1fr); }
+.ex-visual { min-width: 0; background: #fff; border: 1px solid #e0d4c2; border-radius: 8px; padding: 8px; }
+.ex-visual svg { display: block; width: 100%; height: auto; }
+.ex-side { min-width: 0; }
+.ex-prompt { line-height: 1.75; margin: 0 0 12px; }
+.ex-readout { background: #f5f1ed; border-left: 4px solid #2f9e5c; padding: 12px 14px; line-height: 1.9; font-size: 16px; overflow-x: auto; margin-bottom: 14px; }
+.ex-answer { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 12px; }
+.ex-answer label { display: grid; gap: 4px; font-size: 14px; color: #3d2817; min-width: 0; }
+.ex-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.example-ladder button { font: inherit; font-size: 15px; padding: 9px 13px; border: 1px solid #9c8160; border-radius: 6px; background: #fff; color: #3d2817; cursor: pointer; }
+.example-ladder button:hover { background: #e8dcc8; }
+.example-ladder button:focus-visible, .example-ladder input:focus-visible, .example-ladder select:focus-visible { outline: 3px solid #2f6fed; outline-offset: 3px; }
+.ex-ok { border-color: #2f9e5c; background: #eef8f1; }
+.ex-no { border-color: #c73c32; background: #fdeeec; }
+.ex-feedback { margin: 0 0 10px; line-height: 1.7; font-weight: 600; min-height: 1.2em; }
+.ex-feedback[data-state="correct"] { color: #1d5c38; }
+.ex-feedback[data-state="wrong"], .ex-feedback[data-state="empty"] { color: #8d2a22; }
+.ex-hint, .ex-solution { padding: 12px 14px; border-radius: 6px; line-height: 1.8; margin-bottom: 10px; overflow-x: auto; }
+.ex-hint { background: #fff4df; border-left: 4px solid #b56b00; }
+.ex-solution { background: #eef6f0; border-left: 4px solid #227849; }
+.ex-solution ol { margin: 0; padding-left: 20px; }
+.ex-solution li { margin: 4px 0; }
+@media (max-width: 820px) {
+  .ex-grid { grid-template-columns: minmax(0, 1fr); }
+  .example-ladder { padding: 16px; }
+  .ex-card { padding: 14px; }
+  .ex-controls input[type="range"] { width: 100%; }
+  .ex-controls label { width: 100%; }
+}
