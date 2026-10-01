@@ -760,8 +760,12 @@ const VectorExamples = (() => {
   ];
 
   /* ---------- rendering and interaction ---------- */
+  const escapeCache=new Map();const MAX_CACHE=64;
   function escapeAttr(text) {
-    return String(text).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    const key=String(text);if(escapeCache.has(key))return escapeCache.get(key);
+    const result=key.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+    if(escapeCache.size>=MAX_CACHE)escapeCache.delete(escapeCache.keys().next().value);
+    escapeCache.set(key,result);return result;
   }
 
   function controlValue(input) {
