@@ -53,5 +53,5 @@ const VectorExtensions = (() => {
   [['examRoutes','Laluan vektor ABCD',paths],['examUnit','Komponen, magnitud & vektor unit',columns]].forEach(([id,title,questions])=>{CATEGORY_CONFIG[id]={title,total:questions.length,isWorkbook:true,gen:()=>questions[session.index]};});
   practiceButton(pathLesson,'examRoutes','Cuba 12 latihan laluan vektor');practiceButton(unitLesson,'examUnit','Cuba 6 latihan komponen dan vektor unit');
   const menu=document.createElement('section');menu.className='vector-lab';menu.innerHTML='<div class="lab-kicker">Berdasarkan gambar soalan anda</div><h3>Latihan rajah geometri & vektor unit</h3><p>18 soalan: 12 laluan ABCD (DB, AC dan CD dengan empat set pekali), serta 6 soalan komponen dan vektor unit. Lengkap dengan rajah, petua, semakan jawapan dan penyelesaian.</p><div class="lab-controls"></div>';practiceButton(menu.lastElementChild,'examRoutes','Laluan ABCD · 12 soalan');practiceButton(menu.lastElementChild,'examUnit','Komponen & unit · 6 soalan');document.getElementById('practiceMenu').prepend(menu);
-  return {geometry,polygon,routeResult,pathQuestion,columnQuestion,unitCircle};
+  return {geometry,polygon,routeResult,routeWork,pathQuestion,columnQuestion,unitCircle};
 })();

@@ -21,6 +21,7 @@ The deployed app covers:
   - `vector-math.js` for offline MathML rendering
   - `vector-diagrams.js` for reusable SVG vector diagrams
   - `vector-labs.js` + `vector-labs.css` for interactive labs and workbook-style practice
+  - `vector-examples.js` + `vector-examples.css` for the six-step Easy 1 → Hard 6 example ladders
 - The original VECTOR production specification:
   - [`DETAILED_VECTOR_PROMPT_PRODUCTION.md`](DETAILED_VECTOR_PROMPT_PRODUCTION.md)
   - [`DETAILED_VECTOR_PROMPT_PRODUCTION.md.pdf`](DETAILED_VECTOR_PROMPT_PRODUCTION.md.pdf)
@@ -29,6 +30,7 @@ The deployed app covers:
 
 - Six tabs: Intro, Scalar & Vector, Component Form, Addition, **Practice**, and Resources
 - Interactive labs that visualize journeys, components, operations, and scalar multiplication
+- **Six additional interactive examples for every example area** (36 in total), ordered Easy 1 → Hard 6, each with live controls, a live diagram, answer checking, hints, worked solutions and a reset control
 - A full **Practice** engine with:
   - Generated questions across Easy / Medium / Hard difficulty
   - Workbook-style exercises reconstructed from the source learning materials
@@ -47,6 +49,8 @@ The deployed app covers:
 | `vector-diagrams.js` | Reusable SVG diagram builder for vector questions. |
 | `vector-labs.js` | Interactive learning labs and workbook question wiring. |
 | `vector-labs.css` | Styles for the labs/workbook extensions. |
+| `vector-examples.js` | Six-step Easy 1 → Hard 6 interactive example ladders, one per existing example area. |
+| `vector-examples.css` | Styles for the example ladders. |
 | `DETAILED_VECTOR_PROMPT_PRODUCTION.md` | Source project specification retained in the merged repo. |
 | `DETAILED_VECTOR_PROMPT_PRODUCTION.md.pdf` | PDF version of the same source specification. |
 
@@ -84,6 +88,21 @@ To keep deployment working:
 - **Worked examples:** every tab now includes multiple concise worked examples, and the geometric-route bank uses four coefficient sets.
 - `vector-extensions.js` contains these lessons and exercises. `vector-visuals.js` contains vector anatomy and five vector-type diagrams.
 
+## Six interactive examples per example area
+
+Each tab already ended its explanation with a short worked-example list (`.worked-examples`). Every one of those six areas is now followed by an **example ladder** of six extra interactive examples, mounted by `vector-examples.js`:
+
+| Area (tab) | Ladder | Progression |
+|---|---|---|
+| Intro | `#ladder-intro` | Classify a quantity → perpendicular displacement → distance vs displacement → plane + wind → forces and the equilibrant → game object after *n* frames |
+| Scalar & Vector (5.1) | `#ladder-scalar` | Negative vector → magnitude → scalar multiplication → identifying the vector type → solving for a multiplier → the third vector that gives the null vector |
+| Component Form (5.2) | `#ladder-component` | Position vector → magnitude → vector between two points → direction angle → unit vector → magnitude and angle back to components |
+| Addition (5.3) | `#ladder-addition` | Addition → subtraction → linear combination → resultant magnitude and direction → solving `A + X = B` → route in the ABCD figure |
+| Practice | `#ladder-drill` | Reading a column vector → scalar multiple → `ka − b` → its magnitude → its unit vector → finding the `k` that removes the i component |
+| Resources | `#ladder-formula` | Two-point vector formula → distance formula → midpoint → negative scalar multiple → direction angle with quadrant check → the section formula |
+
+Levels 1–2 are direct recognition or one-step calculation, levels 3–4 need multi-step vector reasoning, and levels 5–6 are applied or geometric problems. Every card is labelled (for example `Sederhana 3 · Medium 3`), carries sliders or selects, redraws its SVG diagram live, validates typed answers against the required number of decimal places, and offers a hint, a worked solution and a reset. A first correct answer awards XP through the existing progress engine. The ladders reuse `buildDiagramSVG`, `VectorMath`, `VectorExtensions.polygon` and `VectorExtensions.routeResult`, and add no build step or external dependency.
+
 ### Browser checks
 
 From the repository root, with Playwright available (or `PLAYWRIGHT_MODULE` set to its absolute module path):
@@ -92,6 +111,7 @@ From the repository root, with Playwright available (or `PLAYWRIGHT_MODULE` set 
 node tests/diagram-audit.cjs
 node tests/lesson-audit.cjs
 node tests/workbook-audit.cjs
+node tests/examples-audit.cjs
 ```
 
 The checks use installed Microsoft Edge in headless mode. Screenshots go to ignored `tmp/`. The diagram audit samples 2,250 existing generated questions, verifies mathematical answers, arrow endpoints, arrowheads and equal axis scales. The other checks cover new geometry, all 12 new questions, slider states, the 14 workbook questions and mobile overflow. Random sampling does not exhaust every possible generated question.
