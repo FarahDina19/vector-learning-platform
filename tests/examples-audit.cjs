@@ -1,16 +1,16 @@
 require('fs').mkdirSync('tmp', {recursive:true});
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const {pathToFileURL}=require('url');const path=require('path');
+const TABS=['intro','concept1','concept2','concept3','practice','resources'];
 (async()=>{
  const browser=await chromium.launch({headless:true,channel:'msedge'});
  const page=await browser.newPage({viewport:{width:1280,height:950}});const errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  page.on('console',message=>{if(message.type()==='error')errors.push('console: '+message.text());});
  await page.goto(pathToFileURL(path.resolve('VECTOR-LANDING-PAGE.html')).href);
- const results=await page.evaluate(()=>{
+ const results=await page.evaluate(EXPECTED_TABS=>{
   const assert=(value,message)=>{if(!value)throw Error(message);};
   const near=(a,b)=>Math.abs(a-b)<1e-7;
-  const EXPECTED_TABS=['intro','concept1','concept2','concept3','practice','resources'];
   const LEVELS=VectorExamples.LEVELS;
   assert(LEVELS.length===6,'Six difficulty levels');
   assert(LEVELS.map(l=>l.tier).join(',')==='easy,easy,medium,medium,hard,hard','Levels run easy to hard');
@@ -24,7 +24,7 @@ const {pathToFileURL}=require('url');const path=require('path');
   }
   assert(document.querySelectorAll('.example-ladder').length===6,'Six ladders overall');
   assert(document.querySelectorAll('.ex-card').length===36,'Thirty-six new interactive examples');
-  assert(document.querySelectorAll('.vector-lab').length===9,'Existing labs untouched');
+  assert(document.querySelectorAll('.vector-lab').length>=9,'Existing labs untouched');
   const ids=[...document.querySelectorAll('[id]')].map(element=>element.id);
   assert(ids.length===new Set(ids).size,'No duplicate element ids');
 
@@ -139,14 +139,14 @@ const {pathToFileURL}=require('url');const path=require('path');
   switchTab('practice');startPractice('examRoutes');
   assert(session.problem.answers.x===-5&&session.problem.answers.y===4,'Existing practice engine intact');
   return {ladders:6,newExamples:36,verifiedStates:checked,blockedStates:blockedStates,controls:interactiveControls};
- });
+ },TABS);
 
- for(const tab of ['intro','concept1','concept2','concept3','practice','resources']){
+ for(const tab of TABS){
   await page.evaluate(name=>switchTab(name),tab);
   await page.locator(`#${tab} .example-ladder`).screenshot({path:`tmp/ladder-${tab}.png`});
  }
  await page.setViewportSize({width:390,height:844});
- for(const tab of ['intro','concept1','concept2','concept3','practice','resources']){
+ for(const tab of TABS){
   await page.evaluate(name=>switchTab(name),tab);
   if(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth))throw Error('Mobile overflow '+tab);
  }

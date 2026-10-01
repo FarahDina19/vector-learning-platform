@@ -18,7 +18,13 @@ const VectorExamples = (() => {
   const neg = value => (value < 0 ? `(${n(value)})` : n(value));
   // one shared rendering of a scalar multiple so prompt, diagram, readout and solution agree
   const term = (k, name) => (k === 1 ? name : k === -1 ? `−${name}` : `${n(k)}${name}`);
-  const combo = (p, q) => (q === 0 ? term(p, 'a') : `${term(p, 'a')} ${q < 0 ? '−' : '+'} ${term(Math.abs(q), 'b')}`);
+  const combo = (p, q) => {
+    const first = p === 0 ? '' : term(p, 'a');
+    if (q === 0) return first || '0';
+    const second = term(Math.abs(q), 'b');
+    if (!first) return q < 0 ? `−${second}` : second;
+    return `${first} ${q < 0 ? '−' : '+'} ${second}`;
+  };
   const degrees = (y, x) => ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
   const eq = (...lines) => lines.join('<br>');
   const steps = (...items) => `<ol>${items.map(item => `<li>${item}</li>`).join('')}</ol>`;
