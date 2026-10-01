@@ -16,10 +16,15 @@ const VectorExamples = (() => {
   const n = value => String(Number(Number(value).toFixed(4)));
   const vec = (x, y) => `${n(x)}i ${y < 0 ? '−' : '+'} ${n(Math.abs(y))}j`;
   const neg = value => (value < 0 ? `(${n(value)})` : n(value));
+  // one shared rendering of a scalar multiple so prompt, diagram, readout and solution agree
+  const term = (k, name) => (k === 1 ? name : k === -1 ? `−${name}` : `${n(k)}${name}`);
+  const combo = (p, q) => (q === 0 ? term(p, 'a') : `${term(p, 'a')} ${q < 0 ? '−' : '+'} ${term(Math.abs(q), 'b')}`);
   const degrees = (y, x) => ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
   const eq = (...lines) => lines.join('<br>');
   const steps = (...items) => `<ol>${items.map(item => `<li>${item}</li>`).join('')}</ol>`;
   const v = (ox, oy, dx, dy, color, label, dashed) => ({ ox, oy, dx, dy, color, label, dashed });
+  // a zero-length arrow has no direction, so it is dropped rather than drawn degenerately
+  const drawable = arrows => arrows.filter(arrow => arrow.dx !== 0 || arrow.dy !== 0);
   const slider = (key, label, min, max, step, value) => ({ key, label, kind: 'range', min, max, step, value });
   const chooser = (key, label, options, value) => ({ key, label, kind: 'select', options, value });
   const box = (key, label, dp = 0) => ({ key, label, dp });
@@ -140,7 +145,7 @@ const VectorExamples = (() => {
       title: 'Pendaraban skalar dan kesannya pada panjang',
       controls: [slider('k', 'Pengganda k', -3, 3, 0.5, 2), slider('x', 'Komponen i bagi v', -5, 5, 1, 2), slider('y', 'Komponen j bagi v', -5, 5, 1, 1)],
       prompt: st => `Diberi ${m('v = ' + vec(st.x, st.y))} dan ${m('k = ' + n(st.k))}. Cari komponen ${m('kv')} dan ${m('|kv|')} (2 t.p.).`,
-      visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'blue', 'v'), v(0, 0, st.k * st.x, st.k * st.y, 'green', 'kv')]),
+      visual: st => buildDiagramSVG(drawable([v(0, 0, st.x, st.y, 'blue', 'v'), v(0, 0, st.k * st.x, st.k * st.y, 'green', 'kv')])),
       readout: st => eq(`${m('kv = k(xi + yj) = kx i + ky j')}`, `${m('|kv| = |k| × |v|')}`),
       fields: () => [box('i', 'Komponen i bagi kv', 2), box('j', 'Komponen j bagi kv', 2), box('mag', 'Magnitud |kv| (2 t.p.)', 2)],
       answers: st => ({ i: st.k * st.x, j: st.k * st.y, mag: Math.abs(st.k) * Math.hypot(st.x, st.y) }),
@@ -151,7 +156,7 @@ const VectorExamples = (() => {
       title: 'Mengenal pasti jenis vektor',
       controls: [slider('k', 'Pengganda k bagi B = kA', -3, 3, 1, 2), slider('x', 'Komponen i bagi A', 1, 5, 1, 2), slider('y', 'Komponen j bagi A', 1, 5, 1, 1)],
       prompt: st => `Diberi ${m('A = ' + vec(st.x, st.y))} dan ${m('B = ' + n(st.k) + 'A')}. Apakah hubungan antara B dan A?`,
-      visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'blue', 'A'), v(0, 0, st.k * st.x, st.k * st.y, 'red', 'B')]),
+      visual: st => buildDiagramSVG(drawable([v(0, 0, st.x, st.y, 'blue', 'A'), v(0, 0, st.k * st.x, st.k * st.y, 'red', 'B')])),
       readout: st => eq(`${m('B = ' + vec(st.k * st.x, st.k * st.y))}`, 'Bandingkan panjang dan arah anak panah pada rajah.'),
       fields: () => [pick('rel', 'Hubungan B dengan A', [['sama', 'Vektor sama'], ['negatif', 'Vektor negatif'], ['selari', 'Selari dan sehala'], ['bertentangan', 'Selari tetapi bertentangan arah'], ['sifar', 'Vektor sifar (null)']])],
       answers: st => ({ rel: relation(st.k) }),
@@ -287,13 +292,13 @@ const VectorExamples = (() => {
     {
       title: 'Gabungan linear pA + qB',
       controls: [slider('p', 'Pekali p', -3, 3, 1, 2), slider('q', 'Pekali q', -3, 3, 1, 1)],
-      prompt: st => `Diberi ${m('a = 2i + 5j')} dan ${m('b = i − 4j')}. Cari ${m(st.p + 'a')} ${st.q < 0 ? '−' : '+'} ${m(Math.abs(st.q) + 'b')}.`,
-      visual: st => buildDiagramSVG([v(0, 0, 2 * st.p, 5 * st.p, 'blue', `${st.p}a`), v(2 * st.p, 5 * st.p, st.q, -4 * st.q, 'red', `${st.q}b`), v(0, 0, 2 * st.p + st.q, 5 * st.p - 4 * st.q, 'green', 'hasil')]),
-      readout: st => eq(`${m('' + st.p + 'a = ' + vec(2 * st.p, 5 * st.p))}`, `${m('' + st.q + 'b = ' + vec(st.q, -4 * st.q))}`),
+      prompt: st => `Diberi ${m('a = 2i + 5j')} dan ${m('b = i − 4j')}. Cari ${m(combo(st.p, st.q))}.`,
+      visual: st => buildDiagramSVG(drawable([v(0, 0, 2 * st.p, 5 * st.p, 'blue', term(st.p, 'a')), v(2 * st.p, 5 * st.p, st.q, -4 * st.q, 'red', term(st.q, 'b')), v(0, 0, 2 * st.p + st.q, 5 * st.p - 4 * st.q, 'green', 'hasil')])),
+      readout: st => eq(`${m(term(st.p, 'a') + ' = ' + vec(2 * st.p, 5 * st.p))}`, `${m(term(st.q, 'b') + ' = ' + vec(st.q, -4 * st.q))}`),
       fields: () => [box('i', 'Komponen i'), box('j', 'Komponen j')],
       answers: st => ({ i: 2 * st.p + st.q, j: 5 * st.p - 4 * st.q }),
       hint: () => 'Lakukan setiap pendaraban skalar dahulu, kemudian tambah kedua-dua hasil komponen demi komponen.',
-      solution: st => steps(`${m('' + st.p + 'a = ' + vec(2 * st.p, 5 * st.p))}`, `${m('' + st.q + 'b = ' + vec(st.q, -4 * st.q))}`, `Jumlah: ${m(vec(2 * st.p + st.q, 5 * st.p - 4 * st.q))}`)
+      solution: st => steps(`${m(term(st.p, 'a') + ' = ' + vec(2 * st.p, 5 * st.p))}`, `${m(term(st.q, 'b') + ' = ' + vec(st.q, -4 * st.q))}`, `Jumlah: ${m(vec(2 * st.p + st.q, 5 * st.p - 4 * st.q))}`)
     },
     {
       title: 'Magnitud dan arah vektor paduan',
@@ -556,7 +561,9 @@ const VectorExamples = (() => {
         </div>
       </div>`;
     const answerArea = card.querySelector('.ex-answer');
-    (spec.fields ? spec.fields({}) : []).forEach(field => {
+    const initialState = {};
+    (spec.controls || []).forEach(control => { initialState[control.key] = control.kind === 'select' ? control.value : Number(control.value); });
+    (spec.fields ? spec.fields(initialState) : []).forEach(field => {
       const fieldId = `${id}-a-${field.key}`;
       const label = document.createElement('label');
       label.setAttribute('for', fieldId);

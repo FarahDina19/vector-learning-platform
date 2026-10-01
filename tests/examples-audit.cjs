@@ -138,7 +138,7 @@ const {pathToFileURL}=require('url');const path=require('path');
   // the practice engine and its workbook categories still behave
   switchTab('practice');startPractice('examRoutes');
   assert(session.problem.answers.x===-5&&session.problem.answers.y===4,'Existing practice engine intact');
-  return {ladders:6,newExamples:36,verifiedStates:checked,blockedZeroVectorStates:blockedStates,controls:interactiveControls};
+  return {ladders:6,newExamples:36,verifiedStates:checked,blockedStates:blockedStates,controls:interactiveControls};
  });
 
  for(const tab of ['intro','concept1','concept2','concept3','practice','resources']){
