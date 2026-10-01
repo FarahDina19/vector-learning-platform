@@ -3,14 +3,14 @@ const VectorExamples = (() => {
   const m = VectorMath.math;
   const col = VectorMath.column;
   const LEVELS = [
-    { label: 'Mudah 1 · Easy 1', tier: 'easy' },
-    { label: 'Mudah 2 · Easy 2', tier: 'easy' },
-    { label: 'Mudah 3 · Easy 3', tier: 'easy' },
-    { label: 'Sederhana 4 · Medium 4', tier: 'medium' },
-    { label: 'Sederhana 5 · Medium 5', tier: 'medium' },
-    { label: 'Sederhana 6 · Medium 6', tier: 'medium' },
-    { label: 'Sukar 7 · Hard 7', tier: 'hard' },
-    { label: 'Sukar 8 · Hard 8', tier: 'hard' }
+    { label: 'Easy 1', tier: 'easy' },
+    { label: 'Easy 2', tier: 'easy' },
+    { label: 'Easy 3', tier: 'easy' },
+    { label: 'Medium 4', tier: 'medium' },
+    { label: 'Medium 5', tier: 'medium' },
+    { label: 'Medium 6', tier: 'medium' },
+    { label: 'Hard 7', tier: 'hard' },
+    { label: 'Hard 8', tier: 'hard' }
   ];
   const XP = { easy: 5, medium: 10, hard: 15 };
   const solved = new Set();
@@ -40,214 +40,214 @@ const VectorExamples = (() => {
 
   /* ---------- Area 1: Intro — everyday quantities and applications ---------- */
   const QUANTITIES = [
-    ['Jarak 5 km', '5 km', 'skalar', 'hanya panjang laluan diberi, tiada arah'],
-    ['Halaju 20 m/s ke Utara', '20 m/s', 'vektor', 'arah "ke Utara" dinyatakan bersama magnitud'],
-    ['Jisim 3 kg', '3 kg', 'skalar', 'jisim tidak mempunyai arah'],
-    ['Daya 10 N ke bawah', '10 N', 'vektor', 'arah "ke bawah" dinyatakan bersama magnitud'],
-    ['Laju 60 km/j', '60 km/j', 'skalar', 'laju ialah magnitud halaju sahaja'],
-    ['Sesaran 4 m ke Timur', '4 m', 'vektor', 'sesaran sentiasa membawa arah']
+    ['Distance of 5 km', '5 km', 'scalar', 'only the length is given, no direction'],
+    ['Velocity of 20 m/s towards North', '20 m/s', 'vector', 'direction "towards North" is stated with the magnitude'],
+    ['Mass of 3 kg', '3 kg', 'scalar', 'mass does not have a direction'],
+    ['Force of 10 N downward', '10 N', 'vector', 'direction "downward" is stated with the magnitude'],
+    ['Speed of 60 km/h', '60 km/h', 'scalar', 'speed is only the magnitude of velocity'],
+    ['Displacement of 4 m towards East', '4 m', 'vector', 'displacement always includes direction']
   ];
 
   const introExamples = [
     {
-      title: 'Skalar atau vektor?',
-      controls: [chooser('q', 'Pilih kuantiti', QUANTITIES.map((item, index) => [index, item[0]]), 0)],
-      prompt: st => `Kuantiti dipilih: <strong>${QUANTITIES[st.q][0]}</strong>. Klasifikasikan kuantiti ini.`,
-      readout: st => eq(`Magnitud: <strong>${QUANTITIES[st.q][1]}</strong>`, 'Soalan semakan: adakah ayat kuantiti menyatakan satu arah?'),
-      fields: () => [pick('type', 'Jenis kuantiti', [['skalar', 'Skalar'], ['vektor', 'Vektor']])],
+      title: 'Scalar or Vector?',
+      controls: [chooser('q', 'Choose a quantity', QUANTITIES.map((item, index) => [index, item[0]]), 0)],
+      prompt: st => `Selected quantity: <strong>${QUANTITIES[st.q][0]}</strong>. Is this a scalar or a vector?`,
+      readout: st => eq(`Size/Amount: <strong>${QUANTITIES[st.q][1]}</strong>`, 'Check: Does the description tell us a direction? (like "North", "downward", "East")'),
+      fields: () => [pick('type', 'Type of quantity', [['scalar', 'Scalar (size/amount only)'], ['vector', 'Vector (size AND direction)']])],
       answers: st => ({ type: QUANTITIES[st.q][2] }),
-      hint: () => 'Skalar = magnitud sahaja. Vektor = magnitud <em>dan</em> arah. Cari perkataan arah seperti "ke Utara", "ke bawah" atau "ke Timur".',
-      solution: st => `${QUANTITIES[st.q][0]} ialah <strong>${QUANTITIES[st.q][2]}</strong> kerana ${QUANTITIES[st.q][3]}.`
+      hint: () => '<strong>Scalar</strong> = just the size/amount (like 5 km). <strong>Vector</strong> = size AND direction (like 5 km North). Look for direction words: "North", "East", "downward", "upward".',
+      solution: st => `${QUANTITIES[st.q][0]} is a <strong>${QUANTITIES[st.q][2]}</strong> because ${QUANTITIES[st.q][3]}.`
     },
     {
-      title: 'Magnitud sesaran dua langkah serenjang',
-      controls: [slider('e', 'Langkah ke Timur (km)', 1, 8, 1, 3), slider('u', 'Langkah ke Utara (km)', 1, 8, 1, 4)],
-      prompt: st => `Satu perjalanan ${st.e} km ke Timur diikuti ${st.u} km ke Utara. Cari magnitud sesaran, betul kepada 2 tempat perpuluhan.`,
-      visual: st => buildDiagramSVG([v(0, 0, st.e, 0, 'blue', `${st.e}i`), v(st.e, 0, 0, st.u, 'red', `${st.u}j`), v(0, 0, st.e, st.u, 'green', 's')]),
-      readout: st => eq(`${m('s')} = ${m(vec(st.e, st.u))} km`, `Formula: ${m('|s| = √(x² + y²)')}`),
-      fields: () => [box('mag', 'Magnitud |s| (km, 2 t.p.)', 2)],
+      title: 'Magnitude of Displacement: Two Perpendicular Steps',
+      controls: [slider('e', 'Steps East (km)', 1, 8, 1, 3), slider('u', 'Steps North (km)', 1, 8, 1, 4)],
+      prompt: st => `You walk ${st.e} km EAST, then ${st.u} km NORTH. What is your straight-line displacement (distance from start)? Round to 2 decimal places.`,
+      visual: st => buildDiagramSVG([v(0, 0, st.e, 0, 'blue', `${st.e} East`), v(st.e, 0, 0, st.u, 'red', `${st.u} North`), v(0, 0, st.e, st.u, 'green', 'Displacement')]),
+      readout: st => eq(`Your path forms a RIGHT ANGLE (90°)`, `You can use Pythagorean Theorem: ${m('Displacement = √(East² + North²) = √(' + st.e + '² + ' + st.u + '²)')}`),
+      fields: () => [box('mag', 'Displacement magnitude (km, 2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.e, st.u) }),
-      hint: () => 'Kedua-dua langkah bersudut tepat, jadi gunakan teorem Pythagoras pada komponen i dan j.',
-      solution: st => steps(`${m('s = ' + vec(st.e, st.u))} km`, `${m('|s| = √(' + st.e + '² + ' + st.u + '²)')}`, `${m('|s| = √' + (st.e * st.e + st.u * st.u) + ' ≈ ' + Math.hypot(st.e, st.u).toFixed(2))} km`)
+      hint: () => 'Your two paths meet at a RIGHT ANGLE. Use the Pythagorean Theorem: √(x² + y²) where x = East distance, y = North distance.',
+      solution: st => steps(`Your path: ${st.e} km East and ${st.u} km North`, `${m('Displacement = √(' + st.e + '² + ' + st.u + '²)')}`, `${m('= √' + (st.e * st.e + st.u * st.u))} = ${m('√' + (st.e * st.e + st.u * st.u) + ' ≈ ' + Math.hypot(st.e, st.u).toFixed(2)))} km`, `Your straight-line distance from start = <strong>${Math.hypot(st.e, st.u).toFixed(2)} km</strong>`)
     },
     {
-      title: 'Jarak berbeza daripada sesaran',
-      controls: [slider('f', 'Ke Timur (m)', 1, 9, 1, 4), slider('b', 'Kemudian ke Barat (m)', 1, 9, 1, 3)],
-      prompt: st => `Sebuah troli bergerak ${st.f} m ke Timur, kemudian ${st.b} m ke Barat. Cari jumlah jarak dan komponen i bagi sesaran akhir.`,
-      visual: st => buildDiagramSVG([v(0, 0, st.f, 0, 'blue', `${st.f} Timur`), v(st.f, 1, -st.b, 0, 'red', `${st.b} Barat`), v(0, -1, st.f - st.b, 0, 'green', 'sesaran')]),
-      readout: st => eq('Jarak menjumlahkan setiap panjang laluan.', 'Sesaran hanya bergantung pada titik mula dan titik akhir.'),
-      fields: () => [box('dist', 'Jumlah jarak (m)'), box('disp', 'Komponen i sesaran (m)')],
+      title: 'Distance vs Displacement: What\'s the Difference?',
+      controls: [slider('f', 'Move EAST (m)', 1, 9, 1, 4), slider('b', 'Then move WEST (m)', 1, 9, 1, 3)],
+      prompt: st => `A cart moves ${st.f} m EAST, then ${st.b} m WEST. Find: (1) Total distance traveled, (2) Displacement component (East-West position).`,
+      visual: st => buildDiagramSVG([v(0, 0, st.f, 0, 'blue', `${st.f} m East`), v(st.f, 1, -st.b, 0, 'red', `${st.b} m West`), v(0, -1, st.f - st.b, 0, 'green', `Net displacement: ${st.f - st.b} m`)]),
+      readout: st => eq(`<strong>Distance</strong> = add ALL path lengths (scalar - no direction)`, `<strong>Displacement</strong> = straight line from START to END (vector - has direction)`),
+      fields: () => [box('dist', 'Total distance walked (m)'), box('disp', 'Final position (East = +, West = −, in m)')],
       answers: st => ({ dist: st.f + st.b, disp: st.f - st.b }),
-      hint: () => 'Jarak ialah skalar, jadi kedua-dua langkah ditambah. Sesaran ialah vektor, jadi gerakan ke Barat adalah negatif.',
-      solution: st => steps(`Jarak = ${st.f} + ${st.b} = <strong>${st.f + st.b}</strong> m`, `Sesaran = ${m('' + st.f + 'i − ' + st.b + 'i')} = ${m(st.f - st.b + 'i')} m`, `Komponen i = <strong>${st.f - st.b}</strong>`)
+      hint: () => '<strong>Think of it this way:</strong> Distance = "How much walking did you do?" (add all steps). Displacement = "How far from home are you?" (only start and end positions matter).',
+      solution: st => steps(`Total distance = ${st.f} + ${st.b} = <strong>${st.f + st.b}</strong> m (you walked this far)`, `Displacement = ${st.f} East − ${st.b} West = <strong>${st.f - st.b}</strong> m (you are ${st.f - st.b} m East of start)`, `<strong>Key difference:</strong> Distance is always positive. Displacement can be positive or negative.`)
     },
     {
-      title: 'Pesawat dan angin: halaju paduan',
-      controls: [slider('p', 'Halaju pesawat ke Utara (km/j)', 100, 400, 50, 300), slider('w', 'Halaju angin ke Timur (km/j)', 10, 150, 10, 50)],
-      prompt: st => `Pesawat terbang ${st.p} km/j ke Utara sementara angin bertiup ${st.w} km/j ke Timur. Cari laju paduan (2 t.p.) dan sudut sisihan dari Utara (darjah, 2 t.p.).`,
-      visual: st => buildDiagramSVG([v(0, 0, 0, st.p, 'blue', 'pesawat'), v(0, st.p, st.w, 0, 'red', 'angin'), v(0, 0, st.w, st.p, 'green', 'paduan')]),
-      readout: st => eq(`Paduan = ${m(vec(st.w, st.p))} km/j`, `Laju: ${m('|R| = √(x² + y²)')}`, `Sudut dari Utara: ${m('θ = atan2(x, y)')}`),
-      fields: () => [box('mag', 'Laju paduan (km/j, 2 t.p.)', 2), box('ang', 'Sudut dari Utara (°, 2 t.p.)', 2)],
+      title: 'Real-World Application: Airplane with Wind (Resultant Velocity)',
+      controls: [slider('p', 'Airplane velocity North (km/h)', 100, 400, 50, 300), slider('w', 'Wind velocity East (km/h)', 10, 150, 10, 50)],
+      prompt: st => `An airplane flies at ${st.p} km/h NORTH. The wind pushes it at ${st.w} km/h EAST. What is the actual velocity (speed + direction) of the airplane? Give speed to 2 d.p. and direction angle in degrees.`,
+      visual: st => buildDiagramSVG([v(0, 0, 0, st.p, 'blue', 'Airplane velocity (North)'), v(0, st.p, st.w, 0, 'red', 'Wind (East)'), v(0, 0, st.w, st.p, 'green', 'Actual velocity')]),
+      readout: st => eq(`The airplane's ACTUAL path = ${m(vec(st.w, st.p))} km/h`, `Speed = ${m('√(' + st.w + '² + ' + st.p + '²)')}`, `Direction = angle from North`),
+      fields: () => [box('mag', 'Actual speed (km/h, 2 d.p.)', 2), box('ang', 'Direction from North (degrees, 2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.w, st.p), ang: (Math.atan2(st.w, st.p) * 180) / Math.PI }),
-      hint: () => 'Komponen Utara ialah j dan komponen Timur ialah i. Sudut dari Utara diukur dari paksi j, jadi gunakan tan θ = (komponen Timur) / (komponen Utara).',
-      solution: st => steps(`${m('R = ' + vec(st.w, st.p))} km/j`, `${m('|R| = √(' + st.w + '² + ' + st.p + '²) ≈ ' + Math.hypot(st.w, st.p).toFixed(2))} km/j`, `${m('θ = atan2(' + st.w + ', ' + st.p + ') ≈ ' + ((Math.atan2(st.w, st.p) * 180) / Math.PI).toFixed(2))}°`)
+      hint: () => 'The North component is the vertical part (j), the East component is the horizontal part (i). Use: angle from North = atan2(East component, North component).',
+      solution: st => steps(`Resultant velocity = ${m(vec(st.w, st.p))} km/h`, `Speed = ${m('√(' + st.w + '² + ' + st.p + '²) ≈ ' + Math.hypot(st.w, st.p).toFixed(2))} km/h`, `Direction from North = ${m('atan2(' + st.w + ', ' + st.p + ') ≈ ' + ((Math.atan2(st.w, st.p) * 180) / Math.PI).toFixed(2))}°`)
     },
     {
-      title: 'Dua daya pada hook dan daya pengimbang',
-      controls: [slider('a', 'Daya 1 ke Timur (N)', 100, 1000, 100, 800), slider('b', 'Daya 2 ke Utara (N)', 100, 1000, 100, 600)],
-      prompt: st => `Dua kabel serenjang menarik satu hook dengan ${st.a} N ke Timur dan ${st.b} N ke Utara. Cari magnitud daya paduan (2 t.p.) dan komponen daya pengimbang yang menjadikan jumlah daya sifar.`,
-      visual: st => buildDiagramSVG([v(0, 0, st.a, 0, 'blue', 'F₁'), v(0, 0, 0, st.b, 'red', 'F₂'), v(0, 0, st.a, st.b, 'green', 'R'), v(0, 0, -st.a, -st.b, 'purple', 'E', true)]),
-      readout: st => eq(`${m('F₁ = ' + st.a + 'i')} N, ${m('F₂ = ' + st.b + 'j')} N`, `Syarat keseimbangan: ${m('F₁ + F₂ + E = zero')}`),
-      fields: () => [box('mag', 'Magnitud paduan (N, 2 t.p.)', 2), box('ei', 'Komponen i pengimbang (N)'), box('ej', 'Komponen j pengimbang (N)')],
+      title: 'Two Perpendicular Forces on a Hook and Equilibrium (Balance)',
+      controls: [slider('a', 'Force 1 pulling EAST (N)', 100, 1000, 100, 800), slider('b', 'Force 2 pulling NORTH (N)', 100, 1000, 100, 600)],
+      prompt: st => `Two cables pull on a hook: ${st.a} N EAST and ${st.b} N NORTH. Find: (1) Resultant force magnitude (2 d.p.), (2) The equilibrium force (balancing force) needed to keep hook stationary.`,
+      visual: st => buildDiagramSVG([v(0, 0, st.a, 0, 'blue', 'Force 1 →'), v(0, 0, 0, st.b, 'red', 'Force 2 ↑'), v(0, 0, st.a, st.b, 'green', 'Resultant'), v(0, 0, -st.a, -st.b, 'purple', 'Balance (opposite)', true)]),
+      readout: st => eq(`<strong>Force 1:</strong> ${m('' + st.a + 'i')} N, <strong>Force 2:</strong> ${m('' + st.b + 'j')} N`, `<strong>For equilibrium:</strong> Force 1 + Force 2 + Balance Force = 0`),
+      fields: () => [box('mag', 'Resultant magnitude (N, 2 d.p.)', 2), box('ei', 'East component of balance force (N)'), box('ej', 'North component of balance force (N)')],
       answers: st => ({ mag: Math.hypot(st.a, st.b), ei: -st.a, ej: -st.b }),
-      hint: () => 'Cari paduan dahulu. Daya pengimbang ialah negatif bagi paduan, jadi kedua-dua komponennya bertukar tanda.',
-      solution: st => steps(`${m('R = ' + vec(st.a, st.b))} N`, `${m('|R| = √(' + st.a + '² + ' + st.b + '²) ≈ ' + Math.hypot(st.a, st.b).toFixed(2))} N`, `${m('E = −R = ' + vec(-st.a, -st.b))} N`)
+      hint: () => 'Step 1: Find the resultant (total) force. Step 2: The balance force is the OPPOSITE direction, so both components change sign (positive becomes negative).',
+      solution: st => steps(`Resultant = ${m(vec(st.a, st.b))} N`, `Magnitude = ${m('√(' + st.a + '² + ' + st.b + '²) ≈ ' + Math.hypot(st.a, st.b).toFixed(2))} N`, `Balance Force = −Resultant = ${m(vec(-st.a, -st.b))} N`, `This opposite force keeps the hook from moving.`)
     },
     {
-      title: 'Objek permainan selepas beberapa bingkai',
-      controls: [slider('vx', 'Halaju vx (unit/bingkai)', -5, 5, 1, 2), slider('vy', 'Halaju vy (unit/bingkai)', -5, 5, 1, 3), slider('t', 'Bilangan bingkai', 1, 8, 1, 4)],
-      prompt: st => `Kedudukan awal objek ialah ${m('(2, 1)')}. Setiap bingkai, halaju ${m(vec(st.vx, st.vy))} ditambah kepada kedudukan. Cari kedudukan selepas ${st.t} bingkai dan jaraknya dari asalan (2 t.p.).`,
-      visual: st => buildDiagramSVG([v(0, 0, 2, 1, 'blue', 'p₀'), v(2, 1, st.vx * st.t, st.vy * st.t, 'red', `${st.t}v`), v(0, 0, 2 + st.vx * st.t, 1 + st.vy * st.t, 'green', 'p')]),
-      readout: st => eq('Kedudukan akhir = kedudukan awal + (bilangan bingkai × halaju).', `Awal: ${m(vec(2, 1))} · Halaju: ${m(vec(st.vx, st.vy))} · Bingkai: ${st.t}`),
-      fields: () => [box('x', 'Kedudukan x'), box('y', 'Kedudukan y'), box('d', 'Jarak dari asalan (2 t.p.)', 2)],
+      title: 'Game Object Position After Several Time Steps',
+      controls: [slider('vx', 'Velocity in horizontal direction (units/frame)', -5, 5, 1, 2), slider('vy', 'Velocity in vertical direction (units/frame)', -5, 5, 1, 3), slider('t', 'Number of time steps (frames)', 1, 8, 1, 4)],
+      prompt: st => `A game object starts at position ${m('(2, 1)')}. Each frame, it moves by velocity ${m(vec(st.vx, st.vy))}. Where is it after ${st.t} frames? Find final position and distance from origin (2 d.p.).`,
+      visual: st => buildDiagramSVG([v(0, 0, 2, 1, 'blue', 'Start (2, 1)'), v(2, 1, st.vx * st.t, st.vy * st.t, 'red', `Movement ${st.t} times`), v(0, 0, 2 + st.vx * st.t, 1 + st.vy * st.t, 'green', 'Final position')]),
+      readout: st => eq(`<strong>Formula:</strong> Final position = Start + (number of frames × velocity)`, `Start: ${m(vec(2, 1))} · Velocity per frame: ${m(vec(st.vx, st.vy))} · Frames: ${st.t}`),
+      fields: () => [box('x', 'Final x position'), box('y', 'Final y position'), box('d', 'Distance from origin (2 d.p.)', 2)],
       answers: st => ({ x: 2 + st.vx * st.t, y: 1 + st.vy * st.t, d: Math.hypot(2 + st.vx * st.t, 1 + st.vy * st.t) }),
-      hint: () => 'Darab halaju dengan bilangan bingkai terlebih dahulu, kemudian tambah kepada kedudukan awal komponen demi komponen.',
-      solution: st => steps(`${m(st.t + 'v = ' + vec(st.vx * st.t, st.vy * st.t))}`, `${m('p = ' + vec(2, 1) + ' + ' + '(' + vec(st.vx * st.t, st.vy * st.t) + ')')} = ${m(vec(2 + st.vx * st.t, 1 + st.vy * st.t))}`, `${m('|p| = √(' + neg(2 + st.vx * st.t) + '² + ' + neg(1 + st.vy * st.t) + '²) ≈ ' + Math.hypot(2 + st.vx * st.t, 1 + st.vy * st.t).toFixed(2))}`)
+      hint: () => 'Step 1: Multiply velocity by number of frames. Step 2: Add this to starting position. Step 3: Use distance formula to find how far from origin.',
+      solution: st => steps(`Velocity × Frames = ${m(vec(st.vx, st.t))} × ${st.t} = ${m(vec(st.vx * st.t, st.vy * st.t))}`, `Final position = ${m(vec(2, 1))} + ${m(vec(st.vx * st.t, st.vy * st.t))} = ${m(vec(2 + st.vx * st.t, 1 + st.vy * st.t))}`, `Distance from origin = ${m('√(' + neg(2 + st.vx * st.t) + '² + ' + neg(1 + st.vy * st.t) + '²) ≈ ' + Math.hypot(2 + st.vx * st.t, 1 + st.vy * st.t).toFixed(2))}`)`
     },
     {
-      title: 'Robot bergerak dalam koordinat 3D (x, y, z)',
-      controls: [slider('x', 'Jarak ke Timur (m)', 1, 8, 1, 3), slider('y', 'Jarak ke Utara (m)', 1, 8, 1, 4), slider('z', 'Jarak ke atas (m)', 1, 6, 1, 2)],
-      prompt: st => `Robot bergerak ${st.x} m ke Timur, ${st.y} m ke Utara, dan ${st.z} m ke atas. Cari jarak keseluruhan dari titik mula (2 t.p.).`,
-      visual: st => buildDiagramSVG([v(0, 0, st.x, 0, 'blue', `${st.x}i`), v(st.x, 0, 0, st.y, 'red', `${st.y}j`), v(0, 0, st.x, st.y, 'green', 'paduan 2D')]),
-      readout: st => eq(`Pergerakan 3D: ${m(vec(st.x, st.y))} + ${st.z}k`, `Magnitud: ${m('√(x² + y² + z²)')}`, `Ini ialah sambungan kepada 2D; konsep kesamaan terus digunakan.`),
-      fields: () => [box('mag', 'Jarak keseluruhan (2 t.p.)', 2)],
+      title: 'Robot Movement in 3D Space (Extension to 2D)',
+      controls: [slider('x', 'Distance EAST (m)', 1, 8, 1, 3), slider('y', 'Distance NORTH (m)', 1, 8, 1, 4), slider('z', 'Distance UP (m)', 1, 6, 1, 2)],
+      prompt: st => `A robot moves ${st.x} m EAST, ${st.y} m NORTH, and ${st.z} m UP. Find the total straight-line distance from start (2 d.p.).`,
+      visual: st => buildDiagramSVG([v(0, 0, st.x, 0, 'blue', `${st.x}i`), v(st.x, 0, 0, st.y, 'red', `${st.y}j`), v(0, 0, st.x, st.y, 'green', '2D path')]),
+      readout: st => eq(`3D Movement: ${m(vec(st.x, st.y))} + ${st.z}k`, `Magnitude: ${m('√(x² + y² + z²)')}`, `This extends 2D concepts: same ideas work for 3D!`),
+      fields: () => [box('mag', 'Total distance (2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.x, st.y, st.z) }),
-      hint: () => 'Teorem Pythagoras 3D: tambah kuasa dua semua tiga komponen, kemudian ambil punca kuasa dua.',
+      hint: () => '3D Pythagorean Theorem: Square all three components, add them, then take the square root.',
       solution: st => `${m('|r| = √(' + st.x + '² + ' + st.y + '² + ' + st.z + '²) = √' + (st.x * st.x + st.y * st.y + st.z * st.z) + ' ≈ ' + Math.hypot(st.x, st.y, st.z).toFixed(2))} m`
     },
     {
-      title: 'Pengimbangan daya dalam tiga arah berbeza',
-      controls: [slider('fx', 'Daya Timur (N)', 100, 800, 50, 300), slider('fy', 'Daya Utara (N)', 100, 800, 50, 400), slider('fz', 'Daya ke atas (N)', 100, 800, 50, 250)],
-      prompt: st => `Tiga kabel menarik objek dengan ${st.fx} N ke Timur, ${st.fy} N ke Utara, dan ${st.fz} N ke atas. Cari magnitud daya paduan dan daya pengimbang yang diperlukan (2 t.p.).`,
-      visual: st => buildDiagramSVG([v(0, 0, st.fx, 0, 'blue', 'Fx'), v(0, 0, 0, st.fy, 'red', 'Fy'), v(0, 0, st.fx, st.fy, 'green', 'Paduan 2D')]),
-      readout: st => eq(`Paduan: ${m(vec(st.fx, st.fy))} + ${st.fz}k N`, `Keseimbangan: ${m('F₁ + F₂ + F₃ + E = zero')}`, `Daya pengimbang ialah negatif bagi paduan.`),
-      fields: () => [box('mag', 'Magnitud paduan (N, 2 t.p.)', 2), box('ei', 'Komponen i daya pengimbang (N)'), box('ej', 'Komponen j daya pengimbang (N)'), box('ek', 'Komponen k daya pengimbang (N)')],
+      title: 'Force Balancing in Three Directions (3D Extension)',
+      controls: [slider('fx', 'Force EAST (N)', 100, 800, 50, 300), slider('fy', 'Force NORTH (N)', 100, 800, 50, 400), slider('fz', 'Force UP (N)', 100, 800, 50, 250)],
+      prompt: st => `Three cables pull on an object: ${st.fx} N EAST, ${st.fy} N NORTH, and ${st.fz} N UP. Find: (1) Resultant force magnitude (2 d.p.), (2) The balancing force needed (in all three directions).`,
+      visual: st => buildDiagramSVG([v(0, 0, st.fx, 0, 'blue', 'Fx'), v(0, 0, 0, st.fy, 'red', 'Fy'), v(0, 0, st.fx, st.fy, 'green', '2D resultant')]),
+      readout: st => eq(`Resultant: ${m(vec(st.fx, st.fy))} + ${st.fz}k N`, `For equilibrium: ${m('F₁ + F₂ + F₃ + Balance = zero')}`, `Balance force is OPPOSITE to resultant (all components change sign).`),
+      fields: () => [box('mag', 'Resultant magnitude (N, 2 d.p.)', 2), box('ei', 'East component of balance force (N)'), box('ej', 'North component of balance force (N)'), box('ek', 'Up component of balance force (N)')],
       answers: st => ({ mag: Math.hypot(st.fx, st.fy, st.fz), ei: -st.fx, ej: -st.fy, ek: -st.fz }),
-      hint: () => 'Magnitud paduan menggunakan teorem Pythagoras 3D. Daya pengimbang mempunyai tanda bertentangan untuk setiap komponen.',
-      solution: st => steps(`${m('R = ' + vec(st.fx, st.fy) + ' + ' + st.fz + 'k')} N`, `${m('|R| = √(' + st.fx + '² + ' + st.fy + '² + ' + st.fz + '²) ≈ ' + Math.hypot(st.fx, st.fy, st.fz).toFixed(2))} N`, `${m('E = ' + vec(-st.fx, -st.fy) + ' − ' + st.fz + 'k')} N`)
+      hint: () => 'Step 1: Use 3D Pythagorean Theorem for magnitude. Step 2: Balance force is the OPPOSITE of resultant, so change the sign of every component.',
+      solution: st => steps(`${m('R = ' + vec(st.fx, st.fy) + ' + ' + st.fz + 'k')} N`, `${m('|R| = √(' + st.fx + '² + ' + st.fy + '² + ' + st.fz + '²) ≈ ' + Math.hypot(st.fx, st.fy, st.fz).toFixed(2))} N`, `${m('Balance = ' + vec(-st.fx, -st.fy) + ' − ' + st.fz + 'k')} N`)
     }
   ];
 
   /* ---------- Area 2: 5.1 Scalar vs vector, vector types, scalar multiplication ---------- */
-  const relation = k => (k === 0 ? 'sifar' : k === 1 ? 'sama' : k === -1 ? 'negatif' : k > 0 ? 'selari' : 'bertentangan');
+  const relation = k => (k === 0 ? 'zero' : k === 1 ? 'same' : k === -1 ? 'negative' : k > 0 ? 'parallel' : 'opposite');
   const RELATION_TEXT = {
-    sifar: 'vektor sifar (null), kerana setiap komponen menjadi 0',
-    sama: 'vektor yang sama dengan A, kerana magnitud dan arah tidak berubah',
-    negatif: 'negatif bagi A, kerana magnitud kekal tetapi arah berbalik',
-    selari: 'selari dengan A dan sehala, kerana k positif',
-    bertentangan: 'selari dengan A tetapi bertentangan arah, kerana k negatif'
+    zero: 'zero vector (null vector), because every component becomes 0',
+    same: 'the same vector as A, because magnitude and direction do not change',
+    negative: 'negative of A, because magnitude stays the same but direction is reversed',
+    parallel: 'parallel to A and in the same direction, because k is positive',
+    opposite: 'parallel to A but in the opposite direction, because k is negative'
   };
 
   const scalarExamples = [
     {
-      title: 'Vektor negatif',
-      controls: [slider('x', 'Komponen i bagi A', -6, 6, 1, 3), slider('y', 'Komponen j bagi A', -6, 6, 1, 2)],
-      prompt: st => `Diberi ${m('A = ' + vec(st.x, st.y))}. Nyatakan komponen bagi ${m('−A')}.`,
+      title: 'Negative Vector',
+      controls: [slider('x', 'i-component of A', -6, 6, 1, 3), slider('y', 'j-component of A', -6, 6, 1, 2)],
+      prompt: st => `Given ${m('A = ' + vec(st.x, st.y))}. Find the components of ${m('−A')}.`,
       visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'blue', 'A'), v(0, 0, -st.x, -st.y, 'red', '−A')]),
-      readout: st => eq(`${m('A = ' + vec(st.x, st.y))}`, 'Negatif sesuatu vektor mempunyai panjang yang sama tetapi arah bertentangan.'),
-      fields: () => [box('i', 'Komponen i'), box('j', 'Komponen j')],
+      readout: st => eq(`${m('A = ' + vec(st.x, st.y))}`, 'The negative of a vector has the SAME LENGTH but OPPOSITE DIRECTION.'),
+      fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: -st.x, j: -st.y }),
-      hint: () => 'Tukar tanda kedua-dua komponen. Komponen negatif menjadi positif.',
+      hint: () => 'Change the sign of BOTH components. Negative becomes positive, positive becomes negative.',
       solution: st => `${m('−A = −(' + vec(st.x, st.y) + ') = ' + vec(-st.x, -st.y))}`
     },
     {
-      title: 'Magnitud sesuatu vektor',
-      controls: [slider('x', 'Komponen i', -8, 8, 1, 6), slider('y', 'Komponen j', -8, 8, 1, -8)],
-      prompt: st => `Diberi ${m('v = ' + vec(st.x, st.y))}. Cari ${m('|v|')} betul kepada 2 tempat perpuluhan.`,
+      title: 'Magnitude of a Vector',
+      controls: [slider('x', 'i-component', -8, 8, 1, 6), slider('y', 'j-component', -8, 8, 1, -8)],
+      prompt: st => `Given ${m('v = ' + vec(st.x, st.y))}. Find ${m('|v|')} (magnitude) to 2 decimal places.`,
       visual: st => buildDiagramSVG([v(0, 0, st.x, 0, 'blue', `${st.x}i`), v(st.x, 0, 0, st.y, 'red', `${st.y}j`), v(0, 0, st.x, st.y, 'green', 'v')]),
-      readout: st => eq(`${m('|v| = √(x² + y²)')}`, `x = ${st.x}, y = ${st.y}`),
-      fields: () => [box('mag', 'Magnitud (2 t.p.)', 2)],
+      readout: st => eq(`${m('|v| = √(x² + y²)')}`, `This is the Pythagorean Theorem applied to vectors`),
+      fields: () => [box('mag', 'Magnitude (2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.x, st.y) }),
-      hint: () => 'Kuasa dua sesuatu nombor negatif adalah positif, jadi tanda tidak menjejaskan magnitud.',
+      hint: () => 'Squaring a negative number gives a positive result, so negative signs do not affect magnitude. √16 = 4, and √16 from (−4)² = 4 too!',
       solution: st => `${m('|v| = √(' + neg(st.x) + '² + ' + neg(st.y) + '²) = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(2))}`
     },
     {
-      title: 'Pendaraban skalar dan kesannya pada panjang',
-      controls: [slider('k', 'Pengganda k', -3, 3, 0.5, 2), slider('x', 'Komponen i bagi v', -5, 5, 1, 2), slider('y', 'Komponen j bagi v', -5, 5, 1, 1)],
-      prompt: st => `Diberi ${m('v = ' + vec(st.x, st.y))} dan ${m('k = ' + n(st.k))}. Cari komponen ${m('kv')} dan ${m('|kv|')} (2 t.p.).`,
+      title: 'Scalar Multiplication and Effect on Length',
+      controls: [slider('k', 'Scalar multiplier k', -3, 3, 0.5, 2), slider('x', 'i-component of v', -5, 5, 1, 2), slider('y', 'j-component of v', -5, 5, 1, 1)],
+      prompt: st => `Given ${m('v = ' + vec(st.x, st.y))} and ${m('k = ' + n(st.k))}. Find the components of ${m('kv')} and its magnitude ${m('|kv|')} (2 d.p.).`,
       visual: st => buildDiagramSVG(drawable([v(0, 0, st.x, st.y, 'blue', 'v'), v(0, 0, st.k * st.x, st.k * st.y, 'green', 'kv')])),
-      readout: st => eq(`${m('kv = k(xi + yj) = kx i + ky j')}`, `${m('|kv| = |k| × |v|')}`),
-      fields: () => [box('i', 'Komponen i bagi kv', 2), box('j', 'Komponen j bagi kv', 2), box('mag', 'Magnitud |kv| (2 t.p.)', 2)],
+      readout: st => eq(`${m('kv = k(xi + yj) = kx i + ky j')}`, `${m('|kv| = |k| × |v|')}`, `Note: magnitudes are always ≥ 0`),
+      fields: () => [box('i', 'i-component of kv', 2), box('j', 'j-component of kv', 2), box('mag', 'Magnitude |kv| (2 d.p.)', 2)],
       answers: st => ({ i: st.k * st.x, j: st.k * st.y, mag: Math.abs(st.k) * Math.hypot(st.x, st.y) }),
-      hint: () => 'Darab setiap komponen dengan k. Magnitud didarab dengan |k| sahaja, jadi ia tidak pernah negatif.',
+      hint: () => 'Multiply EACH component by k. For magnitude, use |k| (absolute value), which is always positive, so |kv| is never negative.',
       solution: st => steps(`${m('kv = ' + vec(st.k * st.x, st.k * st.y))}`, `${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(4))}`, `${m('|kv| = |' + n(st.k) + '| × |v| ≈ ' + (Math.abs(st.k) * Math.hypot(st.x, st.y)).toFixed(2))}`)
     },
     {
-      title: 'Mengenal pasti jenis vektor',
-      controls: [slider('k', 'Pengganda k bagi B = kA', -3, 3, 1, 2), slider('x', 'Komponen i bagi A', 1, 5, 1, 2), slider('y', 'Komponen j bagi A', 1, 5, 1, 1)],
-      prompt: st => `Diberi ${m('A = ' + vec(st.x, st.y))} dan ${m('B = ' + n(st.k) + 'A')}. Apakah hubungan antara B dan A?`,
+      title: 'Identifying Vector Relationships',
+      controls: [slider('k', 'Scalar multiplier k (for B = kA)', -3, 3, 1, 2), slider('x', 'i-component of A', 1, 5, 1, 2), slider('y', 'j-component of A', 1, 5, 1, 1)],
+      prompt: st => `Given ${m('A = ' + vec(st.x, st.y))} and ${m('B = ' + n(st.k) + 'A')}. What is the relationship between B and A?`,
       visual: st => buildDiagramSVG(drawable([v(0, 0, st.x, st.y, 'blue', 'A'), v(0, 0, st.k * st.x, st.k * st.y, 'red', 'B')])),
-      readout: st => eq(`${m('B = ' + vec(st.k * st.x, st.k * st.y))}`, 'Bandingkan panjang dan arah anak panah pada rajah.'),
-      fields: () => [pick('rel', 'Hubungan B dengan A', [['sama', 'Vektor sama'], ['negatif', 'Vektor negatif'], ['selari', 'Selari dan sehala'], ['bertentangan', 'Selari tetapi bertentangan arah'], ['sifar', 'Vektor sifar (null)']])],
+      readout: st => eq(`${m('B = ' + vec(st.k * st.x, st.k * st.y))}`, 'Compare the lengths and directions of the arrows in the diagram.'),
+      fields: () => [pick('rel', 'Relationship of B to A', [['same', 'Same vector'], ['negative', 'Negative of A'], ['parallel', 'Parallel and same direction'], ['opposite', 'Parallel but opposite direction'], ['zero', 'Zero vector (null)']])],
       answers: st => ({ rel: relation(st.k) }),
-      hint: () => 'k = 1 memberi vektor yang sama, k = −1 memberi vektor negatif, k = 0 memberi vektor sifar. Tanda k menentukan arah bagi nilai lain.',
-      solution: st => `Dengan ${m('k = ' + n(st.k))}, B ialah ${RELATION_TEXT[relation(st.k)]}.`
+      hint: () => 'k = 1 gives the same vector | k = −1 gives the negative | k = 0 gives zero vector | Positive k: same direction | Negative k: opposite direction',
+      solution: st => `When ${m('k = ' + n(st.k))}, B is ${RELATION_TEXT[relation(st.k)]}.`
     },
     {
-      title: 'Cari pengganda yang memberi magnitud sasaran',
-      controls: [slider('x', 'Komponen i bagi v', 1, 8, 1, 3), slider('y', 'Komponen j bagi v', 1, 8, 1, 4), slider('t', 'Magnitud sasaran |kv|', 2, 30, 1, 10)],
-      prompt: st => `Diberi ${m('v = ' + vec(st.x, st.y))}. Cari nilai positif k supaya ${m('|kv| = ' + st.t)}. Jawab kepada 4 tempat perpuluhan.`,
-      visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'blue', 'v'), v(0, 0, (st.t / Math.hypot(st.x, st.y)) * st.x, (st.t / Math.hypot(st.x, st.y)) * st.y, 'green', 'kv')]),
-      readout: st => eq(`${m('|kv| = |k| × |v|')}`, `${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(4))}`, `Sasaran: ${m('|kv| = ' + st.t)}`),
-      fields: () => [box('k', 'Nilai k (4 t.p.)', 4)],
+      title: 'Find Scalar k for Target Magnitude',
+      controls: [slider('x', 'i-component of v', 1, 8, 1, 3), slider('y', 'j-component of v', 1, 8, 1, 4), slider('t', 'Target magnitude |kv|', 2, 30, 1, 10)],
+      prompt: st => `Given ${m('v = ' + vec(st.x, st.y))}. Find the positive value of k so that ${m('|kv| = ' + st.t)}. Answer to 4 decimal places.`,
+      visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'blue', 'v'), v(0, 0, (st.t / Math.hypot(st.x, st.y)) * st.x, (st.t / Math.hypot(st.x, st.y)) * st.y, 'green', 'kv (scaled)')]),
+      readout: st => eq(`${m('|kv| = |k| × |v|')}`, `${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(4))}`, `Target: ${m('|kv| = ' + st.t)}`),
+      fields: () => [box('k', 'Value of k (4 d.p.)', 4)],
       answers: st => ({ k: st.t / Math.hypot(st.x, st.y) }),
-      hint: () => 'Mulakan daripada |kv| = |k| × |v|, kemudian selesaikan k dengan membahagikan magnitud sasaran dengan |v|.',
+      hint: () => 'Start from |kv| = |k| × |v|. Then solve for k by dividing: k = (target magnitude) ÷ |v|.',
       solution: st => steps(`${m('|v| = √(' + st.x + '² + ' + st.y + '²) = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(4))}`, `${m('k = ' + st.t + '/|v| ≈ ' + (st.t / Math.hypot(st.x, st.y)).toFixed(4))}`)
     },
     {
-      title: 'Vektor ketiga yang menghasilkan vektor sifar',
-      controls: [slider('ax', 'Komponen i bagi A', -6, 6, 1, 3), slider('ay', 'Komponen j bagi A', -6, 6, 1, 2), slider('bx', 'Komponen i bagi B', -6, 6, 1, -1), slider('by', 'Komponen j bagi B', -6, 6, 1, 4)],
-      prompt: st => `Diberi ${m('A = ' + vec(st.ax, st.ay))} dan ${m('B = ' + vec(st.bx, st.by))}. Cari C supaya ${m('A + B + C = zero')}, serta ${m('|C|')} (2 t.p.).`,
-      visual: st => buildDiagramSVG([v(0, 0, st.ax, st.ay, 'blue', 'A'), v(st.ax, st.ay, st.bx, st.by, 'red', 'B'), v(st.ax + st.bx, st.ay + st.by, -(st.ax + st.bx), -(st.ay + st.by), 'green', 'C')]),
-      readout: st => eq(`${m('A + B = ' + vec(st.ax + st.bx, st.ay + st.by))}`, `${m('C = −(A + B)')}`),
-      fields: () => [box('i', 'Komponen i bagi C'), box('j', 'Komponen j bagi C'), box('mag', 'Magnitud |C| (2 t.p.)', 2)],
+      title: 'Third Vector that Produces Zero (Closed Triangle)',
+      controls: [slider('ax', 'i-component of A', -6, 6, 1, 3), slider('ay', 'j-component of A', -6, 6, 1, 2), slider('bx', 'i-component of B', -6, 6, 1, -1), slider('by', 'j-component of B', -6, 6, 1, 4)],
+      prompt: st => `Given ${m('A = ' + vec(st.ax, st.ay))} and ${m('B = ' + vec(st.bx, st.by))}. Find C so that ${m('A + B + C = zero')}. Also find ${m('|C|')} (2 d.p.).`,
+      visual: st => buildDiagramSVG([v(0, 0, st.ax, st.ay, 'blue', 'A'), v(st.ax, st.ay, st.bx, st.by, 'red', 'B'), v(st.ax + st.bx, st.ay + st.by, -(st.ax + st.bx), -(st.ay + st.by), 'green', 'C (closes triangle)')]),
+      readout: st => eq(`${m('A + B = ' + vec(st.ax + st.bx, st.ay + st.by))}`, `${m('For zero sum: C = −(A + B)')}`),
+      fields: () => [box('i', 'i-component of C'), box('j', 'j-component of C'), box('mag', 'Magnitude |C| (2 d.p.)', 2)],
       answers: st => ({ i: -(st.ax + st.bx), j: -(st.ay + st.by), mag: Math.hypot(st.ax + st.bx, st.ay + st.by) }),
-      hint: () => 'Tambah A dan B dahulu. C mesti menjadi negatif bagi hasil itu supaya laluan tertutup kembali ke titik mula.',
+      hint: () => 'Step 1: Add A and B first to get the resultant. Step 2: C must be the OPPOSITE to close the triangle and return to the start.',
       solution: st => steps(`${m('A + B = ' + vec(st.ax + st.bx, st.ay + st.by))}`, `${m('C = ' + vec(-(st.ax + st.bx), -(st.ay + st.by)))}`, `${m('|C| = √' + ((st.ax + st.bx) ** 2 + (st.ay + st.by) ** 2) + ' ≈ ' + Math.hypot(st.ax + st.bx, st.ay + st.by).toFixed(2))}`)
     },
     {
-      title: 'Bandingkan panjang dua vektor skalar gandaan',
-      controls: [slider('x', 'Komponen i bagi v', 1, 6, 1, 2), slider('y', 'Komponen j bagi v', 1, 6, 1, 3), slider('k1', 'Pengganda k₁', 0.5, 3, 0.5, 1.5), slider('k2', 'Pengganda k₂', 0.5, 3, 0.5, 2.5)],
-      prompt: st => `Diberi ${m('v = ' + vec(st.x, st.y))}. Cari ${m('|' + n(st.k1) + 'v|')} dan ${m('|' + n(st.k2) + 'v|')} (2 t.p.), serta nisbah antara keduanya.`,
+      title: 'Comparing Magnitudes of Scaled Vectors',
+      controls: [slider('x', 'i-component of v', 1, 6, 1, 2), slider('y', 'j-component of v', 1, 6, 1, 3), slider('k1', 'Scalar k₁', 0.5, 3, 0.5, 1.5), slider('k2', 'Scalar k₂', 0.5, 3, 0.5, 2.5)],
+      prompt: st => `Given ${m('v = ' + vec(st.x, st.y))}. Find ${m('|' + n(st.k1) + 'v|')} and ${m('|' + n(st.k2) + 'v|')} (2 d.p.), and the ratio between them.`,
       visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'blue', 'v'), v(0, 0, st.k1 * st.x, st.k1 * st.y, 'red', `${n(st.k1)}v`), v(0, 0, st.k2 * st.x, st.k2 * st.y, 'green', `${n(st.k2)}v`)]),
       readout: st => eq(`${m('|kv| = |k| × |v|')}`, `${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(4))}`),
-      fields: () => [box('mag1', `Magnitud |${n(st.k1)}v| (2 t.p.)`, 2), box('mag2', `Magnitud |${n(st.k2)}v| (2 t.p.)`, 2), box('ratio', `Nisbah |${n(st.k2)}v| : |${n(st.k1)}v| (2 t.p.)`, 2)],
+      fields: () => [box('mag1', `Magnitude |${n(st.k1)}v| (2 d.p.)`, 2), box('mag2', `Magnitude |${n(st.k2)}v| (2 d.p.)`, 2), box('ratio', `Ratio |${n(st.k2)}v| : |${n(st.k1)}v| (2 d.p.)`, 2)],
       answers: st => {
         const mag1 = Math.abs(st.k1) * Math.hypot(st.x, st.y);
         const mag2 = Math.abs(st.k2) * Math.hypot(st.x, st.y);
         return { mag1, mag2, ratio: mag2 / mag1 };
       },
-      hint: () => 'Hitung magnitud bagi setiap vektor skalar gandaan secara berasingan. Nisbah = (magnitud pertama) ÷ (magnitud kedua).',
+      hint: () => 'Calculate each scaled vector\'s magnitude separately. Ratio = (first magnitude) ÷ (second magnitude).',
       solution: st => {
         const magv = Math.hypot(st.x, st.y);
         const mag1 = Math.abs(st.k1) * magv;
         const mag2 = Math.abs(st.k2) * magv;
-        return steps(`${m('|' + n(st.k1) + 'v| = ' + n(st.k1) + ' × ' + magv.toFixed(4) + ' ≈ ' + mag1.toFixed(2))}`, `${m('|' + n(st.k2) + 'v| = ' + n(st.k2) + ' × ' + magv.toFixed(4) + ' ≈ ' + mag2.toFixed(2))}`, `Nisbah = ${mag2.toFixed(2)} ÷ ${mag1.toFixed(2)} ≈ ${(mag2 / mag1).toFixed(2)}`);
+        return steps(`${m('|' + n(st.k1) + 'v| = ' + n(st.k1) + ' × ' + magv.toFixed(4) + ' ≈ ' + mag1.toFixed(2))}`, `${m('|' + n(st.k2) + 'v| = ' + n(st.k2) + ' × ' + magv.toFixed(4) + ' ≈ ' + mag2.toFixed(2))}`, `Ratio = ${mag2.toFixed(2)} ÷ ${mag1.toFixed(2)} ≈ ${(mag2 / mag1).toFixed(2)}`);
       }
     },
     {
-      title: 'Kombinasi kompleks tiga vektor dengan nisbah tetap',
-      controls: [slider('a', 'Pekali a dalam pA', -2, 3, 1, 2), slider('b', 'Pekali b dalam qB', -2, 3, 1, 1), slider('c', 'Pekali c dalam rC', -2, 3, 1, -1)],
-      prompt: st => `Diberi ${m('A = 2i + j')}, ${m('B = i − 3j')}, ${m('C = −i + 2j')}. Cari ${m(combo(st.a, 'A') + ' + ' + combo(st.b, 'B') + ' + ' + combo(st.c, 'C'))} dan magnitudnya (2 t.p.).`,
-      visual: st => buildDiagramSVG(drawable([v(0, 0, 2 * st.a, st.a, 'blue', term(st.a, 'A')), v(2 * st.a, st.a, st.b, -3 * st.b, 'red', term(st.b, 'B')), v(2 * st.a + st.b, st.a - 3 * st.b, -st.c, 2 * st.c, 'purple', term(st.c, 'C')), v(0, 0, 2 * st.a + st.b - st.c, st.a - 3 * st.b + 2 * st.c, 'green', 'hasil')])),
+      title: 'Complex Linear Combination: aA + bB + cC',
+      controls: [slider('a', 'Coefficient a for A', -2, 3, 1, 2), slider('b', 'Coefficient b for B', -2, 3, 1, 1), slider('c', 'Coefficient c for C', -2, 3, 1, -1)],
+      prompt: st => `Given ${m('A = 2i + j')}, ${m('B = i − 3j')}, ${m('C = −i + 2j')}. Find ${m(combo(st.a, 'A') + ' + ' + combo(st.b, 'B') + ' + ' + combo(st.c, 'C'))} and its magnitude (2 d.p.).`,
+      visual: st => buildDiagramSVG(drawable([v(0, 0, 2 * st.a, st.a, 'blue', term(st.a, 'A')), v(2 * st.a, st.a, st.b, -3 * st.b, 'red', term(st.b, 'B')), v(2 * st.a + st.b, st.a - 3 * st.b, -st.c, 2 * st.c, 'purple', term(st.c, 'C')), v(0, 0, 2 * st.a + st.b - st.c, st.a - 3 * st.b + 2 * st.c, 'green', 'result')])),
       readout: st => eq(`${m(term(st.a, 'A') + ' = ' + vec(2 * st.a, st.a))}`, `${m(term(st.b, 'B') + ' = ' + vec(st.b, -3 * st.b))}`, `${m(term(st.c, 'C') + ' = ' + vec(-st.c, 2 * st.c))}`),
-      fields: () => [box('i', 'Komponen i'), box('j', 'Komponen j'), box('mag', 'Magnitud (2 t.p.)', 2)],
+      fields: () => [box('i', 'i-component'), box('j', 'j-component'), box('mag', 'Magnitude (2 d.p.)', 2)],
       answers: st => ({ i: 2 * st.a + st.b - st.c, j: st.a - 3 * st.b + 2 * st.c, mag: Math.hypot(2 * st.a + st.b - st.c, st.a - 3 * st.b + 2 * st.c) }),
-      hint: () => 'Lakukan pendaraban skalar bagi setiap vektor dahulu, kemudian tambah komponen i dan j berasingan. Terakhir, hitung magnitud vektor hasil.',
+      hint: () => 'Step 1: Do scalar multiplication for each vector (aA, bB, cC). Step 2: Add all i-components together, all j-components together. Step 3: Find magnitude using √(i² + j²).',
       solution: st => {
         const i = 2 * st.a + st.b - st.c;
         const j = st.a - 3 * st.b + 2 * st.c;
-        return steps(`${m(term(st.a, 'A') + ' = ' + vec(2 * st.a, st.a))}`, `${m(term(st.b, 'B') + ' = ' + vec(st.b, -3 * st.b))}`, `${m(term(st.c, 'C') + ' = ' + vec(-st.c, 2 * st.c))}`, `Hasil = ${m(vec(i, j))}`, `Magnitud = √(${i}² + ${j}²) ≈ ${Math.hypot(i, j).toFixed(2)}`);
+        return steps(`${m(term(st.a, 'A') + ' = ' + vec(2 * st.a, st.a))}`, `${m(term(st.b, 'B') + ' = ' + vec(st.b, -3 * st.b))}`, `${m(term(st.c, 'C') + ' = ' + vec(-st.c, 2 * st.c))}`, `Result = ${m(vec(i, j))}`, `Magnitude = √(${i}² + ${j}²) ≈ ${Math.hypot(i, j).toFixed(2)}`);
       }
     }
   ];
