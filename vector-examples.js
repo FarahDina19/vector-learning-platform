@@ -30,7 +30,7 @@ const VectorExamples = (() => {
   const degrees = (y, x) => ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
   const eq = (...lines) => lines.join('<br>');
   const steps = (...items) => `<ol>${items.map(item => `<li>${item}</li>`).join('')}</ol>`;
-  const v = (ox, oy, dx, dy, color, label, dashed) => ({ ox, oy, dx, dy, color, label, dashed });
+  const v = (ox, oy, dx, dy, color, label, dashed, showComponents) => ({ ox, oy, dx, dy, color, label, dashed, showComponents });
   // a zero-length arrow has no direction, so it is dropped rather than drawn degenerately
   const drawable = arrows => arrows.filter(arrow => arrow.dx !== 0 || arrow.dy !== 0);
   const slider = (key, label, min, max, step, value) => ({ key, label, kind: 'range', min, max, step, value });
@@ -258,7 +258,7 @@ const VectorExamples = (() => {
       title: 'From Coordinates to Position Vector',
       controls: [slider('x', 'x-coordinate of P', -7, 7, 1, -2), slider('y', 'y-coordinate of P', -7, 7, 1, 5)],
       prompt: st => `Point ${m('P')} is at (${st.x}, ${st.y}). Express ${m('OP')} (position vector) in the form ${m('xi + yj')}.`,
-      visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'green', 'OP')]),
+      visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'green', 'OP', false, true)]),
       readout: st => eq('Position vector starts at origin O and ends at the point.', `P = (${st.x}, ${st.y})`),
       fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: st.x, j: st.y }),
@@ -269,7 +269,7 @@ const VectorExamples = (() => {
       title: 'Magnitude from Component Form',
       controls: [slider('x', 'i-component', -9, 9, 1, 6), slider('y', 'j-component', -9, 9, 1, 8)],
       prompt: st => `Given ${m('v = ' + vec(st.x, st.y))}. Find ${m('|v|')} (magnitude, 2 d.p.).`,
-      visual: st => buildDiagramSVG([v(0, 0, st.x, 0, 'blue', `${st.x}i`), v(st.x, 0, 0, st.y, 'red', `${st.y}j`), v(0, 0, st.x, st.y, 'green', 'v')]),
+      visual: st => buildDiagramSVG([v(0, 0, st.x, 0, 'blue', `${st.x}i`), v(st.x, 0, 0, st.y, 'red', `${st.y}j`), v(0, 0, st.x, st.y, 'green', 'v', false, true)]),
       readout: st => eq(`${m('|v| = √(' + neg(st.x) + '² + ' + neg(st.y) + '²)')}`, `This is Pythagorean Theorem in component form`),
       fields: () => [box('mag', 'Magnitude (2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.x, st.y) }),
@@ -291,7 +291,7 @@ const VectorExamples = (() => {
       title: 'Vector Direction from Positive X-Axis',
       controls: [slider('x', 'i-component', -8, 8, 1, -3), slider('y', 'j-component', -8, 8, 1, 4)],
       prompt: st => `Given ${m('v = ' + vec(st.x, st.y))}. Find magnitude (2 d.p.) and direction angle from the positive x-axis, measured counterclockwise in range 0° to 360° (2 d.p.).`,
-      visual: st => buildDiagramSVG([v(0, 0, st.x, 0, 'blue', `${st.x}i`), v(st.x, 0, 0, st.y, 'red', `${st.y}j`), v(0, 0, st.x, st.y, 'green', 'v')]),
+      visual: st => buildDiagramSVG([v(0, 0, st.x, 0, 'blue', `${st.x}i`), v(st.x, 0, 0, st.y, 'red', `${st.y}j`), v(0, 0, st.x, st.y, 'green', 'v', false, true)]),
       readout: st => eq(`${m('θ = atan2(y, x)')}`, `x = ${st.x}, y = ${st.y}`, 'Always check which quadrant the vector is in!'),
       fields: () => [box('mag', 'Magnitude (2 d.p.)', 2), box('ang', 'Angle (°, 2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.x, st.y), ang: degrees(st.y, st.x) }),
