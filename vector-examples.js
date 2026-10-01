@@ -651,6 +651,78 @@ const VectorExamples = (() => {
         const y = 2 * st.p + 4 * st.q;
         return steps(`${m(st.p + 'a = ' + vec(3 * st.p, 2 * st.p))}`, `${m(st.q + 'b = ' + vec(-st.q, 4 * st.q))}`, `${m('Hasil = ' + vec(x, y))}`, `${m('|Hasil| = √(' + neg(x) + '² + ' + neg(y) + '²) = √' + (x * x + y * y) + ' ≈ ' + Math.hypot(x, y).toFixed(4))}`);
       }
+    },
+    {
+      title: 'Vektor dalam segitiga: cari perjalanan balik',
+      controls: [slider('ax', 'Pekali dalam AB', 2, 5, 1, 3), slider('ay', 'Pekali dalam BC', 1, 4, 1, 2)],
+      prompt: st => `Dalam segitiga ABC, ${m('AB = ' + st.ax + 'a')} dan ${m('BC = ' + st.ay + 'b')}. Cari ${m('CA')} dalam sebutan a dan b.`,
+      visual: st => buildDiagramSVG([v(0, 0, st.ax * 2, 0, 'blue', `${st.ax}a`), v(st.ax * 2, 0, 0, st.ay * 2, 'red', `${st.ay}b`), v(st.ax * 2, st.ay * 2, -st.ax * 2, -st.ay * 2, 'green', 'CA')]),
+      readout: () => eq('Perjalanan tertutup: AB + BC + CA = 0', `Itu bermakna CA = −(AB + BC) = −AC`),
+      fields: () => [box('coeff_a', 'Pekali a dalam CA'), box('coeff_b', 'Pekali b dalam CA')],
+      answers: st => ({ coeff_a: -st.ax, coeff_b: -st.ay }),
+      hint: () => 'Dalam segitiga tertutup, jumlah ketiga sisi ialah vektor sifar. Jadi CA = −(AB + BC).',
+      solution: st => steps(`${m('AC = AB + BC = ' + st.ax + 'a + ' + st.ay + 'b')}`, `${m('CA = −AC = −' + st.ax + 'a − ' + st.ay + 'b')}`)
+    },
+    {
+      title: 'Vektor dalam segi empat: laluan berlainan',
+      controls: [slider('p', 'Pekali dalam AB', 2, 5, 1, 4), slider('q', 'Pekali dalam AD', 3, 8, 1, 5), slider('r', 'Pekali dalam BC', 1, 5, 1, 2)],
+      prompt: st => `Dalam segi empat ABCD, ${m('AB = ' + st.p + 'y')}, ${m('AD = ' + st.q + 'x')} dan ${m('BC = ' + st.r + 'x')}. Tunjukkan bahawa AC boleh dikira dua cara berbeza dan sama.`,
+      visual: st => buildDiagramSVG([v(0, 0, st.q, 0, 'purple', `${st.q}x (AD)`), v(0, 0, 0, st.p, 'blue', `${st.p}y (AB)`), v(0, st.p, st.r, 0, 'red', `${st.r}x (BC)`), v(0, 0, st.q + st.r, st.p, 'green', 'AC')]),
+      readout: st => eq(`Laluan 1 (A → B → C): AB + BC = ${st.p}y + ${st.r}x`, `Laluan 2 (A → D → C): AD + DC (harus sama) = ${st.q}x + DC`),
+      fields: () => [box('dc_coeff', 'Pekali x dalam DC')],
+      answers: st => ({ dc_coeff: st.r - st.q }),
+      hint: () => 'Kedua laluan menghasilkan AC yang sama. Gunakan ini untuk mencari DC.',
+      solution: st => steps(`Laluan 1: ${m('AC = ' + st.p + 'y + ' + st.r + 'x')}`, `Laluan 2: ${m('AC = ' + st.q + 'x + DC')}`, `Persamaan: ${m(st.r + 'x = ' + st.q + 'x + DC')}`, `Maka: ${m('DC = ' + (st.r - st.q) + 'x')}`)
+    },
+    {
+      title: 'Vektor gabungan dalam parallelogram',
+      controls: [slider('ax', 'Komponen i OA', 2, 6, 1, 3), slider('ay', 'Komponen j OA', 1, 5, 1, 2), slider('bx', 'Komponen i OB', 1, 5, 1, 2), slider('by', 'Komponen j OB', -3, 3, 1, 1)],
+      prompt: st => `Dalam parallelogram OABC dengan O di asalan, ${m('OA = ' + vec(st.ax, st.ay))} dan ${m('OB = ' + vec(st.bx, st.by))}. Cari ${m('OC')}.`,
+      visual: st => buildDiagramSVG([v(0, 0, st.ax, st.ay, 'blue', 'OA'), v(0, 0, st.bx, st.by, 'red', 'OB'), v(st.ax, st.ay, st.bx, st.by, 'orange', 'BC'), v(0, 0, st.ax + st.bx, st.ay + st.by, 'green', 'OC')]),
+      readout: () => eq('Dalam parallelogram, pepenjuru OC bersamaan OA + OB (hukum parallelogram).'),
+      fields: () => [box('cx', 'Komponen i OC'), box('cy', 'Komponen j OC')],
+      answers: st => ({ cx: st.ax + st.bx, cy: st.ay + st.by }),
+      hint: () => 'Dalam parallelogram OABC, vektor OC sama dengan OA + OB.',
+      solution: st => `${m('OC = OA + OB = ' + vec(st.ax, st.ay) + ' + ' + vec(st.bx, st.by) + ' = ' + vec(st.ax + st.bx, st.ay + st.by))}`
+    },
+    {
+      title: 'Vektor tertutup: mencari sisi terakhir dalam polygon',
+      controls: [slider('s1', 'Sisi 1 (i)', -4, 4, 1, 2), slider('s2', 'Sisi 2 (j)', -4, 4, 1, 1), slider('s3', 'Sisi 3 (i)', -4, 4, 1, -1), slider('s4', 'Sisi 4 (j)', -4, 4, 1, -2)],
+      prompt: st => `Empat sisi pertama poligon: ${m('s₁ = ' + st.s1 + 'i')}, ${m('s₂ = ' + st.s2 + 'j')}, ${m('s₃ = ' + st.s3 + 'i')} dan ${m('s₄ = ' + st.s4 + 'j')}. Cari sisi kelima (s₅) untuk menutup rajah.`,
+      visual: st => buildDiagramSVG([v(0, 0, st.s1, 0, 'blue', 's₁'), v(st.s1, 0, 0, st.s2, 'blue', 's₂'), v(st.s1, st.s2, st.s3, 0, 'blue', 's₃'), v(st.s1 + st.s3, st.s2, 0, st.s4, 'blue', 's₄'), v(st.s1 + st.s3, st.s2 + st.s4, -(st.s1 + st.s3), -(st.s2 + st.s4), 'green', 's₅')]),
+      readout: () => eq('Untuk menutup rajah, jumlah semua sisi mesti = 0', 'Jadi s₅ = −(s₁ + s₂ + s₃ + s₄)'),
+      fields: () => [box('ci', 'Komponen i s₅'), box('cj', 'Komponen j s₅')],
+      answers: st => ({ ci: -(st.s1 + st.s3), cj: -(st.s2 + st.s4) }),
+      hint: () => 'Jumlah semua vektor dalam rajah tertutup ialah sifar. Cari jumlah empat sisi pertama, kemudian buat negatifnya.',
+      solution: st => {
+        const sum_i = st.s1 + st.s3;
+        const sum_j = st.s2 + st.s4;
+        return steps(`Empat sisi pertama: ${m(vec(sum_i, sum_j))}`, `Untuk menutup, s₅ mesti bersamaan ${m(vec(-sum_i, -sum_j))}`, `Maka ${m('s₅ = ' + vec(-sum_i, -sum_j))}`)
+      }
+    },
+    {
+      title: 'Penyelesaian persamaan vektor pA + qB + rC = D (kombinasi)',
+      controls: [slider('a', 'p dalam persamaan', -3, 3, 1, 1), slider('b', 'q dalam persamaan', -3, 3, 1, 2), slider('c', 'r dalam persamaan', -3, 3, 1, 1)],
+      prompt: st => `Diberi ${m('A = 2i + j')}, ${m('B = i − j')} dan ${m('C = 3i + 2j')}. Cari magnitud D apabila ${m(st.a + 'A + ' + st.b + 'B + ' + st.c + 'C = D')} (2 t.p.).`,
+      visual: st => buildDiagramSVG(drawable([v(0, 0, st.a * 2, st.a, 'blue', `${st.a}A`), v(st.a * 2, st.a, st.b, -st.b, 'red', `${st.b}B`), v(st.a * 2 + st.b, st.a - st.b, st.c * 3, st.c * 2, 'orange', `${st.c}C`), v(0, 0, st.a * 2 + st.b + st.c * 3, st.a - st.b + st.c * 2, 'green', 'D')])),
+      readout: st => {
+        const dx = st.a * 2 + st.b + st.c * 3;
+        const dy = st.a - st.b + st.c * 2;
+        return eq(`${m('D = ' + vec(dx, dy))}`, `Magnitud: ${m('|D| = √(' + dx + '² + ' + dy + '²)')}`);
+      },
+      fields: () => [box('mag', 'Magnitud |D| (2 t.p.)', 2)],
+      answers: st => {
+        const dx = st.a * 2 + st.b + st.c * 3;
+        const dy = st.a - st.b + st.c * 2;
+        return { mag: Math.hypot(dx, dy) };
+      },
+      hint: () => 'Lakukan setiap pendaraban skalar, tambah semua komponen, kemudian gunakan formula magnitud.',
+      solution: st => {
+        const dx = st.a * 2 + st.b + st.c * 3;
+        const dy = st.a - st.b + st.c * 2;
+        const mag = Math.hypot(dx, dy);
+        return steps(`${m(st.a + 'A = ' + vec(st.a * 2, st.a))}`, `${m(st.b + 'B = ' + vec(st.b, -st.b))}`, `${m(st.c + 'C = ' + vec(st.c * 3, st.c * 2))}`, `${m('D = ' + vec(dx, dy))}`, `${m('|D| = √' + (dx * dx + dy * dy) + ' ≈ ' + mag.toFixed(2))}`);
+      }
     }
   ];
 
@@ -767,12 +839,12 @@ const VectorExamples = (() => {
   ];
 
   const AREAS = [
-    { tab: 'intro', key: 'intro', title: 'Enam contoh interaktif: kuantiti harian kepada aplikasi', examples: introExamples },
-    { tab: 'concept1', key: 'scalar', title: 'Enam contoh interaktif: skalar, vektor dan pendaraban skalar', examples: scalarExamples },
-    { tab: 'concept2', key: 'component', title: 'Enam contoh interaktif: komponen, magnitud, arah dan vektor unit', examples: componentExamples },
-    { tab: 'concept3', key: 'addition', title: 'Enam contoh interaktif: tambah, tolak dan laluan geometri', examples: additionExamples },
-    { tab: 'practice', key: 'drill', title: 'Enam contoh interaktif: latih tubi gaya peperiksaan', examples: practiceExamples },
-    { tab: 'resources', key: 'formula', title: 'Enam contoh interaktif: setiap formula rujukan digunakan', examples: resourceExamples }
+    { tab: 'intro', key: 'intro', title: 'Lapan contoh: kuantiti harian kepada aplikasi', examples: introExamples },
+    { tab: 'concept1', key: 'scalar', title: 'Lapan contoh: skalar, vektor dan pendaraban skalar', examples: scalarExamples },
+    { tab: 'concept2', key: 'component', title: 'Lapan contoh: komponen, magnitud, arah dan vektor unit', examples: componentExamples },
+    { tab: 'concept3', key: 'addition', title: 'Tiga belas contoh: tambah, tolak, laluan geometri dan kombinasi', examples: additionExamples },
+    { tab: 'practice', key: 'drill', title: 'Lapan contoh: latih tubi gaya peperiksaan dan sistem persamaan', examples: practiceExamples },
+    { tab: 'resources', key: 'formula', title: 'Lapan contoh: setiap formula rujukan digunakan', examples: resourceExamples }
   ];
 
   /* ---------- rendering and interaction ---------- */
