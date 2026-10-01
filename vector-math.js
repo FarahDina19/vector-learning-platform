@@ -2,8 +2,12 @@
 const VectorMath = (() => {
   const escape = s => String(s).replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const names = new Set(['AB','BA','AC','CA','AD','DA','BC','CB','BD','DB','CD','DC','r_x','r_y','a','b','c','d','x','y','k','v','u','i','j','A','B','C','X','Y','R','OP','OB','OC','OD','OF','OG','OH','OQ','OR','kv','kx','ky','xi','yj','kB','F₁','F₂','θ','atan2','m','km','s','N','A_x','A_y','B_x','B_y','zero','r','h','kX','X_x','X_y','Y_x','Y_y']);
+  const TOKEN_REGEX = /atan2|[A-Za-z]+(?:_[xy]|[₁₂])?|\d+(?:\.\d+)?|θ|[²³]|[+−\-×÷=≈≠<>∥√|()[\],/½]/g;
+  const PART_REGEX = /atan2|[A-Za-z]+(?:_[xy]|[₁₂])?|\d+(?:\.\d+)?|θ|\s+|./gu;
+  const MATH_CHECK = /[=+−×÷≈≠√²³/∥]/;
+  const PART_CHECK = /^[+−\-×÷=≈≠<>∥√|()[\],/½²³]$/;
   function tokenize(text) {
-    return text.match(/atan2|[A-Za-z]+(?:_[xy]|[₁₂])?|\d+(?:\.\d+)?|θ|[²³]|[+−\-×÷=≈≠<>∥√|()[\],/½]/g)||[];
+    return text.match(TOKEN_REGEX)||[];
   }
   const row = s => `<mrow>${s}</mrow>`;
   function symbol(s) {
@@ -35,12 +39,12 @@ const VectorMath = (() => {
   function column(x,y){return `<math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="Vektor lajur ${x}, ${y}"><mrow><mo stretchy="true">(</mo><mtable><mtr><mtd>${markup(String(x))}</mtd></mtr><mtr><mtd>${markup(String(y))}</mtd></mtr></mtable><mo stretchy="true">)</mo></mrow></math>`;}
   // Token runs stop at prose. No HTML, SVG labels, controls or source code are parsed.
   function textHTML(text){
-    const parts=text.match(/atan2|[A-Za-z]+(?:_[xy]|[₁₂])?|\d+(?:\.\d+)?|θ|\s+|./gu)||[];
+    const parts=text.match(PART_REGEX)||[];
     let output='',run='';
     function flush(){if(!run)return;const trimmed=run.trim();const core=trimmed.replace(/^[,]+|[,]+$/g,'');
-      const valid=core&&(/[=+−×÷≈≠√²³/∥]|\b(?:i|j|v|u|kv|xi|yj|OP|A|B|C|X|Y|R|a|b|c)\b/.test(core));
+      const valid=core&&(MATH_CHECK.test(core)||\b(?:i|j|v|u|kv|xi|yj|OP|A|B|C|X|Y|R|a|b|c)\b/.test(core));
       output+=valid?escape(run.slice(0,run.indexOf(core)))+math(core)+escape(run.slice(run.indexOf(core)+core.length)):escape(run);run='';}
-    for(const part of parts){if(/^\s+$/.test(part)||names.has(part)||/^\d+(?:\.\d+)?$/.test(part)||/^[+−\-×÷=≈≠<>∥√|()[\],/½²³]$/.test(part)){run+=part;}else{flush();output+=escape(part);}}flush();return output;
+    for(const part of parts){if(/^\s+$/.test(part)||names.has(part)||/^\d+(?:\.\d+)?$/.test(part)||PART_CHECK.test(part)){run+=part;}else{flush();output+=escape(part);}}flush();return output;
   }
   function render(root){if(!root)return;const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT);const nodes=[];while(walker.nextNode()){const n=walker.currentNode;if(!n.parentElement.closest('math,svg,script,style,button,select,option,textarea,output,.lab-kicker,.lab-slider,.lab-caption'))nodes.push(n);}for(const n of nodes){const html=textHTML(n.textContent);if(html.includes('<math')){const t=document.createElement('template');t.innerHTML=html;n.replaceWith(t.content);}}}
   return {math,column,render,textHTML};

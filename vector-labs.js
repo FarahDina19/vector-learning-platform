@@ -12,27 +12,28 @@
     const el=document.createElement('section'); el.className='vector-lab';
     el.innerHTML=`<div class="lab-kicker">Lihat • Gerakkan • Hubungkan</div><h3>${title}</h3><p class="lab-intro">${intro}</p><div class="lab-layout"><svg class="lab-diagram" viewBox="0 0 480 380" role="img" aria-label="${title}"></svg><div><div class="lab-settings"></div><div class="lab-equation"></div><p class="lab-caption" aria-live="polite"></p><div class="lab-controls"><button type="button" data-action="play">Main animasi</button><button type="button" data-action="step">Langkah +</button><button type="button" data-action="reset">Mula semula</button></div><label class="lab-slider">Kemajuan<input class="timeline" aria-label="Kemajuan animasi" type="range" min="0" max="100" value="0"><output>0%</output></label><small>Animasi bermula hanya apabila anda menekan Main. Gunakan peluncur untuk melihat setiap peringkat.</small></div></div>`;
     const host=document.getElementById(tab); host.insertBefore(el,host.querySelector('.cta-button'));
-    const s={el,type,t:0,x:3,y:4,k:2,op:1,running:false,last:0}; labs.push(s);
+    const s={el,type,t:0,x:3,y:4,k:2,op:1,running:false,last:0,svg:el.querySelector('svg'),equation:el.querySelector('.lab-equation'),caption:el.querySelector('.lab-caption'),timeline:el.querySelector('.timeline'),timelineOutput:el.querySelector('.timeline + output'),playBtn:el.querySelector('[data-action="play"]'),stepBtn:el.querySelector('[data-action="step"]'),resetBtn:el.querySelector('[data-action="reset"]')}; labs.push(s);
     const settings=el.querySelector('.lab-settings');
     if(type==='components'||type==='scale') {
       const fields=type==='scale'?[['k','Pengganda',-3,3,0.5]]:[['x','Komponen i',-6,6,1],['y','Komponen j',-6,6,1]];
       fields.forEach(([key,label,min,max,step])=>{const row=document.createElement('label');row.className='lab-slider';row.innerHTML=`${label}<input aria-label="${label}" type="range" min="${min}" max="${max}" step="${step}" value="${s[key]}"><output>${s[key]}</output>`;settings.append(row);row.querySelector('input').oninput=e=>{stop(s);s[key]=Number(e.target.value);row.querySelector('output').textContent=s[key];draw(s);};});
     }
     if(type==='operations') {settings.innerHTML='<label>Operasi <select aria-label="Operasi vektor"><option value="1">A + B</option><option value="-1">A − B</option></select></label>';settings.querySelector('select').onchange=e=>{stop(s);s.op=Number(e.target.value);s.t=0;draw(s);};}
-    el.querySelector('[data-action="play"]').onclick=()=>{if(s.running){stop(s);return;}if(s.t>=1)s.t=0;s.running=true;s.last=0;el.querySelector('[data-action="play"]').textContent='Jeda';s.frame=requestAnimationFrame(time=>tick(s,time));};
-    el.querySelector('[data-action="step"]').onclick=()=>{stop(s);s.t=Math.min(1,s.t+0.25);draw(s);};
-    el.querySelector('[data-action="reset"]').onclick=()=>{stop(s);s.t=0;draw(s);};
-    el.querySelector('.timeline').oninput=e=>{stop(s);s.t=Number(e.target.value)/100;draw(s);}; draw(s);
+    s.playBtn.onclick=()=>{if(s.running){stop(s);return;}if(s.t>=1)s.t=0;s.running=true;s.last=0;s.playBtn.textContent='Jeda';s.frame=requestAnimationFrame(time=>tick(s,time));};
+    s.stepBtn.onclick=()=>{stop(s);s.t=Math.min(1,s.t+0.25);draw(s);};
+    s.resetBtn.onclick=()=>{stop(s);s.t=0;draw(s);};
+    s.timeline.oninput=e=>{stop(s);s.t=Number(e.target.value)/100;draw(s);}; draw(s);
   }
-  function stop(s){cancelAnimationFrame(s.frame);s.running=false;s.el.querySelector('[data-action="play"]').textContent='Main animasi';}
+  function stop(s){cancelAnimationFrame(s.frame);s.running=false;s.playBtn.textContent='Main animasi';}
   function tick(s,time){if(!s.running)return;if(document.hidden||!s.el.closest('.tab-content').classList.contains('active')){stop(s);return;}if(s.last)s.t=Math.min(1,s.t+(time-s.last)/6500);s.last=time;draw(s);if(s.t<1)s.frame=requestAnimationFrame(t=>tick(s,t));else stop(s);}
   function draw(s){
     const X=x=>240+x*22,Y=y=>190-y*22;
-    let svg='<title>Diagram vektor berskala sama pada paksi x dan y</title>';
-    for(let i=-7;i<=7;i++)svg+=`<path d="M${X(i)} 36V344 M86 ${Y(i)}H394" stroke="#e3ddd5" fill="none"/>`;
-    svg+=`<path d="M80 190H407l-6 -3m6 3l-6 3 M240 344V24l-3 6m3 -6l3 6" stroke="#938477"/><text x="410" y="182" font-size="12">x</text><text x="249" y="22" font-size="12">y</text><text x="225" y="207" font-size="12">O</text>`;
-    for(let i=-6;i<=6;i+=2)if(i)svg+=`<text x="${X(i)}" y="207" text-anchor="middle" font-size="11">${i}</text><text x="228" y="${Y(i)+4}" text-anchor="end" font-size="11">${i}</text>`;
-    function arrow(a,b,c,d,color,label,dash=false){const x=X(a),y=Y(b),xx=X(c),yy=Y(d),ang=Math.atan2(yy-y,xx-x);svg+=`<path d="M${x} ${y}L${xx} ${yy}" stroke="${color}" stroke-width="3" data-from="${a},${b}" data-to="${c},${d}" ${dash?'stroke-dasharray="6 5"':''} fill="none"/>`;if(Math.hypot(xx-x,yy-y)>2)svg+=`<path d="M${xx-10*Math.cos(ang-.45)} ${yy-10*Math.sin(ang-.45)}L${xx} ${yy}L${xx-10*Math.cos(ang+.45)} ${yy-10*Math.sin(ang+.45)}" stroke="${color}" stroke-width="3" fill="none"/>`;if(Math.hypot(xx-x,yy-y)<=2)svg+=`<circle cx="${x}" cy="${y}" r="3" fill="${color}"/>`;if(label)svg+=`<text x="${(x+xx)/2+8}" y="${(y+yy)/2-12}" fill="${color}" font-size="14" font-weight="600">${label.replace(/i/g,'î').replace(/j/g,'ĵ')}</text>`;}
+    const gridPaths=[],labels=[];
+    for(let i=-7;i<=7;i++)gridPaths.push(`<path d="M${X(i)} 36V344 M86 ${Y(i)}H394" stroke="#e3ddd5" fill="none"/>`);
+    for(let i=-6;i<=6;i+=2)if(i)labels.push(`<text x="${X(i)}" y="207" text-anchor="middle" font-size="11">${i}</text><text x="228" y="${Y(i)+4}" text-anchor="end" font-size="11">${i}</text>`);
+    let svg=`<title>Diagram vektor berskala sama pada paksi x dan y</title>${gridPaths.join('')}<path d="M80 190H407l-6 -3m6 3l-6 3 M240 344V24l-3 6m3 -6l3 6" stroke="#938477"/><text x="410" y="182" font-size="12">x</text><text x="249" y="22" font-size="12">y</text><text x="225" y="207" font-size="12">O</text>${labels.join('')}`;
+    const arrowParts=[];
+    function arrow(a,b,c,d,color,label,dash=false){const x=X(a),y=Y(b),xx=X(c),yy=Y(d),ang=Math.atan2(yy-y,xx-x);arrowParts.push(`<path d="M${x} ${y}L${xx} ${yy}" stroke="${color}" stroke-width="3" data-from="${a},${b}" data-to="${c},${d}" ${dash?'stroke-dasharray="6 5"':''} fill="none"/>`);if(Math.hypot(xx-x,yy-y)>2)arrowParts.push(`<path d="M${xx-10*Math.cos(ang-.45)} ${yy-10*Math.sin(ang-.45)}L${xx} ${yy}L${xx-10*Math.cos(ang+.45)} ${yy-10*Math.sin(ang+.45)}" stroke="${color}" stroke-width="3" fill="none"/>`);if(Math.hypot(xx-x,yy-y)<=2)arrowParts.push(`<circle cx="${x}" cy="${y}" r="3" fill="${color}"/>`);if(label)arrowParts.push(`<text x="${(x+xx)/2+8}" y="${(y+yy)/2-12}" fill="${color}" font-size="14" font-weight="600">${label.replace(/i/g,'î').replace(/j/g,'ĵ')}</text>`);}
     let cx=0,cy=0,eq='',caption='';const t=s.t;
     if(s.type==='journey'){
       cx=t<=.5?8*t:4-6*(t-.5);arrow(0,0,4,0,blue,'4 m Timur',true);arrow(4,-1,1,-1,red,'3 m Barat',true);arrow(0,1.5,cx,1.5,green,'Sesaran');
@@ -57,11 +58,11 @@
       eq=`Pengganda sasaran: ${s.k}<br>Semasa: k = ${k.toFixed(2)}<br>kv ≈ (${fmtVector(2*k,k)}) m<br>|kv| = |k|√5 ≈ ${(Math.abs(k)*Math.sqrt(5)).toFixed(2)} m`;
       caption=`Pengganda semasa: ${k.toFixed(2)}. ${s.k<0?'Anak panah mengecil ke sifar, kemudian memanjang dalam arah bertentangan.':s.k===0?'Vektor menjadi vektor sifar; arah tidak ditentukan.':'Panjang berubah mengikut k; arah kekal bagi k positif.'}`;
     }
-    if(s.type!=='operations')svg+=`<g transform="translate(${X(cx)},${Y(cy)})"><rect x="-10" y="-8" width="20" height="13" rx="3" fill="#5a4a42" stroke="white" stroke-width="2"/><circle cx="-6" cy="7" r="3" fill="#3d2817"/><circle cx="6" cy="7" r="3" fill="#3d2817"/></g>`;
-    svg+=`<text x="240" y="370" text-anchor="middle" font-size="12" fill="#6b6159">1 petak = 1 m · Timur: +x · Utara: +y</text>`;
-    s.el.querySelector('svg').innerHTML=svg;s.el.querySelector('.lab-equation').innerHTML=eq;VectorMath.render(s.el.querySelector('.lab-equation'));
-    const cap=s.el.querySelector('.lab-caption');if(cap.textContent!==caption)cap.textContent=caption;
-    s.el.querySelector('.timeline').value=Math.round(t*100);s.el.querySelector('.timeline + output').textContent=Math.round(t*100)+'%';
+    if(s.type!=='operations')arrowParts.push(`<g transform="translate(${X(cx)},${Y(cy)})"><rect x="-10" y="-8" width="20" height="13" rx="3" fill="#5a4a42" stroke="white" stroke-width="2"/><circle cx="-6" cy="7" r="3" fill="#3d2817"/><circle cx="6" cy="7" r="3" fill="#3d2817"/></g>`);
+    arrowParts.push(`<text x="240" y="370" text-anchor="middle" font-size="12" fill="#6b6159">1 petak = 1 m · Timur: +x · Utara: +y</text>`);
+    s.svg.innerHTML=svg+arrowParts.join('');s.equation.innerHTML=eq;VectorMath.render(s.equation);
+    if(s.caption.textContent!==caption)s.caption.textContent=caption;
+    s.timeline.value=Math.round(t*100);s.timelineOutput.textContent=Math.round(t*100)+'%';
   }
   config.forEach(mount);
 
