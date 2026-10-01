@@ -255,47 +255,47 @@ const VectorExamples = (() => {
   /* ---------- Area 3: 5.2 Component form, magnitude, direction, unit vectors ---------- */
   const componentExamples = [
     {
-      title: 'Daripada koordinat kepada vektor kedudukan',
-      controls: [slider('x', 'Koordinat x bagi P', -7, 7, 1, -2), slider('y', 'Koordinat y bagi P', -7, 7, 1, 5)],
-      prompt: st => `Titik ${m('P')} berada pada (${st.x}, ${st.y}). Nyatakan ${m('OP')} dalam bentuk ${m('xi + yj')}.`,
+      title: 'From Coordinates to Position Vector',
+      controls: [slider('x', 'x-coordinate of P', -7, 7, 1, -2), slider('y', 'y-coordinate of P', -7, 7, 1, 5)],
+      prompt: st => `Point ${m('P')} is at (${st.x}, ${st.y}). Express ${m('OP')} (position vector) in the form ${m('xi + yj')}.`,
       visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'green', 'OP')]),
-      readout: st => eq('Vektor kedudukan bermula di asalan O dan berakhir di titik itu.', `P = (${st.x}, ${st.y})`),
-      fields: () => [box('i', 'Komponen i'), box('j', 'Komponen j')],
+      readout: st => eq('Position vector starts at origin O and ends at the point.', `P = (${st.x}, ${st.y})`),
+      fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: st.x, j: st.y }),
-      hint: () => 'Koordinat x menjadi komponen i dan koordinat y menjadi komponen j; tiada pengiraan tambahan diperlukan.',
+      hint: () => 'x-coordinate becomes i-component, y-coordinate becomes j-component. No calculation needed!',
       solution: st => `${m('OP = ' + vec(st.x, st.y))}`
     },
     {
-      title: 'Magnitud daripada bentuk komponen',
-      controls: [slider('x', 'Komponen i', -9, 9, 1, 6), slider('y', 'Komponen j', -9, 9, 1, 8)],
-      prompt: st => `Diberi ${m('v = ' + vec(st.x, st.y))}. Cari ${m('|v|')} (2 t.p.).`,
+      title: 'Magnitude from Component Form',
+      controls: [slider('x', 'i-component', -9, 9, 1, 6), slider('y', 'j-component', -9, 9, 1, 8)],
+      prompt: st => `Given ${m('v = ' + vec(st.x, st.y))}. Find ${m('|v|')} (magnitude, 2 d.p.).`,
       visual: st => buildDiagramSVG([v(0, 0, st.x, 0, 'blue', `${st.x}i`), v(st.x, 0, 0, st.y, 'red', `${st.y}j`), v(0, 0, st.x, st.y, 'green', 'v')]),
-      readout: st => eq(`${m('|v| = √(' + neg(st.x) + '² + ' + neg(st.y) + '²)')}`),
-      fields: () => [box('mag', 'Magnitud (2 t.p.)', 2)],
+      readout: st => eq(`${m('|v| = √(' + neg(st.x) + '² + ' + neg(st.y) + '²)')}`, `This is Pythagorean Theorem in component form`),
+      fields: () => [box('mag', 'Magnitude (2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.x, st.y) }),
-      hint: () => 'Kuasa duakan setiap komponen, tambah, kemudian ambil punca kuasa dua.',
+      hint: () => 'Square each component, add them, then take the square root.',
       solution: st => `${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(2))}`
     },
     {
-      title: 'Vektor antara dua titik',
-      controls: [slider('px', 'x bagi P', -7, 7, 1, 1), slider('py', 'y bagi P', -7, 7, 1, 2), slider('qx', 'x bagi Q', -7, 7, 1, 4), slider('qy', 'y bagi Q', -7, 7, 1, 6)],
-      prompt: st => `Diberi P(${st.px}, ${st.py}) dan Q(${st.qx}, ${st.qy}). Cari komponen ${m('PQ')} dan panjangnya (2 t.p.).`,
+      title: 'Vector Between Two Points',
+      controls: [slider('px', 'x of P', -7, 7, 1, 1), slider('py', 'y of P', -7, 7, 1, 2), slider('qx', 'x of Q', -7, 7, 1, 4), slider('qy', 'y of Q', -7, 7, 1, 6)],
+      prompt: st => `Given P(${st.px}, ${st.py}) and Q(${st.qx}, ${st.qy}). Find the components of ${m('PQ')} and its length (2 d.p.).`,
       visual: st => buildDiagramSVG([v(0, 0, st.px, st.py, 'blue', 'OP', true), v(0, 0, st.qx, st.qy, 'red', 'OQ', true), v(st.px, st.py, st.qx - st.px, st.qy - st.py, 'green', 'PQ')]),
-      readout: () => eq(`${m('PQ = OQ − OP')}`, 'Tolak koordinat titik mula daripada koordinat titik akhir.'),
-      fields: () => [box('i', 'Komponen i'), box('j', 'Komponen j'), box('mag', 'Panjang PQ (2 t.p.)', 2)],
+      readout: () => eq(`${m('PQ = OQ − OP')}`, 'End point minus start point: (x₂ − x₁), (y₂ − y₁)'),
+      fields: () => [box('i', 'i-component'), box('j', 'j-component'), box('mag', 'Length of PQ (2 d.p.)', 2)],
       answers: st => ({ i: st.qx - st.px, j: st.qy - st.py, mag: Math.hypot(st.qx - st.px, st.qy - st.py) }),
-      hint: () => 'Hujung tolak mula: (x₂ − x₁) untuk i dan (y₂ − y₁) untuk j. Terbalikkan urutan dan anda akan mendapat QP.',
+      hint: () => 'Tip: End minus Start gives the vector from P to Q. If you reverse the order, you get QP (opposite direction).',
       solution: st => steps(`${m('PQ = (' + st.qx + ' − ' + neg(st.px) + ')i + (' + st.qy + ' − ' + neg(st.py) + ')j = ' + vec(st.qx - st.px, st.qy - st.py))}`, `${m('|PQ| = √' + ((st.qx - st.px) ** 2 + (st.qy - st.py) ** 2) + ' ≈ ' + Math.hypot(st.qx - st.px, st.qy - st.py).toFixed(2))}`)
     },
     {
-      title: 'Arah vektor diukur dari paksi x positif',
-      controls: [slider('x', 'Komponen i', -8, 8, 1, -3), slider('y', 'Komponen j', -8, 8, 1, 4)],
-      prompt: st => `Diberi ${m('v = ' + vec(st.x, st.y))}. Cari magnitud (2 t.p.) dan sudut arah dari paksi x positif, diukur lawan jam dalam julat 0° hingga 360° (2 t.p.).`,
+      title: 'Vector Direction from Positive X-Axis',
+      controls: [slider('x', 'i-component', -8, 8, 1, -3), slider('y', 'j-component', -8, 8, 1, 4)],
+      prompt: st => `Given ${m('v = ' + vec(st.x, st.y))}. Find magnitude (2 d.p.) and direction angle from the positive x-axis, measured counterclockwise in range 0° to 360° (2 d.p.).`,
       visual: st => buildDiagramSVG([v(0, 0, st.x, 0, 'blue', `${st.x}i`), v(st.x, 0, 0, st.y, 'red', `${st.y}j`), v(0, 0, st.x, st.y, 'green', 'v')]),
-      readout: st => eq(`${m('θ = atan2(y, x)')}`, `x = ${st.x}, y = ${st.y}`, 'Perhatikan sukuan tempat anak panah berada sebelum menerima nilai kalkulator.'),
-      fields: () => [box('mag', 'Magnitud (2 t.p.)', 2), box('ang', 'Sudut (°, 2 t.p.)', 2)],
+      readout: st => eq(`${m('θ = atan2(y, x)')}`, `x = ${st.x}, y = ${st.y}`, 'Always check which quadrant the vector is in!'),
+      fields: () => [box('mag', 'Magnitude (2 d.p.)', 2), box('ang', 'Angle (°, 2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.x, st.y), ang: degrees(st.y, st.x) }),
-      hint: () => 'Kalkulator memberi tan⁻¹ dalam julat −90° hingga 90°. Tambah 180° untuk sukuan kedua dan ketiga, atau 360° untuk sudut negatif dalam sukuan keempat.',
+      hint: () => 'Calculator gives tan⁻¹ in range −90° to 90°. Add 180° for Q2 and Q3, or 360° for negative angles in Q4.',
       solution: st => steps(`${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(2))}`, `${m('θ = atan2(' + neg(st.y) + ', ' + neg(st.x) + ') ≈ ' + degrees(st.y, st.x).toFixed(2))}°`)
     },
     {
@@ -318,44 +318,44 @@ const VectorExamples = (() => {
       }
     },
     {
-      title: 'Daripada magnitud dan sudut kepada komponen',
-      controls: [slider('r', 'Magnitud |v|', 1, 20, 1, 10), slider('a', 'Sudut dari paksi x (°)', 0, 350, 10, 30)],
-      prompt: st => `Sebuah vektor mempunyai magnitud ${st.r} dan membuat sudut ${st.a}° dengan paksi x positif. Cari komponen i dan j, masing-masing kepada 2 tempat perpuluhan.`,
+      title: 'From Magnitude and Angle to Components',
+      controls: [slider('r', 'Magnitude |v|', 1, 20, 1, 10), slider('a', 'Angle from x-axis (°)', 0, 350, 10, 30)],
+      prompt: st => `A vector has magnitude ${st.r} and makes angle ${st.a}° with the positive x-axis. Find i and j components, to 2 decimal places.`,
       visual: st => buildDiagramSVG([v(0, 0, st.r * Math.cos((st.a * Math.PI) / 180), st.r * Math.sin((st.a * Math.PI) / 180), 'green', 'v')]),
-      readout: st => eq(`${m('x = |v| cos θ')}`, `${m('y = |v| sin θ')}`, `|v| = ${st.r}, θ = ${st.a}°`),
-      fields: () => [box('i', 'Komponen i (2 t.p.)', 2), box('j', 'Komponen j (2 t.p.)', 2)],
+      readout: st => eq(`${m('x = |v| cos θ')}`, `${m('y = |v| sin θ')}`, `Horizontal uses cosine, vertical uses sine`),
+      fields: () => [box('i', 'i-component (2 d.p.)', 2), box('j', 'j-component (2 d.p.)', 2)],
       answers: st => ({ i: st.r * Math.cos((st.a * Math.PI) / 180), j: st.r * Math.sin((st.a * Math.PI) / 180) }),
-      hint: () => 'Komponen mendatar menggunakan kosinus dan komponen menegak menggunakan sinus. Pastikan kalkulator dalam mod darjah.',
+      hint: () => 'Horizontal (x) component uses cosine, vertical (y) component uses sine. Make sure calculator is in DEGREE mode!',
       solution: st => steps(`${m('x = ' + st.r + ' cos ' + st.a)}° ${m('≈ ' + (st.r * Math.cos((st.a * Math.PI) / 180)).toFixed(2))}`, `${m('y = ' + st.r + ' sin ' + st.a)}° ${m('≈ ' + (st.r * Math.sin((st.a * Math.PI) / 180)).toFixed(2))}`)
     },
     {
-      title: 'Dua vektor dengan sudut berbeza pada satah yang sama',
-      controls: [slider('r1', 'Magnitud |v₁|', 2, 15, 1, 8), slider('a1', 'Sudut v₁ (°)', 0, 350, 15, 45), slider('r2', 'Magnitud |v₂|', 2, 15, 1, 10), slider('a2', 'Sudut v₂ (°)', 0, 350, 15, 120)],
-      prompt: st => `Dua vektor mempunyai magnitud |v₁| = ${st.r1} dan |v₂| = ${st.r2}, membuat sudut ${st.a1}° dan ${st.a2}° dari paksi x. Cari sudut antara kedua-dua vektor (2 t.p.).`,
+      title: 'Angle Between Two Vectors',
+      controls: [slider('r1', 'Magnitude |v₁|', 2, 15, 1, 8), slider('a1', 'Angle of v₁ (°)', 0, 350, 15, 45), slider('r2', 'Magnitude |v₂|', 2, 15, 1, 10), slider('a2', 'Angle of v₂ (°)', 0, 350, 15, 120)],
+      prompt: st => `Two vectors have magnitudes |v₁| = ${st.r1} and |v₂| = ${st.r2}, at angles ${st.a1}° and ${st.a2}° from the x-axis. Find the angle between them (2 d.p.).`,
       visual: st => buildDiagramSVG([v(0, 0, st.r1 * Math.cos((st.a1 * Math.PI) / 180), st.r1 * Math.sin((st.a1 * Math.PI) / 180), 'blue', 'v₁'), v(0, 0, st.r2 * Math.cos((st.a2 * Math.PI) / 180), st.r2 * Math.sin((st.a2 * Math.PI) / 180), 'red', 'v₂')]),
-      readout: st => eq(`Sudut antara: |θ₂ − θ₁|`, `θ₁ = ${st.a1}°, θ₂ = ${st.a2}°`, `Ambil perbezaan sudut yang lebih kecil.`),
-      fields: () => [box('angle', 'Sudut antara vektor (°, 2 t.p.)', 2)],
+      readout: st => eq(`Angle between: |θ₂ − θ₁|`, `θ₁ = ${st.a1}°, θ₂ = ${st.a2}°`, `Always take the SMALLER angle`),
+      fields: () => [box('angle', 'Angle between vectors (°, 2 d.p.)', 2)],
       answers: st => {
         let diff = Math.abs(st.a2 - st.a1);
         if (diff > 180) diff = 360 - diff;
         return { angle: diff };
       },
-      hint: () => 'Sudut antara dua vektor = perbezaan sudut arahan mereka. Jika perbezaan > 180°, ambil 360° − perbezaan untuk mendapat sudut yang lebih kecil.',
+      hint: () => 'Angle between = difference of their direction angles. If difference > 180°, take 360° − difference to get the smaller angle.',
       solution: st => {
         let diff = Math.abs(st.a2 - st.a1);
         if (diff > 180) diff = 360 - diff;
-        return `Perbezaan = |${st.a2}° − ${st.a1}°| = ${Math.abs(st.a2 - st.a1)}°, jadi sudut antara = ${diff.toFixed(2)}°`;
+        return `Difference = |${st.a2}° − ${st.a1}°| = ${Math.abs(st.a2 - st.a1)}°, so angle between = ${diff.toFixed(2)}°`;
       }
     },
     {
-      title: 'Vektor unit dalam arah paduan dua vektor',
+      title: 'Unit Vector in Direction of Sum',
       invalid: st => {
         const x = 3 * Math.cos((st.a1 * Math.PI) / 180) + 4 * Math.cos((st.a2 * Math.PI) / 180);
         const y = 3 * Math.sin((st.a1 * Math.PI) / 180) + 4 * Math.sin((st.a2 * Math.PI) / 180);
-        return Math.hypot(x, y) ? '' : 'Paduan ialah vektor sifar. Ubah sudut untuk meneruskan.';
+        return Math.hypot(x, y) ? '' : 'Resultant is zero vector. Change angles to continue.';
       },
-      controls: [slider('a1', 'Sudut v₁ (°)', 0, 350, 15, 60), slider('a2', 'Sudut v₂ (°)', 0, 350, 15, 180)],
-      prompt: st => `Diberi ${m('v₁')} dengan magnitud 3 di sudut ${st.a1}° dan ${m('v₂')} dengan magnitud 4 di sudut ${st.a2}°. Cari vektor unit dalam arah paduan ${m('v₁ + v₂')} (4 t.p.).`,
+      controls: [slider('a1', 'Angle of v₁ (°)', 0, 350, 15, 60), slider('a2', 'Angle of v₂ (°)', 0, 350, 15, 180)],
+      prompt: st => `Given ${m('v₁')} with magnitude 3 at angle ${st.a1}° and ${m('v₂')} with magnitude 4 at angle ${st.a2}°. Find the unit vector in the direction of ${m('v₁ + v₂')} (4 d.p.).`,
       visual: st => {
         const x1 = 3 * Math.cos((st.a1 * Math.PI) / 180);
         const y1 = 3 * Math.sin((st.a1 * Math.PI) / 180);
@@ -373,9 +373,9 @@ const VectorExamples = (() => {
         const sx = x1 + x2;
         const sy = y1 + y2;
         const mag = Math.hypot(sx, sy);
-        return mag ? eq(`Paduan = ${m(vec(Number(sx.toFixed(4)), Number(sy.toFixed(4))))}`, `Magnitud = ${mag.toFixed(4)}`, `${m('u = paduan / magnitud')}`) : 'Paduan ialah vektor sifar. Ubah sudut.';
+        return mag ? eq(`Resultant = ${m(vec(Number(sx.toFixed(4)), Number(sy.toFixed(4))))}`, `Magnitude = ${mag.toFixed(4)}`, `${m('u = resultant / magnitude')}`) : 'Resultant is zero vector. Change angles.';
       },
-      fields: () => [box('ui', 'Komponen i bagi u (4 t.p.)', 4), box('uj', 'Komponen j bagi u (4 t.p.)', 4)],
+      fields: () => [box('ui', 'i-component of u (4 d.p.)', 4), box('uj', 'j-component of u (4 d.p.)', 4)],
       answers: st => {
         const x1 = 3 * Math.cos((st.a1 * Math.PI) / 180);
         const y1 = 3 * Math.sin((st.a1 * Math.PI) / 180);
@@ -386,7 +386,7 @@ const VectorExamples = (() => {
         const mag = Math.hypot(sx, sy) || 1;
         return { ui: sx / mag, uj: sy / mag };
       },
-      hint: () => 'Tukar magnitud dan sudut kepada komponen. Tambah komponen dahulu untuk mendapat paduan. Kemudian bahagikan setiap komponen paduan dengan magnitudnya.',
+      hint: () => 'Step 1: Convert magnitude-angle to components. Step 2: Add components to get resultant. Step 3: Divide each resultant component by its magnitude.',
       solution: st => {
         const x1 = 3 * Math.cos((st.a1 * Math.PI) / 180);
         const y1 = 3 * Math.sin((st.a1 * Math.PI) / 180);
@@ -395,7 +395,7 @@ const VectorExamples = (() => {
         const sx = x1 + x2;
         const sy = y1 + y2;
         const mag = Math.hypot(sx, sy);
-        if (!mag) return 'Paduan ialah vektor sifar, jadi tiada vektor unit.';
+        if (!mag) return 'Resultant is zero vector, so no unit vector exists.';
         return steps(`${m('v₁ = 3 cos ' + st.a1 + '° i + 3 sin ' + st.a1 + '° j ≈ ' + vec(Number(x1.toFixed(4)), Number(y1.toFixed(4))))}`, `${m('v₂ = 4 cos ' + st.a2 + '° i + 4 sin ' + st.a2 + '° j ≈ ' + vec(Number(x2.toFixed(4)), Number(y2.toFixed(4))))}`, `${m('v₁ + v₂ ≈ ' + vec(Number(sx.toFixed(4)), Number(sy.toFixed(4))))}`, `${m('u ≈ ' + vec(Number((sx / mag).toFixed(4)), Number((sy / mag).toFixed(4))))}`);
       }
     }
