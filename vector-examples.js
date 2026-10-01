@@ -299,22 +299,22 @@ const VectorExamples = (() => {
       solution: st => steps(`${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(2))}`, `${m('θ = atan2(' + neg(st.y) + ', ' + neg(st.x) + ') ≈ ' + degrees(st.y, st.x).toFixed(2))}°`)
     },
     {
-      title: 'Vektor unit dalam arah yang sama',
-      invalid: st => (Math.hypot(st.x, st.y) ? '' : 'r ialah vektor sifar, jadi vektor unit tidak tertakrif. Gerakkan peluncur untuk meneruskan.'),
-      controls: [slider('x', 'Komponen i', -12, 12, 1, 10), slider('y', 'Komponen j', -12, 12, 1, -1)],
-      prompt: st => `Diberi ${m('r = ' + vec(st.x, st.y))}. Cari vektor unit ${m('u')} dalam arah r, kepada 4 tempat perpuluhan.`,
-      visual: st => (Math.hypot(st.x, st.y) ? buildDiagramSVG([v(0, 0, st.x, st.y, 'green', 'r'), v(0, 0, st.x / Math.hypot(st.x, st.y), st.y / Math.hypot(st.x, st.y), 'blue', 'u')]) : '<p>Vektor sifar tidak mempunyai arah, jadi vektor unitnya tidak tertakrif.</p>'),
-      readout: st => (Math.hypot(st.x, st.y) ? eq(`${m('u = r/|r|')}`, `${m('|r| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(4))}`) : `${m('r = zero')}: pembahagian dengan magnitud sifar tidak tertakrif. Gerakkan peluncur.`),
-      fields: () => [box('ui', 'Komponen i bagi u (4 t.p.)', 4), box('uj', 'Komponen j bagi u (4 t.p.)', 4)],
+      title: 'Unit Vector in the Same Direction',
+      invalid: st => (Math.hypot(st.x, st.y) ? '' : 'r is the zero vector, so no unit vector is defined. Move the slider to continue.'),
+      controls: [slider('x', 'i-component', -12, 12, 1, 10), slider('y', 'j-component', -12, 12, 1, -1)],
+      prompt: st => `Given ${m('r = ' + vec(st.x, st.y))}. Find the unit vector ${m('u')} in the direction of r, to 4 decimal places.`,
+      visual: st => (Math.hypot(st.x, st.y) ? buildDiagramSVG([v(0, 0, st.x, st.y, 'green', 'r'), v(0, 0, st.x / Math.hypot(st.x, st.y), st.y / Math.hypot(st.x, st.y), 'blue', 'u')]) : '<p>The zero vector has no direction, so its unit vector is not defined.</p>'),
+      readout: st => (Math.hypot(st.x, st.y) ? eq(`${m('u = r/|r|')}`, `${m('|r| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(4))}`) : `${m('r = zero')}: division by zero magnitude is not defined. Move the slider.`),
+      fields: () => [box('ui', 'i-component of u (4 d.p.)', 4), box('uj', 'j-component of u (4 d.p.)', 4)],
       answers: st => {
         const mag = Math.hypot(st.x, st.y) || 1;
         return { ui: st.x / mag, uj: st.y / mag };
       },
-      hint: () => 'Cari magnitud dahulu, kemudian bahagikan <strong>setiap</strong> komponen dengan magnitud itu. Semak dengan memastikan |u| = 1.',
+      hint: () => 'Find the magnitude first, then divide <strong>each</strong> component by that magnitude. Check by verifying that |u| = 1.',
       solution: st => {
         const mag = Math.hypot(st.x, st.y);
-        if (!mag) return 'Vektor sifar tidak mempunyai vektor unit.';
-        return steps(`${m('|r| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + mag.toFixed(4))}`, `${m('u = (' + vec(st.x, st.y) + ')/|r| ≈ ' + vec(Number((st.x / mag).toFixed(4)), Number((st.y / mag).toFixed(4))))}`, `Semakan: ${m('|u| = 1')}`);
+        if (!mag) return 'The zero vector has no unit vector.';
+        return steps(`${m('|r| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + mag.toFixed(4))}`, `${m('u = (' + vec(st.x, st.y) + ')/|r| ≈ ' + vec(Number((st.x / mag).toFixed(4)), Number((st.y / mag).toFixed(4))))}`, `Check: ${m('|u| = 1')}`);
       }
     },
     {
@@ -404,236 +404,236 @@ const VectorExamples = (() => {
   /* ---------- Area 4: 5.3 Addition, subtraction and geometric routes ---------- */
   const additionExamples = [
     {
-      title: 'Menambah dua vektor komponen demi komponen',
-      controls: [slider('ax', 'i bagi A', -6, 6, 1, 3), slider('ay', 'j bagi A', -6, 6, 1, 4), slider('bx', 'i bagi B', -6, 6, 1, 2), slider('by', 'j bagi B', -6, 6, 1, -1)],
-      prompt: st => `Cari ${m('A + B')} apabila ${m('A = ' + vec(st.ax, st.ay))} dan ${m('B = ' + vec(st.bx, st.by))}.`,
+      title: 'Adding Two Vectors Component by Component',
+      controls: [slider('ax', 'i of A', -6, 6, 1, 3), slider('ay', 'j of A', -6, 6, 1, 4), slider('bx', 'i of B', -6, 6, 1, 2), slider('by', 'j of B', -6, 6, 1, -1)],
+      prompt: st => `Find ${m('A + B')} when ${m('A = ' + vec(st.ax, st.ay))} and ${m('B = ' + vec(st.bx, st.by))}.`,
       visual: st => buildDiagramSVG([v(0, 0, st.ax, st.ay, 'blue', 'A'), v(st.ax, st.ay, st.bx, st.by, 'red', 'B'), v(0, 0, st.ax + st.bx, st.ay + st.by, 'green', 'A + B')]),
-      readout: () => eq('Hukum segitiga: letakkan ekor B di hujung A; paduan menutup segitiga.', `${m('A + B = (A_x + B_x)i + (A_y + B_y)j')}`),
-      fields: () => [box('i', 'Komponen i'), box('j', 'Komponen j')],
+      readout: () => eq('Triangle Law: place the tail of B at the head of A; the resultant closes the triangle.', `${m('A + B = (A_x + B_x)i + (A_y + B_y)j')}`),
+      fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: st.ax + st.bx, j: st.ay + st.by }),
-      hint: () => 'Tambah komponen i bersama-sama, kemudian komponen j bersama-sama. Jangan campurkan kedua-duanya.',
+      hint: () => 'Add i-components together, then j-components together. DO NOT MIX THEM!',
       solution: st => `${m('A + B = (' + st.ax + ' + ' + neg(st.bx) + ')i + (' + st.ay + ' + ' + neg(st.by) + ')j = ' + vec(st.ax + st.bx, st.ay + st.by))}`
     },
     {
-      title: 'Menolak vektor sebagai menambah negatifnya',
-      controls: [slider('ax', 'i bagi A', -6, 6, 1, 4), slider('ay', 'j bagi A', -6, 6, 1, -2), slider('bx', 'i bagi B', -6, 6, 1, 1), slider('by', 'j bagi B', -6, 6, 1, 3)],
-      prompt: st => `Cari ${m('A − B')} apabila ${m('A = ' + vec(st.ax, st.ay))} dan ${m('B = ' + vec(st.bx, st.by))}.`,
+      title: 'Subtracting Vectors: A − B = A + (−B)',
+      controls: [slider('ax', 'i of A', -6, 6, 1, 4), slider('ay', 'j of A', -6, 6, 1, -2), slider('bx', 'i of B', -6, 6, 1, 1), slider('by', 'j of B', -6, 6, 1, 3)],
+      prompt: st => `Find ${m('A − B')} when ${m('A = ' + vec(st.ax, st.ay))} and ${m('B = ' + vec(st.bx, st.by))}.`,
       visual: st => buildDiagramSVG([v(0, 0, st.ax, st.ay, 'blue', 'A'), v(st.ax, st.ay, -st.bx, -st.by, 'red', '−B'), v(0, 0, st.ax - st.bx, st.ay - st.by, 'green', 'A − B')]),
       readout: st => eq(`${m('A − B = A + (−B)')}`, `${m('−B = ' + vec(-st.bx, -st.by))}`),
-      fields: () => [box('i', 'Komponen i'), box('j', 'Komponen j')],
+      fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: st.ax - st.bx, j: st.ay - st.by }),
-      hint: () => 'Tulis semula penolakan sebagai penambahan −B supaya tanda setiap komponen jelas.',
+      hint: () => 'Rewrite subtraction as adding negative B so the signs of each component are clear.',
       solution: st => `${m('A − B = (' + st.ax + ' − ' + neg(st.bx) + ')i + (' + st.ay + ' − ' + neg(st.by) + ')j = ' + vec(st.ax - st.bx, st.ay - st.by))}`
     },
     {
-      title: 'Gabungan linear pA + qB',
-      controls: [slider('p', 'Pekali p', -3, 3, 1, 2), slider('q', 'Pekali q', -3, 3, 1, 1)],
-      prompt: st => `Diberi ${m('a = 2i + 5j')} dan ${m('b = i − 4j')}. Cari ${m(combo(st.p, st.q))}.`,
-      visual: st => buildDiagramSVG(drawable([v(0, 0, 2 * st.p, 5 * st.p, 'blue', term(st.p, 'a')), v(2 * st.p, 5 * st.p, st.q, -4 * st.q, 'red', term(st.q, 'b')), v(0, 0, 2 * st.p + st.q, 5 * st.p - 4 * st.q, 'green', 'hasil')])),
+      title: 'Linear Combination pA + qB',
+      controls: [slider('p', 'Coefficient p', -3, 3, 1, 2), slider('q', 'Coefficient q', -3, 3, 1, 1)],
+      prompt: st => `Given ${m('a = 2i + 5j')} and ${m('b = i − 4j')}. Find ${m(combo(st.p, st.q))}.`,
+      visual: st => buildDiagramSVG(drawable([v(0, 0, 2 * st.p, 5 * st.p, 'blue', term(st.p, 'a')), v(2 * st.p, 5 * st.p, st.q, -4 * st.q, 'red', term(st.q, 'b')), v(0, 0, 2 * st.p + st.q, 5 * st.p - 4 * st.q, 'green', 'result')])),
       readout: st => eq(`${m(term(st.p, 'a') + ' = ' + vec(2 * st.p, 5 * st.p))}`, `${m(term(st.q, 'b') + ' = ' + vec(st.q, -4 * st.q))}`),
-      fields: () => [box('i', 'Komponen i'), box('j', 'Komponen j')],
+      fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: 2 * st.p + st.q, j: 5 * st.p - 4 * st.q }),
-      hint: () => 'Lakukan setiap pendaraban skalar dahulu, kemudian tambah kedua-dua hasil komponen demi komponen.',
-      solution: st => steps(`${m(term(st.p, 'a') + ' = ' + vec(2 * st.p, 5 * st.p))}`, `${m(term(st.q, 'b') + ' = ' + vec(st.q, -4 * st.q))}`, `Jumlah: ${m(vec(2 * st.p + st.q, 5 * st.p - 4 * st.q))}`)
+      hint: () => 'Perform each scalar multiplication first, then add the two results component by component.',
+      solution: st => steps(`${m(term(st.p, 'a') + ' = ' + vec(2 * st.p, 5 * st.p))}`, `${m(term(st.q, 'b') + ' = ' + vec(st.q, -4 * st.q))}`, `Sum: ${m(vec(2 * st.p + st.q, 5 * st.p - 4 * st.q))}`)
     },
     {
-      title: 'Magnitud dan arah vektor paduan',
-      controls: [slider('ax', 'i bagi A', -7, 7, 1, 3), slider('ay', 'j bagi A', -7, 7, 1, 2), slider('bx', 'i bagi B', -7, 7, 1, 2), slider('by', 'j bagi B', -7, 7, 1, 1)],
-      prompt: st => `Dengan ${m('A = ' + vec(st.ax, st.ay))} dan ${m('B = ' + vec(st.bx, st.by))}, cari ${m('|A + B|')} (2 t.p.) dan arahnya dari paksi x positif dalam darjah (2 t.p.).`,
+      title: 'Magnitude and Direction of the Resultant Vector',
+      controls: [slider('ax', 'i of A', -7, 7, 1, 3), slider('ay', 'j of A', -7, 7, 1, 2), slider('bx', 'i of B', -7, 7, 1, 2), slider('by', 'j of B', -7, 7, 1, 1)],
+      prompt: st => `Given ${m('A = ' + vec(st.ax, st.ay))} and ${m('B = ' + vec(st.bx, st.by))}, find the magnitude ${m('|A + B|')} (2 d.p.) and its direction from the positive x-axis in degrees (2 d.p.).`,
       visual: st => buildDiagramSVG([v(0, 0, st.ax, st.ay, 'blue', 'A'), v(st.ax, st.ay, st.bx, st.by, 'red', 'B'), v(0, 0, st.ax + st.bx, st.ay + st.by, 'green', 'R')]),
       readout: st => eq(`${m('R = ' + vec(st.ax + st.bx, st.ay + st.by))}`, `${m('|R| = √(R_x² + R_y²)')}`, `${m('θ = atan2(R_y, R_x)')}`),
-      fields: () => [box('mag', 'Magnitud |A + B| (2 t.p.)', 2), box('ang', 'Sudut (°, 2 t.p.)', 2)],
+      fields: () => [box('mag', 'Magnitude |A + B| (2 d.p.)', 2), box('ang', 'Angle (°, 2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.ax + st.bx, st.ay + st.by), ang: degrees(st.ay + st.by, st.ax + st.bx) }),
-      hint: () => 'Tambah komponen dahulu. Jangan tambah magnitud |A| dan |B| secara terus kecuali kedua-duanya sehala.',
+      hint: () => 'Add components first. Do NOT add |A| and |B| directly unless both vectors point in the same direction.',
       solution: st => steps(`${m('R = ' + vec(st.ax + st.bx, st.ay + st.by))}`, `${m('|R| = √' + ((st.ax + st.bx) ** 2 + (st.ay + st.by) ** 2) + ' ≈ ' + Math.hypot(st.ax + st.bx, st.ay + st.by).toFixed(2))}`, `${m('θ ≈ ' + degrees(st.ay + st.by, st.ax + st.bx).toFixed(2))}°`)
     },
     {
-      title: 'Menyelesaikan persamaan vektor A + X = B',
-      controls: [slider('ax', 'i bagi A', -7, 7, 1, 2), slider('ay', 'j bagi A', -7, 7, 1, -3), slider('bx', 'i bagi B', -7, 7, 1, 5), slider('by', 'j bagi B', -7, 7, 1, 1)],
-      prompt: st => `Diberi ${m('A = ' + vec(st.ax, st.ay))} dan ${m('B = ' + vec(st.bx, st.by))}. Cari X supaya ${m('A + X = B')}, dan nyatakan ${m('|X|')} (2 t.p.).`,
+      title: 'Solving Vector Equations: A + X = B',
+      controls: [slider('ax', 'i of A', -7, 7, 1, 2), slider('ay', 'j of A', -7, 7, 1, -3), slider('bx', 'i of B', -7, 7, 1, 5), slider('by', 'j of B', -7, 7, 1, 1)],
+      prompt: st => `Given ${m('A = ' + vec(st.ax, st.ay))} and ${m('B = ' + vec(st.bx, st.by))}. Find X so that ${m('A + X = B')}, and state the magnitude ${m('|X|')} (2 d.p.).`,
       visual: st => buildDiagramSVG([v(0, 0, st.ax, st.ay, 'blue', 'A'), v(0, 0, st.bx, st.by, 'red', 'B'), v(st.ax, st.ay, st.bx - st.ax, st.by - st.ay, 'green', 'X')]),
-      readout: () => eq(`${m('X = B − A')}`, 'Pada rajah, X menghubungkan hujung A ke hujung B.'),
-      fields: () => [box('i', 'Komponen i bagi X'), box('j', 'Komponen j bagi X'), box('mag', 'Magnitud |X| (2 t.p.)', 2)],
+      readout: () => eq(`${m('X = B − A')}`, 'On the diagram, X connects the tip of A to the tip of B.'),
+      fields: () => [box('i', 'i-component of X'), box('j', 'j-component of X'), box('mag', 'Magnitude |X| (2 d.p.)', 2)],
       answers: st => ({ i: st.bx - st.ax, j: st.by - st.ay, mag: Math.hypot(st.bx - st.ax, st.by - st.ay) }),
-      hint: () => 'Asingkan X dengan menolak A daripada kedua-dua belah persamaan, kemudian kerjakan komponen demi komponen.',
+      hint: () => 'Isolate X by subtracting A from both sides of the equation, then work component by component.',
       solution: st => steps(`${m('X = B − A = ' + vec(st.bx - st.ax, st.by - st.ay))}`, `${m('|X| = √' + ((st.bx - st.ax) ** 2 + (st.by - st.ay) ** 2) + ' ≈ ' + Math.hypot(st.bx - st.ax, st.by - st.ay).toFixed(2))}`)
     },
     {
-      title: 'Laluan vektor dalam rajah ABCD',
-      controls: [chooser('target', 'Vektor sasaran', [['DB', 'DB'], ['AC', 'AC'], ['CD', 'CD']], 'DB'), slider('p', 'Pekali p dalam AB = p y', 2, 6, 1, 4), slider('q', 'Pekali q dalam AD = q x', 3, 8, 1, 5), slider('r', 'Pekali r dalam BC = r x', 1, 5, 1, 2)],
-      prompt: st => `Dalam rajah ABCD, ${m('AB = ' + st.p + 'y')}, ${m('AD = ' + st.q + 'x')} dan ${m('BC = ' + st.r + 'x')}. Nyatakan ${m(st.target)} dalam sebutan x dan y dengan memasukkan kedua-dua pekali.`,
+      title: 'Vector Routes in Quadrilateral ABCD',
+      controls: [chooser('target', 'Target vector', [['DB', 'DB'], ['AC', 'AC'], ['CD', 'CD']], 'DB'), slider('p', 'Coefficient p in AB = p y', 2, 6, 1, 4), slider('q', 'Coefficient q in AD = q x', 3, 8, 1, 5), slider('r', 'Coefficient r in BC = r x', 1, 5, 1, 2)],
+      prompt: st => `In quadrilateral ABCD, ${m('AB = ' + st.p + 'y')}, ${m('AD = ' + st.q + 'x')} and ${m('BC = ' + st.r + 'x')}. Express ${m(st.target)} in terms of x and y, including both coefficients.`,
       visual: st => VectorExtensions.polygon(st.p, st.q, st.r),
-      readout: st => eq(`Laluan: ${{ DB: 'D → A → B', AC: 'A → B → C', CD: 'C → B → A → D' }[st.target]}`, 'Membalikkan arah sesuatu sisi menukar tandanya.'),
-      fields: () => [box('x', 'Pekali x'), box('y', 'Pekali y')],
+      readout: st => eq(`Route: ${{ DB: 'D → A → B', AC: 'A → B → C', CD: 'C → B → A → D' }[st.target]}`, 'Reversing the direction of a side reverses its sign.'),
+      fields: () => [box('x', 'Coefficient of x'), box('y', 'Coefficient of y')],
       answers: st => {
         const [x, y] = VectorExtensions.routeResult(st.p, st.q, st.r, st.target);
         return { x, y };
       },
-      hint: () => 'Tulis laluan sebagai hasil tambah sisi berlabel. Setiap kali anda bergerak melawan anak panah yang diberi, tukar tandanya.',
+      hint: () => 'Write the route as a sum of labeled sides. Each time you move against the given arrow, flip the sign.',
       solution: st => m(VectorExtensions.routeWork(st.p, st.q, st.r, st.target))
     },
     {
-      title: 'Kesamarataan vektor: mengenal vektor yang sama',
-      controls: [slider('x1', 'Komponen i A', -5, 5, 1, 2), slider('y1', 'Komponen j A', -5, 5, 1, 3), slider('x2', 'Komponen i B', -5, 5, 1, 2), slider('y2', 'Komponen j B', -5, 5, 1, 3)],
-      prompt: st => `Diberi ${m('A = ' + vec(st.x1, st.y1))} dan ${m('B = ' + vec(st.x2, st.y2))}. Adakah A sama dengan B? Jika tidak, cari ${m('A − B')}.`,
+      title: 'Vector Equality: Recognizing Equal Vectors',
+      controls: [slider('x1', 'i-component of A', -5, 5, 1, 2), slider('y1', 'j-component of A', -5, 5, 1, 3), slider('x2', 'i-component of B', -5, 5, 1, 2), slider('y2', 'j-component of B', -5, 5, 1, 3)],
+      prompt: st => `Given ${m('A = ' + vec(st.x1, st.y1))} and ${m('B = ' + vec(st.x2, st.y2))}. Is A equal to B? If not, find ${m('A − B')}.`,
       visual: st => buildDiagramSVG([v(0, 0, st.x1, st.y1, 'blue', 'A'), v(0, 0, st.x2, st.y2, 'red', 'B'), (st.x1 !== st.x2 || st.y1 !== st.y2) && v(0, 0, st.x1 - st.x2, st.y1 - st.y2, 'green', 'A − B')].filter(Boolean)),
-      readout: st => st.x1 === st.x2 && st.y1 === st.y2 ? `${m('A = B')}: vektor sama kerana kedua-dua komponen sama.` : eq(`${m('A ≠ B')}`, `${m('A − B = ' + vec(st.x1 - st.x2, st.y1 - st.y2))}`),
-      fields: () => [pick('equal', 'Adakah A = B?', [['yes', 'Ya, A sama dengan B'], ['no', 'Tidak, A berbeza daripada B']]), box('i', 'Jika tidak sama, komponen i A − B'), box('j', 'Jika tidak sama, komponen j A − B')],
+      readout: st => st.x1 === st.x2 && st.y1 === st.y2 ? `${m('A = B')}: vectors are equal because both components are the same.` : eq(`${m('A ≠ B')}`, `${m('A − B = ' + vec(st.x1 - st.x2, st.y1 - st.y2))}`),
+      fields: () => [pick('equal', 'Is A = B?', [['yes', 'Yes, A equals B'], ['no', 'No, A differs from B']]), box('i', 'If different, i-component of A − B'), box('j', 'If different, j-component of A − B')],
       answers: st => {
         const equal = st.x1 === st.x2 && st.y1 === st.y2 ? 'yes' : 'no';
         return { equal, i: st.x1 - st.x2, j: st.y1 - st.y2 };
       },
-      hint: () => 'Dua vektor sama jika dan hanya jika semua komponen mereka sama. Jika tidak, tolak komponen demi komponen.',
+      hint: () => 'Two vectors are equal if and only if all their components are equal. If not, subtract component by component.',
       solution: st => {
         if (st.x1 === st.x2 && st.y1 === st.y2) {
-          return `${m('A = B')}: Kedua-dua vektor mempunyai komponen i = ${st.x1} dan komponen j = ${st.y1}.`;
+          return `${m('A = B')}: Both vectors have i-component = ${st.x1} and j-component = ${st.y1}.`;
         }
-        return steps(`Bandingkan komponen:`, `Komponen i: ${st.x1} ${st.x1 === st.x2 ? '=' : '≠'} ${st.x2}`, `Komponen j: ${st.y1} ${st.y1 === st.y2 ? '=' : '≠'} ${st.y2}`, `Oleh itu, ${m('A ≠ B')}`, `${m('A − B = ' + vec(st.x1 - st.x2, st.y1 - st.y2))}`);
+        return steps(`Compare components:`, `i-component: ${st.x1} ${st.x1 === st.x2 ? '=' : '≠'} ${st.x2}`, `j-component: ${st.y1} ${st.y1 === st.y2 ? '=' : '≠'} ${st.y2}`, `Therefore, ${m('A ≠ B')}`, `${m('A − B = ' + vec(st.x1 - st.x2, st.y1 - st.y2))}`);
       }
     },
     {
-      title: 'Keseimbangan: mencari vektor ketiga dalam persamaan tertutup',
-      controls: [slider('ax', 'Komponen i A', -6, 6, 1, 2), slider('ay', 'Komponen j A', -6, 6, 1, 3), slider('bx', 'Komponen i B', -6, 6, 1, 1), slider('by', 'Komponen j B', -6, 6, 1, -2), slider('cx', 'Komponen i C (ubah)', -6, 6, 1, -3)],
-      prompt: st => `Dalam segitiga tertutup, ${m('A + B + C = zero')}. Diberi ${m('A = ' + vec(st.ax, st.ay))}} dan ${m('B = ' + vec(st.bx, st.by))}}. Cari C supaya jumlah ketiga-tiga ialah sifar. Komponen i harus ${st.ax + st.bx + st.cx}} sama dengan sifar.`,
+      title: 'Equilibrium: Finding the Third Vector in a Closed Triangle',
+      controls: [slider('ax', 'i-component of A', -6, 6, 1, 2), slider('ay', 'j-component of A', -6, 6, 1, 3), slider('bx', 'i-component of B', -6, 6, 1, 1), slider('by', 'j-component of B', -6, 6, 1, -2), slider('cx', 'i-component of C (adjustable)', -6, 6, 1, -3)],
+      prompt: st => `In a closed triangle, ${m('A + B + C = zero')}. Given ${m('A = ' + vec(st.ax, st.ay))} and ${m('B = ' + vec(st.bx, st.by))}. Find C so that the sum of all three equals zero. The i-component sum must equal ${st.ax + st.bx + st.cx}}.`,
       visual: st => buildDiagramSVG([v(0, 0, st.ax, st.ay, 'blue', 'A'), v(st.ax, st.ay, st.bx, st.by, 'red', 'B'), v(st.ax + st.bx, st.ay + st.by, -st.ax - st.bx, -st.ay - st.by, 'green', 'C')]),
       readout: st => {
         const cy = -(st.ay + st.by);
         const sumI = st.ax + st.bx + st.cx;
         const sumJ = st.ay + st.by + cy;
-        return eq(`Untuk keseimbangan: ${m('A + B + C = zero')}`, `Jumlah i: ${st.ax} + ${st.bx} + ${st.cx} = ${sumI}`, `Jumlah j: ${st.ay} + ${st.by} + ${cy} = ${sumJ}`);
+        return eq(`For equilibrium: ${m('A + B + C = zero')}`, `Sum of i: ${st.ax} + ${st.bx} + ${st.cx} = ${sumI}`, `Sum of j: ${st.ay} + ${st.by} + ${cy} = ${sumJ}`);
       },
-      fields: () => [box('cy', 'Komponen j C (untuk keseimbangan)'), box('i_sum', 'Jumlah komponen i (mesti 0)'), box('j_sum', 'Jumlah komponen j (mesti 0)')],
+      fields: () => [box('cy', 'j-component of C (for equilibrium)'), box('i_sum', 'Sum of all i-components (must be 0)'), box('j_sum', 'Sum of all j-components (must be 0)')],
       answers: st => ({
         cy: -(st.ay + st.by),
         i_sum: 0,
         j_sum: 0
       }),
-      hint: () => 'Untuk keseimbangan (vektor jumlah = sifar), jumlah kesemua komponen i mesti 0 dan jumlah kesemua komponen j mesti 0. C = −(A + B).',
-      solution: st => steps(`${m('A + B = ' + vec(st.ax + st.bx, st.ay + st.by))}`, `Untuk jumlah = sifar: ${m('C = −(A + B) = ' + vec(-(st.ax + st.bx), -(st.ay + st.by)))}`, `Semakan: ${m(vec(st.ax, st.ay) + ' + ' + vec(st.bx, st.by) + ' + ' + vec(-(st.ax + st.bx), -(st.ay + st.by)) + ' = zero')}`)
+      hint: () => 'For equilibrium (sum of vectors = zero), the sum of all i-components must be 0 and the sum of all j-components must be 0. Notice that C = −(A + B).',
+      solution: st => steps(`${m('A + B = ' + vec(st.ax + st.bx, st.ay + st.by))}`, `For sum = zero: ${m('C = −(A + B) = ' + vec(-(st.ax + st.bx), -(st.ay + st.by)))}`, `Check: ${m(vec(st.ax, st.ay) + ' + ' + vec(st.bx, st.by) + ' + ' + vec(-(st.ax + st.bx), -(st.ay + st.by)) + ' = zero')}`)
     }
   ];
 
   /* ---------- Area 5: Practice — exam-style column vector drills ---------- */
   const practiceExamples = [
     {
-      title: 'Membaca vektor lajur',
-      controls: [slider('x', 'Baris atas', -8, 8, 1, 3), slider('y', 'Baris bawah', -8, 8, 1, -4)],
-      prompt: st => `Diberi ${m('a')} = ${col(st.x, st.y)}. Tulis a dalam bentuk ${m('xi + yj')}.`,
+      title: 'Reading Column Vector Notation',
+      controls: [slider('x', 'Top row', -8, 8, 1, 3), slider('y', 'Bottom row', -8, 8, 1, -4)],
+      prompt: st => `Given ${m('a')} = ${col(st.x, st.y)}. Write a in the form ${m('xi + yj')}.`,
       visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'green', 'a')]),
-      readout: () => 'Baris atas vektor lajur ialah komponen i; baris bawah ialah komponen j.',
-      fields: () => [box('i', 'Komponen i'), box('j', 'Komponen j')],
+      readout: () => 'The top row of a column vector is the i-component; the bottom row is the j-component.',
+      fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: st.x, j: st.y }),
-      hint: () => 'Tiada pengiraan diperlukan; hanya tukar tatatanda daripada bentuk lajur kepada bentuk i, j.',
+      hint: () => 'No calculation needed; simply convert from column vector form to i, j form.',
       solution: st => `${m('a = ' + vec(st.x, st.y))}`
     },
     {
-      title: 'Pendaraban skalar dalam bentuk lajur',
-      controls: [slider('k', 'Pengganda k', -4, 5, 1, 4), slider('x', 'Baris atas bagi a', -6, 6, 1, 3), slider('y', 'Baris bawah bagi a', -6, 6, 1, 1)],
-      prompt: st => `Diberi ${m('a')} = ${col(st.x, st.y)}. Cari ${m('' + st.k + 'a')}.`,
+      title: 'Scalar Multiplication in Column Form',
+      controls: [slider('k', 'Multiplier k', -4, 5, 1, 4), slider('x', 'Top row of a', -6, 6, 1, 3), slider('y', 'Bottom row of a', -6, 6, 1, 1)],
+      prompt: st => `Given ${m('a')} = ${col(st.x, st.y)}. Find ${m('' + st.k + 'a')}.`,
       visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'blue', 'a'), v(0, 0, st.k * st.x, st.k * st.y, 'green', `${st.k}a`)]),
-      readout: st => eq(`${m('' + st.k + 'a')} bermaksud darab setiap baris dengan ${st.k}.`),
-      fields: () => [box('i', 'Komponen i'), box('j', 'Komponen j')],
+      readout: st => eq(`${m('' + st.k + 'a')} means multiply each row by ${st.k}.`),
+      fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: st.k * st.x, j: st.k * st.y }),
-      hint: () => 'Darab kedua-dua baris, bukan hanya baris pertama.',
+      hint: () => 'Multiply both rows, not just the first one.',
       solution: st => `${m('' + st.k + 'a = ' + vec(st.k * st.x, st.k * st.y))}`
     },
     {
-      title: 'Hasil ka − b dalam bentuk komponen',
-      controls: [slider('k', 'Pengganda k', -3, 5, 1, 4), slider('bx', 'Baris atas bagi b', -6, 6, 1, 2), slider('by', 'Baris bawah bagi b', -6, 6, 1, 5)],
-      prompt: st => `Diberi ${m('a')} = ${col(3, 1)} dan ${m('b')} = ${col(st.bx, st.by)}. Cari ${m('r = ' + st.k + 'a − b')} dalam bentuk ${m('xi + yj')}.`,
+      title: 'Result ka − b in Component Form',
+      controls: [slider('k', 'Multiplier k', -3, 5, 1, 4), slider('bx', 'Top row of b', -6, 6, 1, 2), slider('by', 'Bottom row of b', -6, 6, 1, 5)],
+      prompt: st => `Given ${m('a')} = ${col(3, 1)} and ${m('b')} = ${col(st.bx, st.by)}. Find ${m('r = ' + st.k + 'a − b')} in the form ${m('xi + yj')}.`,
       visual: st => buildDiagramSVG([v(0, 0, 3 * st.k, st.k, 'blue', `${st.k}a`), v(3 * st.k, st.k, -st.bx, -st.by, 'red', '−b'), v(0, 0, 3 * st.k - st.bx, st.k - st.by, 'green', 'r')]),
       readout: st => eq(`${m('' + st.k + 'a = ' + vec(3 * st.k, st.k))}`, `${m('b = ' + vec(st.bx, st.by))}`),
-      fields: () => [box('i', 'Komponen i'), box('j', 'Komponen j')],
+      fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: 3 * st.k - st.bx, j: st.k - st.by }),
-      hint: () => 'Darab dengan k dahulu, kemudian tolak b. Jangan tolak sebelum mendarab.',
+      hint: () => 'Multiply by k first, then subtract b. Do NOT subtract before multiplying.',
       solution: st => `${m('r = ' + vec(3 * st.k, st.k) + ' − (' + vec(st.bx, st.by) + ') = ' + vec(3 * st.k - st.bx, st.k - st.by))}`
     },
     {
-      title: 'Magnitud bagi ka − b',
-      controls: [slider('k', 'Pengganda k', -3, 5, 1, 4), slider('bx', 'Baris atas bagi b', -6, 6, 1, 2), slider('by', 'Baris bawah bagi b', -6, 6, 1, 5)],
-      prompt: st => `Diberi ${m('a')} = ${col(3, 1)} dan ${m('b')} = ${col(st.bx, st.by)}, cari ${m('|' + st.k + 'a − b|')} kepada 4 tempat perpuluhan.`,
+      title: 'Magnitude of ka − b',
+      controls: [slider('k', 'Multiplier k', -3, 5, 1, 4), slider('bx', 'Top row of b', -6, 6, 1, 2), slider('by', 'Bottom row of b', -6, 6, 1, 5)],
+      prompt: st => `Given ${m('a')} = ${col(3, 1)} and ${m('b')} = ${col(st.bx, st.by)}, find ${m('|' + st.k + 'a − b|')} to 4 decimal places.`,
       visual: st => buildDiagramSVG([v(0, 0, 3 * st.k, st.k, 'blue', `${st.k}a`), v(3 * st.k, st.k, -st.bx, -st.by, 'red', '−b'), v(0, 0, 3 * st.k - st.bx, st.k - st.by, 'green', 'r')]),
       readout: st => eq(`${m('r = ' + vec(3 * st.k - st.bx, st.k - st.by))}`, `${m('|r| = √(r_x² + r_y²)')}`),
-      fields: () => [box('mag', 'Magnitud (4 t.p.)', 4)],
+      fields: () => [box('mag', 'Magnitude (4 d.p.)', 4)],
       answers: st => ({ mag: Math.hypot(3 * st.k - st.bx, st.k - st.by) }),
-      hint: () => 'Dapatkan vektor hasil dahulu, kemudian gunakan formula magnitud pada komponennya.',
+      hint: () => 'Get the resultant vector first, then use the magnitude formula on its components.',
       solution: st => `${m('|r| = √(' + neg(3 * st.k - st.bx) + '² + ' + neg(st.k - st.by) + '²) = √' + ((3 * st.k - st.bx) ** 2 + (st.k - st.by) ** 2) + ' ≈ ' + Math.hypot(3 * st.k - st.bx, st.k - st.by).toFixed(4))}`
     },
     {
-      title: 'Vektor unit dalam arah ka − b',
-      invalid: st => (Math.hypot(3 * st.k - st.bx, st.k - st.by) ? '' : 'Hasil ka − b ialah vektor sifar, jadi vektor unit tidak tertakrif. Ubah tetapan untuk meneruskan.'),
-      controls: [slider('k', 'Pengganda k', -3, 5, 1, 4), slider('bx', 'Baris atas bagi b', -6, 6, 1, 2), slider('by', 'Baris bawah bagi b', -6, 6, 1, 5)],
-      prompt: st => `Dengan ${m('a')} = ${col(3, 1)} dan ${m('b')} = ${col(st.bx, st.by)}, cari vektor unit dalam arah ${m('' + st.k + 'a − b')} kepada 4 tempat perpuluhan.`,
+      title: 'Unit Vector in Direction of ka − b',
+      invalid: st => (Math.hypot(3 * st.k - st.bx, st.k - st.by) ? '' : 'The result ka − b is the zero vector, so no unit vector is defined. Adjust settings to continue.'),
+      controls: [slider('k', 'Multiplier k', -3, 5, 1, 4), slider('bx', 'Top row of b', -6, 6, 1, 2), slider('by', 'Bottom row of b', -6, 6, 1, 5)],
+      prompt: st => `Given ${m('a')} = ${col(3, 1)} and ${m('b')} = ${col(st.bx, st.by)}, find the unit vector in the direction of ${m('' + st.k + 'a − b')} to 4 decimal places.`,
       visual: st => VectorExtensions.unitCircle(3 * st.k - st.bx, st.k - st.by),
       readout: st => {
         const x = 3 * st.k - st.bx;
         const y = st.k - st.by;
         const mag = Math.hypot(x, y);
-        return mag ? eq(`${m('r = ' + vec(x, y))}`, `${m('|r| = √' + (x * x + y * y) + ' ≈ ' + mag.toFixed(4))}`, `${m('u = r/|r|')}`) : `${m('r = zero')}: vektor unit tidak tertakrif untuk tetapan ini.`;
+        return mag ? eq(`${m('r = ' + vec(x, y))}`, `${m('|r| = √' + (x * x + y * y) + ' ≈ ' + mag.toFixed(4))}`, `${m('u = r/|r|')}`) : `${m('r = zero')}: unit vector is undefined for these settings.`;
       },
-      fields: () => [box('ui', 'Komponen i bagi u (4 t.p.)', 4), box('uj', 'Komponen j bagi u (4 t.p.)', 4)],
+      fields: () => [box('ui', 'i-component of u (4 d.p.)', 4), box('uj', 'j-component of u (4 d.p.)', 4)],
       answers: st => {
         const x = 3 * st.k - st.bx;
         const y = st.k - st.by;
         const mag = Math.hypot(x, y) || 1;
         return { ui: x / mag, uj: y / mag };
       },
-      hint: () => 'Urutan: darab, tolak, magnitud, bahagi. Jangan bahagi dengan magnitud sebelum vektor hasil ditemui.',
+      hint: () => 'Order of steps: multiply, subtract, find magnitude, divide. Do NOT divide by magnitude before finding the resultant vector.',
       solution: st => {
         const x = 3 * st.k - st.bx;
         const y = st.k - st.by;
         const mag = Math.hypot(x, y);
-        if (!mag) return 'Vektor hasil ialah vektor sifar, jadi tiada vektor unit.';
+        if (!mag) return 'The resultant vector is zero, so no unit vector exists.';
         return steps(`${m('r = ' + vec(x, y))}`, `${m('|r| = √' + (x * x + y * y) + ' ≈ ' + mag.toFixed(4))}`, `${m('u ≈ ' + vec(Number((x / mag).toFixed(4)), Number((y / mag).toFixed(4))))}`);
       }
     },
     {
-      title: 'Mencari k yang menghapuskan komponen i',
-      controls: [slider('ax', 'Baris atas bagi a', 1, 6, 1, 3), slider('bx', 'Baris atas bagi b', 1, 9, 1, 2), slider('by', 'Baris bawah bagi b', -6, 6, 1, 5)],
-      prompt: st => `Diberi ${m('a')} = ${col(st.ax, 1)} dan ${m('b')} = ${col(st.bx, st.by)}. Cari nilai k supaya komponen i bagi ${m('ka − b')} ialah sifar, serta komponen j yang terhasil. Jawab kepada 4 tempat perpuluhan.`,
+      title: 'Finding k That Eliminates the i-Component',
+      controls: [slider('ax', 'Top row of a', 1, 6, 1, 3), slider('bx', 'Top row of b', 1, 9, 1, 2), slider('by', 'Bottom row of b', -6, 6, 1, 5)],
+      prompt: st => `Given ${m('a')} = ${col(st.ax, 1)} and ${m('b')} = ${col(st.bx, st.by)}. Find the value of k so that the i-component of ${m('ka − b')} equals zero, and find the resulting j-component. Answer to 4 decimal places.`,
       visual: st => buildDiagramSVG([v(0, 0, st.bx, st.bx / st.ax, 'blue', 'ka'), v(st.bx, st.bx / st.ax, -st.bx, -st.by, 'red', '−b'), v(0, 0, 0, st.bx / st.ax - st.by, 'green', 'r')]),
-      readout: st => eq(`Komponen i: ${m('k × ' + st.ax + ' − ' + neg(st.bx) + ' = 0')}`, 'Selesaikan untuk k, kemudian gantikan semula untuk mendapatkan komponen j.'),
-      fields: () => [box('k', 'Nilai k (4 t.p.)', 4), box('j', 'Komponen j yang terhasil (4 t.p.)', 4)],
+      readout: st => eq(`i-component: ${m('k × ' + st.ax + ' − ' + neg(st.bx) + ' = 0')}`, 'Solve for k, then substitute back to find the j-component.'),
+      fields: () => [box('k', 'Value of k (4 d.p.)', 4), box('j', 'Resulting j-component (4 d.p.)', 4)],
       answers: st => ({ k: st.bx / st.ax, j: st.bx / st.ax - st.by }),
-      hint: () => 'Tetapkan komponen i hasil kepada sifar: k·aₓ − bₓ = 0, jadi k = bₓ/aₓ. Gunakan nilai k yang sama dalam komponen j.',
-      solution: st => steps(`${m('k = ' + st.bx + '/' + st.ax + ' ≈ ' + (st.bx / st.ax).toFixed(4))}`, `Komponen j: ${m('k × 1 − ' + neg(st.by) + ' ≈ ' + (st.bx / st.ax - st.by).toFixed(4))}`, `${m('r ≈ ' + vec(0, Number((st.bx / st.ax - st.by).toFixed(4))))}`)
+      hint: () => 'Set the i-component to zero: k·aₓ − bₓ = 0, so k = bₓ/aₓ. Use this same k value for the j-component.',
+      solution: st => steps(`${m('k = ' + st.bx + '/' + st.ax + ' ≈ ' + (st.bx / st.ax).toFixed(4))}`, `j-component: ${m('k × 1 − ' + neg(st.by) + ' ≈ ' + (st.bx / st.ax - st.by).toFixed(4))}`, `${m('r ≈ ' + vec(0, Number((st.bx / st.ax - st.by).toFixed(4))))}`)
     },
     {
-      title: 'Penyelesaian sistem: dua vektor, dua parameter',
-      controls: [slider('kx', 'Komponen i vektor hasil', -6, 6, 1, 5), slider('ky', 'Komponen j vektor hasil', -6, 6, 1, 2)],
-      prompt: st => `Diberi ${m('a')} = ${col(2, 1)} dan ${m('b')} = ${col(1, -2)}. Cari p dan q supaya ${m('pa + qb = ' + vec(st.kx, st.ky))}}. Jawab kepada 2 tempat perpuluhan.`,
+      title: 'System Solution: Two Vectors, Two Parameters',
+      controls: [slider('kx', 'i-component of result', -6, 6, 1, 5), slider('ky', 'j-component of result', -6, 6, 1, 2)],
+      prompt: st => `Given ${m('a')} = ${col(2, 1)} and ${m('b')} = ${col(1, -2)}. Find p and q so that ${m('pa + qb = ' + vec(st.kx, st.ky))}. Answer to 2 decimal places.`,
       visual: st => {
         const p = (2 * st.ky + st.kx) / 5;
         const q = (2 * st.kx - st.ky) / 5;
-        return buildDiagramSVG(drawable([v(0, 0, 2 * p, p, 'blue', 'pa'), v(2 * p, p, q, -2 * q, 'red', 'qb'), v(0, 0, 2 * p + q, p - 2 * q, 'green', 'hasil')]));
+        return buildDiagramSVG(drawable([v(0, 0, 2 * p, p, 'blue', 'pa'), v(2 * p, p, q, -2 * q, 'red', 'qb'), v(0, 0, 2 * p + q, p - 2 * q, 'green', 'result')]));
       },
-      readout: st => eq(`Persamaan: ${m('2p + q = ' + st.kx)}`, `${m('p − 2q = ' + st.ky)}`),
-      fields: () => [box('p', 'Nilai p (2 t.p.)', 2), box('q', 'Nilai q (2 t.p.)', 2)],
+      readout: st => eq(`Equations: ${m('2p + q = ' + st.kx)}`, `${m('p − 2q = ' + st.ky)}`),
+      fields: () => [box('p', 'Value of p (2 d.p.)', 2), box('q', 'Value of q (2 d.p.)', 2)],
       answers: st => {
         const p = (2 * st.ky + st.kx) / 5;
         const q = (2 * st.kx - st.ky) / 5;
         return { p, q };
       },
-      hint: () => 'Tuliskan dua persamaan komponen: komponen i dan komponen j. Selesaikan sistem dua persamaan, dua pemboleh ubah menggunakan penggantian atau penghapusan.',
+      hint: () => 'Write two component equations: one for i-component, one for j-component. Solve the system using substitution or elimination.',
       solution: st => {
         const p = (2 * st.ky + st.kx) / 5;
         const q = (2 * st.kx - st.ky) / 5;
-        return steps(`Sistem: ${m('2p + q = ' + st.kx + ', p − 2q = ' + st.ky)}`, `Daripada persamaan kedua: ${m('p = ' + st.ky + ' + 2q')}`, `Gantikan ke persamaan pertama: ${m('2(' + st.ky + ' + 2q) + q = ' + st.kx)}`, `${m('5q = ' + (2 * st.kx - st.ky).toFixed(2))}`, `${m('p ≈ ' + p.toFixed(2) + ', q ≈ ' + q.toFixed(2))}`);
+        return steps(`System: ${m('2p + q = ' + st.kx + ', p − 2q = ' + st.ky)}`, `From the second equation: ${m('p = ' + st.ky + ' + 2q')}`, `Substitute into the first: ${m('2(' + st.ky + ' + 2q) + q = ' + st.kx)}`, `${m('5q = ' + (2 * st.kx - st.ky).toFixed(2))}`, `${m('p ≈ ' + p.toFixed(2) + ', q ≈ ' + q.toFixed(2))}`);
       }
     },
     {
-      title: 'Magnitud gabungan vektor lajur dengan pekali negatif',
-      controls: [slider('p', 'Pekali p', -4, -1, 1, -2), slider('q', 'Pekali q', 1, 5, 1, 3)],
-      prompt: st => `Diberi ${m('a')} = ${col(3, 2)} dan ${m('b')} = ${col(-1, 4)}. Cari ${m('|' + st.p + 'a + ' + st.q + 'b|')} kepada 4 tempat perpuluhan.`,
-      visual: st => buildDiagramSVG(drawable([v(0, 0, 3 * st.p, 2 * st.p, 'blue', `${st.p}a`), v(3 * st.p, 2 * st.p, -st.q, 4 * st.q, 'red', `${st.q}b`), v(0, 0, 3 * st.p - st.q, 2 * st.p + 4 * st.q, 'green', 'hasil')])),
-      readout: st => eq(`${m(st.p + 'a = ' + vec(3 * st.p, 2 * st.p))}`, `${m(st.q + 'b = ' + vec(-st.q, 4 * st.q))}`, `${m('Hasil = ' + vec(3 * st.p - st.q, 2 * st.p + 4 * st.q))}`),
-      fields: () => [box('mag', 'Magnitud (4 t.p.)', 4)],
+      title: 'Magnitude of Vector Combination With Negative Coefficients',
+      controls: [slider('p', 'Coefficient p', -4, -1, 1, -2), slider('q', 'Coefficient q', 1, 5, 1, 3)],
+      prompt: st => `Given ${m('a')} = ${col(3, 2)} and ${m('b')} = ${col(-1, 4)}. Find ${m('|' + st.p + 'a + ' + st.q + 'b|')} to 4 decimal places.`,
+      visual: st => buildDiagramSVG(drawable([v(0, 0, 3 * st.p, 2 * st.p, 'blue', `${st.p}a`), v(3 * st.p, 2 * st.p, -st.q, 4 * st.q, 'red', `${st.q}b`), v(0, 0, 3 * st.p - st.q, 2 * st.p + 4 * st.q, 'green', 'result')])),
+      readout: st => eq(`${m(st.p + 'a = ' + vec(3 * st.p, 2 * st.p))}`, `${m(st.q + 'b = ' + vec(-st.q, 4 * st.q))}`, `${m('Result = ' + vec(3 * st.p - st.q, 2 * st.p + 4 * st.q))}`),
+      fields: () => [box('mag', 'Magnitude (4 d.p.)', 4)],
       answers: st => ({ mag: Math.hypot(3 * st.p - st.q, 2 * st.p + 4 * st.q) }),
-      hint: () => 'Lakukan pendaraban skalar untuk kedua-dua vektor, tambah komponen, kemudian gunakan formula magnitud √(x² + y²).',
+      hint: () => 'Perform scalar multiplication on both vectors, add the components together, then use the magnitude formula √(x² + y²).',
       solution: st => {
         const x = 3 * st.p - st.q;
         const y = 2 * st.p + 4 * st.q;
-        return steps(`${m(st.p + 'a = ' + vec(3 * st.p, 2 * st.p))}`, `${m(st.q + 'b = ' + vec(-st.q, 4 * st.q))}`, `${m('Hasil = ' + vec(x, y))}`, `${m('|Hasil| = √(' + neg(x) + '² + ' + neg(y) + '²) = √' + (x * x + y * y) + ' ≈ ' + Math.hypot(x, y).toFixed(4))}`);
+        return steps(`${m(st.p + 'a = ' + vec(3 * st.p, 2 * st.p))}`, `${m(st.q + 'b = ' + vec(-st.q, 4 * st.q))}`, `${m('Result = ' + vec(x, y))}`, `${m('|Result| = √(' + neg(x) + '² + ' + neg(y) + '²) = √' + (x * x + y * y) + ' ≈ ' + Math.hypot(x, y).toFixed(4))}`);
       }
     }
   ];
@@ -641,88 +641,88 @@ const VectorExamples = (() => {
   /* ---------- Area 6: Resources — applying each reference formula ---------- */
   const resourceExamples = [
     {
-      title: 'Formula vektor antara dua titik',
-      controls: [slider('px', 'x bagi P', -8, 8, 1, 1), slider('py', 'y bagi P', -8, 8, 1, 2), slider('qx', 'x bagi Q', -8, 8, 1, 4), slider('qy', 'y bagi Q', -8, 8, 1, 6)],
-      prompt: st => `Gunakan ${m('PQ = (x₂ − x₁)i + (y₂ − y₁)j')} bagi P(${st.px}, ${st.py}) dan Q(${st.qx}, ${st.qy}).`,
+      title: 'Vector Between Two Points Formula',
+      controls: [slider('px', 'x of P', -8, 8, 1, 1), slider('py', 'y of P', -8, 8, 1, 2), slider('qx', 'x of Q', -8, 8, 1, 4), slider('qy', 'y of Q', -8, 8, 1, 6)],
+      prompt: st => `Use the formula ${m('PQ = (x₂ − x₁)i + (y₂ − y₁)j')} for P(${st.px}, ${st.py}) and Q(${st.qx}, ${st.qy}).`,
       visual: st => buildDiagramSVG([v(st.px, st.py, st.qx - st.px, st.qy - st.py, 'green', 'PQ')]),
-      readout: () => 'Titik kedua tolak titik pertama, mengikut urutan huruf dalam nama vektor.',
-      fields: () => [box('i', 'Komponen i'), box('j', 'Komponen j')],
+      readout: () => 'Subtract the first point from the second point, following the order of letters in the vector name.',
+      fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: st.qx - st.px, j: st.qy - st.py }),
-      hint: () => 'PQ bermula di P. Jika anda menolak dalam urutan terbalik, anda mendapat QP.',
+      hint: () => 'PQ starts at P. If you subtract in reverse order, you get QP instead.',
       solution: st => `${m('PQ = ' + vec(st.qx - st.px, st.qy - st.py))}`
     },
     {
-      title: 'Formula jarak antara dua titik',
-      controls: [slider('px', 'x bagi P', -8, 8, 1, 1), slider('py', 'y bagi P', -8, 8, 1, 2), slider('qx', 'x bagi Q', -8, 8, 1, 4), slider('qy', 'y bagi Q', -8, 8, 1, 6)],
-      prompt: st => `Cari ${m('|PQ|')} bagi P(${st.px}, ${st.py}) dan Q(${st.qx}, ${st.qy}), betul kepada 2 tempat perpuluhan.`,
+      title: 'Distance Formula Between Two Points',
+      controls: [slider('px', 'x of P', -8, 8, 1, 1), slider('py', 'y of P', -8, 8, 1, 2), slider('qx', 'x of Q', -8, 8, 1, 4), slider('qy', 'y of Q', -8, 8, 1, 6)],
+      prompt: st => `Find ${m('|PQ|')} for P(${st.px}, ${st.py}) and Q(${st.qx}, ${st.qy}), correct to 2 decimal places.`,
       visual: st => buildDiagramSVG([v(st.px, st.py, st.qx - st.px, 0, 'blue', 'Δx'), v(st.qx, st.py, 0, st.qy - st.py, 'red', 'Δy'), v(st.px, st.py, st.qx - st.px, st.qy - st.py, 'green', 'PQ')]),
       readout: st => eq(`${m('PQ = ' + vec(st.qx - st.px, st.qy - st.py))}`, `${m('|PQ| = √(Δx² + Δy²)')}`),
-      fields: () => [box('mag', 'Jarak (2 t.p.)', 2)],
+      fields: () => [box('mag', 'Distance (2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.qx - st.px, st.qy - st.py) }),
-      hint: () => 'Cari komponen PQ dahulu, kemudian gunakan formula magnitud pada komponen tersebut.',
+      hint: () => 'Find the components of PQ first, then use the magnitude formula on those components.',
       solution: st => `${m('|PQ| = √' + ((st.qx - st.px) ** 2 + (st.qy - st.py) ** 2) + ' ≈ ' + Math.hypot(st.qx - st.px, st.qy - st.py).toFixed(2))}`
     },
     {
-      title: 'Vektor kedudukan titik tengah',
-      controls: [slider('px', 'x bagi P', -8, 8, 1, -3), slider('py', 'y bagi P', -8, 8, 1, 2), slider('qx', 'x bagi Q', -8, 8, 1, 5), slider('qy', 'y bagi Q', -8, 8, 1, 6)],
-      prompt: st => `Cari vektor kedudukan titik tengah M bagi PQ dengan P(${st.px}, ${st.py}) dan Q(${st.qx}, ${st.qy}). Jawab kepada 2 tempat perpuluhan.`,
+      title: 'Midpoint Position Vector',
+      controls: [slider('px', 'x of P', -8, 8, 1, -3), slider('py', 'y of P', -8, 8, 1, 2), slider('qx', 'x of Q', -8, 8, 1, 5), slider('qy', 'y of Q', -8, 8, 1, 6)],
+      prompt: st => `Find the position vector of the midpoint M of PQ where P(${st.px}, ${st.py}) and Q(${st.qx}, ${st.qy}). Answer to 2 decimal places.`,
       visual: st => buildDiagramSVG([v(0, 0, st.px, st.py, 'blue', 'OP', true), v(0, 0, st.qx, st.qy, 'red', 'OQ', true), v(0, 0, (st.px + st.qx) / 2, (st.py + st.qy) / 2, 'green', 'OM')]),
-      readout: () => eq(`${m('OM = ½(OP + OQ)')}`, 'Purata setiap pasangan koordinat.'),
-      fields: () => [box('i', 'Komponen i (2 t.p.)', 2), box('j', 'Komponen j (2 t.p.)', 2)],
+      readout: () => eq(`${m('OM = ½(OP + OQ)')}`, 'Average each pair of coordinates.'),
+      fields: () => [box('i', 'i-component (2 d.p.)', 2), box('j', 'j-component (2 d.p.)', 2)],
       answers: st => ({ i: (st.px + st.qx) / 2, j: (st.py + st.qy) / 2 }),
-      hint: () => 'Tambah kedua-dua vektor kedudukan, kemudian darab dengan separuh. Ini ialah pendaraban skalar dengan k = ½.',
+      hint: () => 'Add the two position vectors, then multiply by one-half. This is scalar multiplication with k = ½.',
       solution: st => steps(`${m('OP + OQ = ' + vec(st.px + st.qx, st.py + st.qy))}`, `${m('OM = ½(' + vec(st.px + st.qx, st.py + st.qy) + ') = ' + vec((st.px + st.qx) / 2, (st.py + st.qy) / 2))}`)
     },
     {
-      title: 'Formula pendaraban skalar negatif',
-      controls: [slider('k', 'Pengganda k', 1, 5, 1, 2), slider('x', 'Komponen i bagi v', -6, 6, 1, 2), slider('y', 'Komponen j bagi v', -6, 6, 1, -3)],
-      prompt: st => `Gunakan ${m('kv = kx i + ky j')} untuk mencari ${m('−' + st.k + 'v')} apabila ${m('v = ' + vec(st.x, st.y))}, serta magnitudnya (2 t.p.).`,
+      title: 'Negative Scalar Multiplication Formula',
+      controls: [slider('k', 'Multiplier k', 1, 5, 1, 2), slider('x', 'i-component of v', -6, 6, 1, 2), slider('y', 'j-component of v', -6, 6, 1, -3)],
+      prompt: st => `Use the formula ${m('kv = kx i + ky j')} to find ${m('−' + st.k + 'v')} when ${m('v = ' + vec(st.x, st.y))}, and its magnitude (2 d.p.).`,
       visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'blue', 'v'), v(0, 0, -st.k * st.x, -st.k * st.y, 'green', `−${st.k}v`)]),
       readout: st => eq(`${m('|kv| = |k| × |v|')}`, `${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(4))}`),
-      fields: () => [box('i', 'Komponen i'), box('j', 'Komponen j'), box('mag', 'Magnitud (2 t.p.)', 2)],
+      fields: () => [box('i', 'i-component'), box('j', 'j-component'), box('mag', 'Magnitude (2 d.p.)', 2)],
       answers: st => ({ i: -st.k * st.x, j: -st.k * st.y, mag: st.k * Math.hypot(st.x, st.y) }),
-      hint: () => 'Pengganda negatif membalikkan arah tetapi magnitud menggunakan |k|, jadi ia sentiasa positif.',
+      hint: () => 'A negative multiplier reverses the direction, but magnitude always uses |k|, which is always positive.',
       solution: st => steps(`${m('−' + st.k + 'v = ' + vec(-st.k * st.x, -st.k * st.y))}`, `${m('|−' + st.k + 'v| = ' + st.k + ' × √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + (st.k * Math.hypot(st.x, st.y)).toFixed(2))}`)
     },
     {
-      title: 'Formula sudut arah dengan semakan sukuan',
-      controls: [slider('x', 'Komponen i', -9, 9, 1, -4), slider('y', 'Komponen j', -9, 9, 1, -3)],
-      prompt: st => `Bagi ${m('v = ' + vec(st.x, st.y))}, cari magnitud (2 t.p.) dan sudut dari paksi x positif dalam julat 0° hingga 360° (2 t.p.).`,
+      title: 'Direction Angle Formula With Quadrant Checking',
+      controls: [slider('x', 'i-component', -9, 9, 1, -4), slider('y', 'j-component', -9, 9, 1, -3)],
+      prompt: st => `For ${m('v = ' + vec(st.x, st.y))}, find the magnitude (2 d.p.) and the angle from the positive x-axis in the range 0° to 360° (2 d.p.).`,
       visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'green', 'v')]),
-      readout: st => eq(`${m('θ = atan2(y, x)')}`, `Sukuan: ${st.x >= 0 && st.y >= 0 ? 'I' : st.x < 0 && st.y >= 0 ? 'II' : st.x < 0 ? 'III' : 'IV'}`),
-      fields: () => [box('mag', 'Magnitud (2 t.p.)', 2), box('ang', 'Sudut (°, 2 t.p.)', 2)],
+      readout: st => eq(`${m('θ = atan2(y, x)')}`, `Quadrant: ${st.x >= 0 && st.y >= 0 ? 'I' : st.x < 0 && st.y >= 0 ? 'II' : st.x < 0 ? 'III' : 'IV'}`),
+      fields: () => [box('mag', 'Magnitude (2 d.p.)', 2), box('ang', 'Angle (°, 2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.x, st.y), ang: degrees(st.y, st.x) }),
-      hint: () => 'Kira sudut rujukan dengan tan⁻¹|y/x|, kemudian laraskan mengikut sukuan supaya jawapan berada dalam 0° hingga 360°.',
+      hint: () => 'Calculate the reference angle using tan⁻¹|y/x|, then adjust based on the quadrant so the answer is between 0° and 360°.',
       solution: st => steps(`${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(2))}`, `${m('θ ≈ ' + degrees(st.y, st.x).toFixed(2))}°`)
     },
     {
-      title: 'Formula bahagian: titik pada PQ',
-      controls: [slider('px', 'x bagi P', -8, 8, 1, 1), slider('py', 'y bagi P', -8, 8, 1, 2), slider('qx', 'x bagi Q', -8, 8, 1, 7), slider('qy', 'y bagi Q', -8, 8, 1, 6), slider('t', 'Pecahan t sepanjang PQ', 0, 1, 0.1, 0.5)],
-      prompt: st => `Titik R terletak pada PQ supaya ${m('OR = OP + t(OQ − OP)')} dengan t = ${n(st.t)}. Cari koordinat R kepada 2 tempat perpuluhan, dengan P(${st.px}, ${st.py}) dan Q(${st.qx}, ${st.qy}).`,
+      title: 'Division Formula: Point on PQ',
+      controls: [slider('px', 'x of P', -8, 8, 1, 1), slider('py', 'y of P', -8, 8, 1, 2), slider('qx', 'x of Q', -8, 8, 1, 7), slider('qy', 'y of Q', -8, 8, 1, 6), slider('t', 'Fraction t along PQ', 0, 1, 0.1, 0.5)],
+      prompt: st => `Point R lies on PQ so that ${m('OR = OP + t(OQ − OP)')} where t = ${n(st.t)}. Find the coordinates of R to 2 decimal places, with P(${st.px}, ${st.py}) and Q(${st.qx}, ${st.qy}).`,
       visual: st => buildDiagramSVG([v(st.px, st.py, st.qx - st.px, st.qy - st.py, 'blue', 'PQ', true), v(0, 0, st.px + st.t * (st.qx - st.px), st.py + st.t * (st.qy - st.py), 'green', 'OR')]),
       readout: st => eq(`${m('PQ = ' + vec(st.qx - st.px, st.qy - st.py))}`, `${m('t PQ = ' + vec(st.t * (st.qx - st.px), st.t * (st.qy - st.py)))}`),
-      fields: () => [box('i', 'Koordinat x bagi R (2 t.p.)', 2), box('j', 'Koordinat y bagi R (2 t.p.)', 2)],
+      fields: () => [box('i', 'x-coordinate of R (2 d.p.)', 2), box('j', 'y-coordinate of R (2 d.p.)', 2)],
       answers: st => ({ i: st.px + st.t * (st.qx - st.px), j: st.py + st.t * (st.qy - st.py) }),
-      hint: () => 't = 0 memberi P dan t = 1 memberi Q. Darab PQ dengan t dahulu, kemudian tambah kepada OP.',
+      hint: () => 't = 0 gives P and t = 1 gives Q. Multiply PQ by t first, then add to OP.',
       solution: st => steps(`${m('PQ = ' + vec(st.qx - st.px, st.qy - st.py))}`, `${m('OR = ' + vec(st.px, st.py) + ' + ' + n(st.t) + '(' + vec(st.qx - st.px, st.qy - st.py) + ')')}`, `${m('OR ≈ ' + vec(Number((st.px + st.t * (st.qx - st.px)).toFixed(2)), Number((st.py + st.t * (st.qy - st.py)).toFixed(2))))}`)
     },
     {
-      title: 'Formula nisbah bahagian dalam: titik yang membahagi PQ',
-      controls: [slider('px', 'x bagi P', -6, 6, 1, -2), slider('py', 'y bagi P', -6, 6, 1, 1), slider('qx', 'x bagi Q', -6, 6, 1, 4), slider('qy', 'y bagi Q', -6, 6, 1, 5), slider('m', 'Nisbah m dalam m:n', 1, 4, 1, 2), slider('n', 'Nisbah n dalam m:n', 1, 4, 1, 1)],
-      prompt: st => `Titik R membahagi PQ dengan nisbah ${st.m}:${st.n}. Gunakan ${m('OR = (m·OQ + n·OP)/(m+n)')}} untuk cari koordinat R (2 t.p.), dengan P(${st.px}, ${st.py}) dan Q(${st.qx}, ${st.qy}).`,
+      title: 'Internal Division Formula: Point Dividing PQ',
+      controls: [slider('px', 'x of P', -6, 6, 1, -2), slider('py', 'y of P', -6, 6, 1, 1), slider('qx', 'x of Q', -6, 6, 1, 4), slider('qy', 'y of Q', -6, 6, 1, 5), slider('m', 'Ratio m in m:n', 1, 4, 1, 2), slider('n', 'Ratio n in m:n', 1, 4, 1, 1)],
+      prompt: st => `Point R divides PQ in the ratio ${st.m}:${st.n}. Use the formula ${m('OR = (m·OQ + n·OP)/(m+n)')}} to find the coordinates of R (2 d.p.), with P(${st.px}, ${st.py}) and Q(${st.qx}, ${st.qy}).`,
       visual: st => {
         const total = st.m + st.n;
         const rx = (st.m * st.qx + st.n * st.px) / total;
         const ry = (st.m * st.qy + st.n * st.py) / total;
         return buildDiagramSVG([v(st.px, st.py, st.qx - st.px, st.qy - st.py, 'blue', 'PQ', true), v(0, 0, rx, ry, 'green', 'R')]);
       },
-      readout: st => eq(`Nisbah: ${st.m}:${st.n}`, `${m('OR = (' + st.m + 'OQ + ' + st.n + 'OP)/' + (st.m + st.n))}`),
-      fields: () => [box('i', 'Koordinat x bagi R (2 t.p.)', 2), box('j', 'Koordinat y bagi R (2 t.p.)', 2)],
+      readout: st => eq(`Ratio: ${st.m}:${st.n}`, `${m('OR = (' + st.m + 'OQ + ' + st.n + 'OP)/' + (st.m + st.n))}`),
+      fields: () => [box('i', 'x-coordinate of R (2 d.p.)', 2), box('j', 'y-coordinate of R (2 d.p.)', 2)],
       answers: st => {
         const total = st.m + st.n;
         return { i: (st.m * st.qx + st.n * st.px) / total, j: (st.m * st.qy + st.n * st.py) / total };
       },
-      hint: () => 'Formula nisbah bahagian: pembilang = m kali titik akhir + n kali titik awal; penyebut = m + n.',
+      hint: () => 'Division formula: numerator = m times the end point + n times the start point; denominator = m + n.',
       solution: st => {
         const total = st.m + st.n;
         const rx = (st.m * st.qx + st.n * st.px) / total;
@@ -731,32 +731,32 @@ const VectorExamples = (() => {
       }
     },
     {
-      title: 'Kesamaan vektor dalam penyelesaian masalah geometri',
-      controls: [slider('k', 'Pengganda k dalam AB = ka', 1, 6, 1, 3), slider('m', 'Pekali m dalam OC = m·OA', 0.2, 2, 0.2, 1)],
-      prompt: st => `Dalam segi empat OABC, ${m('OA = a')}, ${m('OB = b')}, ${m('AB = ' + st.k + 'a')}. Guna kesamarataan vektor untuk menunjukkan bahawa ${m('OC = ' + n(st.m) + '(b − a + ' + st.k + 'a)')} dan cari ${m('|OC|')}} jika ${m('|a| = 2')} dan ${m('|b| = 5')}} dan a, b berserenjang.`,
+      title: 'Vector Equality in Solving Geometric Problems',
+      controls: [slider('k', 'Multiplier k in AB = ka', 1, 6, 1, 3), slider('m', 'Coefficient m in OC = m·OA', 0.2, 2, 0.2, 1)],
+      prompt: st => `In quadrilateral OABC, ${m('OA = a')}, ${m('OB = b')}, and ${m('AB = ' + st.k + 'a')}. Use vector equality to show that ${m('OC = ' + n(st.m) + '(b − a + ' + st.k + 'a)')} and find ${m('|OC|')}} if ${m('|a| = 2')}, ${m('|b| = 5')}} and a, b are perpendicular.`,
       visual: st => buildDiagramSVG([v(0, 0, 2, 0, 'blue', 'a'), v(0, 0, 0, 5, 'red', 'b'), v(2, 0, st.k * 2, 0, 'purple', 'AB')]),
-      readout: st => eq(`Guna kesamarataan: ${m('OB = OA + AB')}`, `${m('b = a + ' + st.k + 'a = (1 + ' + st.k + ')a')}`, `Kerana a ⊥ b: ${m('|OC|² = |b − a + ' + st.k + 'a|² = |' + (st.k - 1) + 'b|²')}}`),
-      fields: () => [box('mag', `Magnitud |OC| (2 t.p.)`, 2)],
+      readout: st => eq(`Use vector equality: ${m('OB = OA + AB')}`, `${m('b = a + ' + st.k + 'a = (1 + ' + st.k + ')a')}`, `Since a ⊥ b: ${m('|OC|² = |b − a + ' + st.k + 'a|² = |' + (st.k - 1) + 'b|²')}}`),
+      fields: () => [box('mag', `Magnitude |OC| (2 d.p.)`, 2)],
       answers: st => {
         const resultMag = Math.abs(st.k - 1) * 5;
         return { mag: st.m * resultMag };
       },
-      hint: () => 'Gunakan kesamarataan vektor untuk menulis hubungan antara OA, OB dan AB. Kerana berserenjang, gunakan teorem Pythagoras untuk magnitud.',
+      hint: () => 'Use vector equality to write the relationship between OA, OB and AB. Since they are perpendicular, use the Pythagorean theorem for magnitude.',
       solution: st => {
         const resultMag = Math.abs(st.k - 1) * 5;
         const ocMag = st.m * resultMag;
-        return steps(`Kesamarataan vektor: ${m('OB = OA + AB')}`, `${m('b = a + ' + st.k + 'a')}`, `${m('OC = ' + n(st.m) + '(b − a + ' + st.k + 'a) = ' + n(st.m) + ' × ' + (st.k - 1) + 'a')}`, `Kerana a ⊥ b, dan |a| = 2, |b| = 5:`, `${m('|OC| = ' + n(st.m) + ' × ' + (st.k - 1) + ' × 5 = ' + ocMag.toFixed(2))}`);
+        return steps(`Vector equality: ${m('OB = OA + AB')}`, `${m('b = a + ' + st.k + 'a')}`, `${m('OC = ' + n(st.m) + '(b − a + ' + st.k + 'a) = ' + n(st.m) + ' × ' + (st.k - 1) + 'a')}`, `Since a ⊥ b and |a| = 2, |b| = 5:`, `${m('|OC| = ' + n(st.m) + ' × ' + (st.k - 1) + ' × 5 = ' + ocMag.toFixed(2))}`);
       }
     }
   ];
 
   const AREAS = [
-    { tab: 'intro', key: 'intro', title: 'Enam contoh interaktif: kuantiti harian kepada aplikasi', examples: introExamples },
-    { tab: 'concept1', key: 'scalar', title: 'Enam contoh interaktif: skalar, vektor dan pendaraban skalar', examples: scalarExamples },
-    { tab: 'concept2', key: 'component', title: 'Enam contoh interaktif: komponen, magnitud, arah dan vektor unit', examples: componentExamples },
-    { tab: 'concept3', key: 'addition', title: 'Enam contoh interaktif: tambah, tolak dan laluan geometri', examples: additionExamples },
-    { tab: 'practice', key: 'drill', title: 'Enam contoh interaktif: latih tubi gaya peperiksaan', examples: practiceExamples },
-    { tab: 'resources', key: 'formula', title: 'Enam contoh interaktif: setiap formula rujukan digunakan', examples: resourceExamples }
+    { tab: 'intro', key: 'intro', title: 'Six Interactive Examples: Daily Quantities to Applications', examples: introExamples },
+    { tab: 'concept1', key: 'scalar', title: 'Six Interactive Examples: Scalars, Vectors, and Scalar Multiplication', examples: scalarExamples },
+    { tab: 'concept2', key: 'component', title: 'Six Interactive Examples: Components, Magnitude, Direction, and Unit Vectors', examples: componentExamples },
+    { tab: 'concept3', key: 'addition', title: 'Six Interactive Examples: Addition, Subtraction, and Geometric Routes', examples: additionExamples },
+    { tab: 'practice', key: 'drill', title: 'Six Interactive Examples: Exam-Style Practice Drills', examples: practiceExamples },
+    { tab: 'resources', key: 'formula', title: 'Six Interactive Examples: Each Reference Formula Applied', examples: resourceExamples }
   ];
 
   /* ---------- rendering and interaction ---------- */
@@ -809,10 +809,10 @@ const VectorExamples = (() => {
           <div class="ex-readout" aria-live="polite"></div>
           <div class="ex-answer"></div>
           <div class="ex-actions">
-            <button type="button" data-act="check">✓ Semak jawapan</button>
-            <button type="button" data-act="hint">💡 Petua</button>
-            <button type="button" data-act="solution">📖 Penyelesaian</button>
-            <button type="button" data-act="reset">↺ Set semula</button>
+            <button type="button" data-act="check">✓ Check Answer</button>
+            <button type="button" data-act="hint">💡 Hint</button>
+            <button type="button" data-act="solution">📖 Solution</button>
+            <button type="button" data-act="reset">↺ Reset</button>
           </div>
           <p class="ex-feedback" role="status"></p>
           <div class="ex-hint" hidden></div>
@@ -827,7 +827,7 @@ const VectorExamples = (() => {
       const label = document.createElement('label');
       label.setAttribute('for', fieldId);
       if (field.kind === 'select') {
-        label.innerHTML = `<span>${escapeAttr(field.label)}</span><select id="${fieldId}" data-key="${field.key}"><option value="">— Pilih —</option>${field.options.map(([value, text]) => `<option value="${escapeAttr(value)}">${escapeAttr(text)}</option>`).join('')}</select>`;
+        label.innerHTML = `<span>${escapeAttr(field.label)}</span><select id="${fieldId}" data-key="${field.key}"><option value="">— Select —</option>${field.options.map(([value, text]) => `<option value="${escapeAttr(value)}">${escapeAttr(text)}</option>`).join('')}</select>`;
       } else {
         label.innerHTML = `<span>${escapeAttr(field.label)}</span><input id="${fieldId}" data-key="${field.key}" data-dp="${field.dp || 0}" type="text" inputmode="decimal" autocomplete="off">`;
       }
@@ -902,13 +902,13 @@ const VectorExamples = (() => {
     });
     if (!complete) {
       feedback.dataset.state = 'empty';
-      feedback.textContent = 'Lengkapkan setiap medan dengan nombor atau pilihan yang sah dahulu.';
+      feedback.textContent = 'Complete each field with a valid number or choice first.';
       return false;
     }
     feedback.dataset.state = correct ? 'correct' : 'wrong';
     if (correct) {
       const tier = card.dataset.tier;
-      let message = '✓ Betul. Ubah peluncur atau pilihan untuk mencuba kes baharu.';
+      let message = '✓ Correct! Change the slider or choice to try a new case.';
       if (!solved.has(card.id) && typeof addXp === 'function') {
         solved.add(card.id);
         addXp(XP[tier]);
@@ -916,7 +916,7 @@ const VectorExamples = (() => {
       }
       feedback.textContent = message;
     } else {
-      feedback.textContent = '✗ Belum tepat. Medan merah perlu disemak semula; cuba Petua.';
+      feedback.textContent = '✗ Not quite right. The fields in red need to be checked again; try the Hint.';
     }
     return correct;
   }
@@ -929,9 +929,9 @@ const VectorExamples = (() => {
     const section = document.createElement('section');
     section.className = 'example-ladder';
     section.id = `ladder-${area.key}`;
-    section.innerHTML = `<div class="lab-kicker">Lapan contoh tambahan · mudah ke sukar</div>
+    section.innerHTML = `<div class="lab-kicker">Eight Examples · Easy to Hard</div>
       <h3>${escapeAttr(area.title)}</h3>
-      <p class="ex-ladder-intro">Lapan contoh interaktif berikut melanjutkan konsep dengan progres pembelajaran yang jelas. Tahap 1−3 menguji pengecaman atau pengiraan terus, tahap 4−6 memerlukan penaakulan vektor beberapa langkah dengan kesamarataan (keseimbangan), dan tahap 7−8 ialah masalah gunaan, geometri atau sistem kompleks. Ubah kawalan, masukkan jawapan anda, kemudian semak.</p>
+      <p class="ex-ladder-intro">The eight interactive examples below continue the concept with a clear learning progression. Levels 1–3 test recognition or direct calculation. Levels 4–6 require multi-step vector reasoning with equality (balance). Levels 7–8 are application problems, geometry, or complex systems. Adjust the controls, enter your answer, then check.</p>
       <ol class="ex-ladder-scale">${LEVELS.map(level => `<li>${level.label}</li>`).join('')}</ol>`;
     area.examples.forEach((spec, index) => {
       const card = buildCard(area, spec, index);
