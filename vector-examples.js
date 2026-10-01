@@ -519,7 +519,7 @@ const VectorExamples = (() => {
       title: 'Reading Column Vector Notation',
       controls: [slider('x', 'Top row', -8, 8, 1, 3), slider('y', 'Bottom row', -8, 8, 1, -4)],
       prompt: st => `Given ${m('a')} = ${col(st.x, st.y)}. Write a in the form ${m('xi + yj')}.`,
-      visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'green', 'a')]),
+      visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'green', 'a', false, true)]),
       readout: () => 'The top row of a column vector is the i-component; the bottom row is the j-component.',
       fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: st.x, j: st.y }),
@@ -530,7 +530,7 @@ const VectorExamples = (() => {
       title: 'Scalar Multiplication in Column Form',
       controls: [slider('k', 'Multiplier k', -4, 5, 1, 4), slider('x', 'Top row of a', -6, 6, 1, 3), slider('y', 'Bottom row of a', -6, 6, 1, 1)],
       prompt: st => `Given ${m('a')} = ${col(st.x, st.y)}. Find ${m('' + st.k + 'a')}.`,
-      visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'blue', 'a'), v(0, 0, st.k * st.x, st.k * st.y, 'green', `${st.k}a`)]),
+      visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'blue', 'a'), v(0, 0, st.k * st.x, st.k * st.y, 'green', `${st.k}a`, false, true)]),
       readout: st => eq(`${m('' + st.k + 'a')} means multiply each row by ${st.k}.`),
       fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: st.k * st.x, j: st.k * st.y }),
@@ -541,7 +541,7 @@ const VectorExamples = (() => {
       title: 'Result ka − b in Component Form',
       controls: [slider('k', 'Multiplier k', -3, 5, 1, 4), slider('bx', 'Top row of b', -6, 6, 1, 2), slider('by', 'Bottom row of b', -6, 6, 1, 5)],
       prompt: st => `Given ${m('a')} = ${col(3, 1)} and ${m('b')} = ${col(st.bx, st.by)}. Find ${m('r = ' + st.k + 'a − b')} in the form ${m('xi + yj')}.`,
-      visual: st => buildDiagramSVG([v(0, 0, 3 * st.k, st.k, 'blue', `${st.k}a`), v(3 * st.k, st.k, -st.bx, -st.by, 'red', '−b'), v(0, 0, 3 * st.k - st.bx, st.k - st.by, 'green', 'r')]),
+      visual: st => buildDiagramSVG([v(0, 0, 3 * st.k, st.k, 'blue', `${st.k}a`), v(3 * st.k, st.k, -st.bx, -st.by, 'red', '−b'), v(0, 0, 3 * st.k - st.bx, st.k - st.by, 'green', 'r', false, true)]),
       readout: st => eq(`${m('' + st.k + 'a = ' + vec(3 * st.k, st.k))}`, `${m('b = ' + vec(st.bx, st.by))}`),
       fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: 3 * st.k - st.bx, j: st.k - st.by }),
@@ -552,7 +552,7 @@ const VectorExamples = (() => {
       title: 'Magnitude of ka − b',
       controls: [slider('k', 'Multiplier k', -3, 5, 1, 4), slider('bx', 'Top row of b', -6, 6, 1, 2), slider('by', 'Bottom row of b', -6, 6, 1, 5)],
       prompt: st => `Given ${m('a')} = ${col(3, 1)} and ${m('b')} = ${col(st.bx, st.by)}, find ${m('|' + st.k + 'a − b|')} to 4 decimal places.`,
-      visual: st => buildDiagramSVG([v(0, 0, 3 * st.k, st.k, 'blue', `${st.k}a`), v(3 * st.k, st.k, -st.bx, -st.by, 'red', '−b'), v(0, 0, 3 * st.k - st.bx, st.k - st.by, 'green', 'r')]),
+      visual: st => buildDiagramSVG([v(0, 0, 3 * st.k, st.k, 'blue', `${st.k}a`), v(3 * st.k, st.k, -st.bx, -st.by, 'red', '−b'), v(0, 0, 3 * st.k - st.bx, st.k - st.by, 'green', 'r', false, true)]),
       readout: st => eq(`${m('r = ' + vec(3 * st.k - st.bx, st.k - st.by))}`, `${m('|r| = √(r_x² + r_y²)')}`),
       fields: () => [box('mag', 'Magnitude (4 d.p.)', 4)],
       answers: st => ({ mag: Math.hypot(3 * st.k - st.bx, st.k - st.by) }),
@@ -591,7 +591,7 @@ const VectorExamples = (() => {
       title: 'Finding k That Eliminates the i-Component',
       controls: [slider('ax', 'Top row of a', 1, 6, 1, 3), slider('bx', 'Top row of b', 1, 9, 1, 2), slider('by', 'Bottom row of b', -6, 6, 1, 5)],
       prompt: st => `Given ${m('a')} = ${col(st.ax, 1)} and ${m('b')} = ${col(st.bx, st.by)}. Find the value of k so that the i-component of ${m('ka − b')} equals zero, and find the resulting j-component. Answer to 4 decimal places.`,
-      visual: st => buildDiagramSVG([v(0, 0, st.bx, st.bx / st.ax, 'blue', 'ka'), v(st.bx, st.bx / st.ax, -st.bx, -st.by, 'red', '−b'), v(0, 0, 0, st.bx / st.ax - st.by, 'green', 'r')]),
+      visual: st => buildDiagramSVG([v(0, 0, st.bx, st.bx / st.ax, 'blue', 'ka'), v(st.bx, st.bx / st.ax, -st.bx, -st.by, 'red', '−b'), v(0, 0, 0, st.bx / st.ax - st.by, 'green', 'r', false, true)]),
       readout: st => eq(`i-component: ${m('k × ' + st.ax + ' − ' + neg(st.bx) + ' = 0')}`, 'Solve for k, then substitute back to find the j-component.'),
       fields: () => [box('k', 'Value of k (4 d.p.)', 4), box('j', 'Resulting j-component (4 d.p.)', 4)],
       answers: st => ({ k: st.bx / st.ax, j: st.bx / st.ax - st.by }),
@@ -605,7 +605,7 @@ const VectorExamples = (() => {
       visual: st => {
         const p = (2 * st.ky + st.kx) / 5;
         const q = (2 * st.kx - st.ky) / 5;
-        return buildDiagramSVG(drawable([v(0, 0, 2 * p, p, 'blue', 'pa'), v(2 * p, p, q, -2 * q, 'red', 'qb'), v(0, 0, 2 * p + q, p - 2 * q, 'green', 'result')]));
+        return buildDiagramSVG(drawable([v(0, 0, 2 * p, p, 'blue', 'pa'), v(2 * p, p, q, -2 * q, 'red', 'qb'), v(0, 0, 2 * p + q, p - 2 * q, 'green', 'result', false, true)]));
       },
       readout: st => eq(`Equations: ${m('2p + q = ' + st.kx)}`, `${m('p − 2q = ' + st.ky)}`),
       fields: () => [box('p', 'Value of p (2 d.p.)', 2), box('q', 'Value of q (2 d.p.)', 2)],
