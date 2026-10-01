@@ -5,10 +5,12 @@ const VectorExamples = (() => {
   const LEVELS = [
     { label: 'Mudah 1 · Easy 1', tier: 'easy' },
     { label: 'Mudah 2 · Easy 2', tier: 'easy' },
-    { label: 'Sederhana 3 · Medium 3', tier: 'medium' },
+    { label: 'Mudah 3 · Easy 3', tier: 'easy' },
     { label: 'Sederhana 4 · Medium 4', tier: 'medium' },
-    { label: 'Sukar 5 · Hard 5', tier: 'hard' },
-    { label: 'Sukar 6 · Hard 6', tier: 'hard' }
+    { label: 'Sederhana 5 · Medium 5', tier: 'medium' },
+    { label: 'Sederhana 6 · Medium 6', tier: 'medium' },
+    { label: 'Sukar 7 · Hard 7', tier: 'hard' },
+    { label: 'Sukar 8 · Hard 8', tier: 'hard' }
   ];
   const XP = { easy: 5, medium: 10, hard: 15 };
   const solved = new Set();
@@ -111,6 +113,28 @@ const VectorExamples = (() => {
       answers: st => ({ x: 2 + st.vx * st.t, y: 1 + st.vy * st.t, d: Math.hypot(2 + st.vx * st.t, 1 + st.vy * st.t) }),
       hint: () => 'Darab halaju dengan bilangan bingkai terlebih dahulu, kemudian tambah kepada kedudukan awal komponen demi komponen.',
       solution: st => steps(`${m(st.t + 'v = ' + vec(st.vx * st.t, st.vy * st.t))}`, `${m('p = ' + vec(2, 1) + ' + ' + '(' + vec(st.vx * st.t, st.vy * st.t) + ')')} = ${m(vec(2 + st.vx * st.t, 1 + st.vy * st.t))}`, `${m('|p| = √(' + neg(2 + st.vx * st.t) + '² + ' + neg(1 + st.vy * st.t) + '²) ≈ ' + Math.hypot(2 + st.vx * st.t, 1 + st.vy * st.t).toFixed(2))}`)
+    },
+    {
+      title: 'Robot bergerak dalam koordinat 3D (x, y, z)',
+      controls: [slider('x', 'Jarak ke Timur (m)', 1, 8, 1, 3), slider('y', 'Jarak ke Utara (m)', 1, 8, 1, 4), slider('z', 'Jarak ke atas (m)', 1, 6, 1, 2)],
+      prompt: st => `Robot bergerak ${st.x} m ke Timur, ${st.y} m ke Utara, dan ${st.z} m ke atas. Cari jarak keseluruhan dari titik mula (2 t.p.).`,
+      visual: st => buildDiagramSVG([v(0, 0, st.x, 0, 'blue', `${st.x}i`), v(st.x, 0, 0, st.y, 'red', `${st.y}j`), v(0, 0, st.x, st.y, 'green', 'paduan 2D')]),
+      readout: st => eq(`Pergerakan 3D: ${m(vec(st.x, st.y))} + ${st.z}k`, `Magnitud: ${m('√(x² + y² + z²)')}`, `Ini ialah sambungan kepada 2D; konsep kesamaan terus digunakan.`),
+      fields: () => [box('mag', 'Jarak keseluruhan (2 t.p.)', 2)],
+      answers: st => ({ mag: Math.hypot(st.x, st.y, st.z) }),
+      hint: () => 'Teorem Pythagoras 3D: tambah kuasa dua semua tiga komponen, kemudian ambil punca kuasa dua.',
+      solution: st => `${m('|r| = √(' + st.x + '² + ' + st.y + '² + ' + st.z + '²) = √' + (st.x * st.x + st.y * st.y + st.z * st.z) + ' ≈ ' + Math.hypot(st.x, st.y, st.z).toFixed(2))} m`
+    },
+    {
+      title: 'Pengimbangan daya dalam tiga arah berbeza',
+      controls: [slider('fx', 'Daya Timur (N)', 100, 800, 50, 300), slider('fy', 'Daya Utara (N)', 100, 800, 50, 400), slider('fz', 'Daya ke atas (N)', 100, 800, 50, 250)],
+      prompt: st => `Tiga kabel menarik objek dengan ${st.fx} N ke Timur, ${st.fy} N ke Utara, dan ${st.fz} N ke atas. Cari magnitud daya paduan dan daya pengimbang yang diperlukan (2 t.p.).`,
+      visual: st => buildDiagramSVG([v(0, 0, st.fx, 0, 'blue', 'Fx'), v(0, 0, 0, st.fy, 'red', 'Fy'), v(0, 0, st.fx, st.fy, 'green', 'Paduan 2D')]),
+      readout: st => eq(`Paduan: ${m(vec(st.fx, st.fy))} + ${st.fz}k N`, `Keseimbangan: ${m('F₁ + F₂ + F₃ + E = zero')}`, `Daya pengimbang ialah negatif bagi paduan.`),
+      fields: () => [box('mag', 'Magnitud paduan (N, 2 t.p.)', 2), box('ei', 'Komponen i daya pengimbang (N)'), box('ej', 'Komponen j daya pengimbang (N)'), box('ek', 'Komponen k daya pengimbang (N)')],
+      answers: st => ({ mag: Math.hypot(st.fx, st.fy, st.fz), ei: -st.fx, ej: -st.fy, ek: -st.fz }),
+      hint: () => 'Magnitud paduan menggunakan teorem Pythagoras 3D. Daya pengimbang mempunyai tanda bertentangan untuk setiap komponen.',
+      solution: st => steps(`${m('R = ' + vec(st.fx, st.fy) + ' + ' + st.fz + 'k')} N`, `${m('|R| = √(' + st.fx + '² + ' + st.fy + '² + ' + st.fz + '²) ≈ ' + Math.hypot(st.fx, st.fy, st.fz).toFixed(2))} N`, `${m('E = ' + vec(-st.fx, -st.fy) + ' − ' + st.fz + 'k')} N`)
     }
   ];
 
@@ -190,6 +214,41 @@ const VectorExamples = (() => {
       answers: st => ({ i: -(st.ax + st.bx), j: -(st.ay + st.by), mag: Math.hypot(st.ax + st.bx, st.ay + st.by) }),
       hint: () => 'Tambah A dan B dahulu. C mesti menjadi negatif bagi hasil itu supaya laluan tertutup kembali ke titik mula.',
       solution: st => steps(`${m('A + B = ' + vec(st.ax + st.bx, st.ay + st.by))}`, `${m('C = ' + vec(-(st.ax + st.bx), -(st.ay + st.by)))}`, `${m('|C| = √' + ((st.ax + st.bx) ** 2 + (st.ay + st.by) ** 2) + ' ≈ ' + Math.hypot(st.ax + st.bx, st.ay + st.by).toFixed(2))}`)
+    },
+    {
+      title: 'Bandingkan panjang dua vektor skalar gandaan',
+      controls: [slider('x', 'Komponen i bagi v', 1, 6, 1, 2), slider('y', 'Komponen j bagi v', 1, 6, 1, 3), slider('k1', 'Pengganda k₁', 0.5, 3, 0.5, 1.5), slider('k2', 'Pengganda k₂', 0.5, 3, 0.5, 2.5)],
+      prompt: st => `Diberi ${m('v = ' + vec(st.x, st.y))}. Cari ${m('|' + n(st.k1) + 'v|')} dan ${m('|' + n(st.k2) + 'v|')} (2 t.p.), serta nisbah antara keduanya.`,
+      visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'blue', 'v'), v(0, 0, st.k1 * st.x, st.k1 * st.y, 'red', `${n(st.k1)}v`), v(0, 0, st.k2 * st.x, st.k2 * st.y, 'green', `${n(st.k2)}v`)]),
+      readout: st => eq(`${m('|kv| = |k| × |v|')}`, `${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(4))}`),
+      fields: () => [box('mag1', `Magnitud |${n(st.k1)}v| (2 t.p.)`, 2), box('mag2', `Magnitud |${n(st.k2)}v| (2 t.p.)`, 2), box('ratio', `Nisbah |${n(st.k2)}v| : |${n(st.k1)}v| (2 t.p.)`, 2)],
+      answers: st => {
+        const mag1 = Math.abs(st.k1) * Math.hypot(st.x, st.y);
+        const mag2 = Math.abs(st.k2) * Math.hypot(st.x, st.y);
+        return { mag1, mag2, ratio: mag2 / mag1 };
+      },
+      hint: () => 'Hitung magnitud bagi setiap vektor skalar gandaan secara berasingan. Nisbah = (magnitud pertama) ÷ (magnitud kedua).',
+      solution: st => {
+        const magv = Math.hypot(st.x, st.y);
+        const mag1 = Math.abs(st.k1) * magv;
+        const mag2 = Math.abs(st.k2) * magv;
+        return steps(`${m('|' + n(st.k1) + 'v| = ' + n(st.k1) + ' × ' + magv.toFixed(4) + ' ≈ ' + mag1.toFixed(2))}`, `${m('|' + n(st.k2) + 'v| = ' + n(st.k2) + ' × ' + magv.toFixed(4) + ' ≈ ' + mag2.toFixed(2))}`, `Nisbah = ${mag2.toFixed(2)} ÷ ${mag1.toFixed(2)} ≈ ${(mag2 / mag1).toFixed(2)}`);
+      }
+    },
+    {
+      title: 'Kombinasi kompleks tiga vektor dengan nisbah tetap',
+      controls: [slider('a', 'Pekali a dalam pA', -2, 3, 1, 2), slider('b', 'Pekali b dalam qB', -2, 3, 1, 1), slider('c', 'Pekali c dalam rC', -2, 3, 1, -1)],
+      prompt: st => `Diberi ${m('A = 2i + j')}, ${m('B = i − 3j')}, ${m('C = −i + 2j')}. Cari ${m(combo(st.a, 'A') + ' + ' + combo(st.b, 'B') + ' + ' + combo(st.c, 'C'))} dan magnitudnya (2 t.p.).`,
+      visual: st => buildDiagramSVG(drawable([v(0, 0, 2 * st.a, st.a, 'blue', term(st.a, 'A')), v(2 * st.a, st.a, st.b, -3 * st.b, 'red', term(st.b, 'B')), v(2 * st.a + st.b, st.a - 3 * st.b, -st.c, 2 * st.c, 'purple', term(st.c, 'C')), v(0, 0, 2 * st.a + st.b - st.c, st.a - 3 * st.b + 2 * st.c, 'green', 'hasil')])),
+      readout: st => eq(`${m(term(st.a, 'A') + ' = ' + vec(2 * st.a, st.a))}`, `${m(term(st.b, 'B') + ' = ' + vec(st.b, -3 * st.b))}`, `${m(term(st.c, 'C') + ' = ' + vec(-st.c, 2 * st.c))}`),
+      fields: () => [box('i', 'Komponen i'), box('j', 'Komponen j'), box('mag', 'Magnitud (2 t.p.)', 2)],
+      answers: st => ({ i: 2 * st.a + st.b - st.c, j: st.a - 3 * st.b + 2 * st.c, mag: Math.hypot(2 * st.a + st.b - st.c, st.a - 3 * st.b + 2 * st.c) }),
+      hint: () => 'Lakukan pendaraban skalar bagi setiap vektor dahulu, kemudian tambah komponen i dan j berasingan. Terakhir, hitung magnitud vektor hasil.',
+      solution: st => {
+        const i = 2 * st.a + st.b - st.c;
+        const j = st.a - 3 * st.b + 2 * st.c;
+        return steps(`${m(term(st.a, 'A') + ' = ' + vec(2 * st.a, st.a))}`, `${m(term(st.b, 'B') + ' = ' + vec(st.b, -3 * st.b))}`, `${m(term(st.c, 'C') + ' = ' + vec(-st.c, 2 * st.c))}`, `Hasil = ${m(vec(i, j))}`, `Magnitud = √(${i}² + ${j}²) ≈ ${Math.hypot(i, j).toFixed(2)}`);
+      }
     }
   ];
 
@@ -268,6 +327,77 @@ const VectorExamples = (() => {
       answers: st => ({ i: st.r * Math.cos((st.a * Math.PI) / 180), j: st.r * Math.sin((st.a * Math.PI) / 180) }),
       hint: () => 'Komponen mendatar menggunakan kosinus dan komponen menegak menggunakan sinus. Pastikan kalkulator dalam mod darjah.',
       solution: st => steps(`${m('x = ' + st.r + ' cos ' + st.a)}° ${m('≈ ' + (st.r * Math.cos((st.a * Math.PI) / 180)).toFixed(2))}`, `${m('y = ' + st.r + ' sin ' + st.a)}° ${m('≈ ' + (st.r * Math.sin((st.a * Math.PI) / 180)).toFixed(2))}`)
+    },
+    {
+      title: 'Dua vektor dengan sudut berbeza pada satah yang sama',
+      controls: [slider('r1', 'Magnitud |v₁|', 2, 15, 1, 8), slider('a1', 'Sudut v₁ (°)', 0, 350, 15, 45), slider('r2', 'Magnitud |v₂|', 2, 15, 1, 10), slider('a2', 'Sudut v₂ (°)', 0, 350, 15, 120)],
+      prompt: st => `Dua vektor mempunyai magnitud |v₁| = ${st.r1} dan |v₂| = ${st.r2}, membuat sudut ${st.a1}° dan ${st.a2}° dari paksi x. Cari sudut antara kedua-dua vektor (2 t.p.).`,
+      visual: st => buildDiagramSVG([v(0, 0, st.r1 * Math.cos((st.a1 * Math.PI) / 180), st.r1 * Math.sin((st.a1 * Math.PI) / 180), 'blue', 'v₁'), v(0, 0, st.r2 * Math.cos((st.a2 * Math.PI) / 180), st.r2 * Math.sin((st.a2 * Math.PI) / 180), 'red', 'v₂')]),
+      readout: st => eq(`Sudut antara: |θ₂ − θ₁|`, `θ₁ = ${st.a1}°, θ₂ = ${st.a2}°`, `Ambil perbezaan sudut yang lebih kecil.`),
+      fields: () => [box('angle', 'Sudut antara vektor (°, 2 t.p.)', 2)],
+      answers: st => {
+        let diff = Math.abs(st.a2 - st.a1);
+        if (diff > 180) diff = 360 - diff;
+        return { angle: diff };
+      },
+      hint: () => 'Sudut antara dua vektor = perbezaan sudut arahan mereka. Jika perbezaan > 180°, ambil 360° − perbezaan untuk mendapat sudut yang lebih kecil.',
+      solution: st => {
+        let diff = Math.abs(st.a2 - st.a1);
+        if (diff > 180) diff = 360 - diff;
+        return `Perbezaan = |${st.a2}° − ${st.a1}°| = ${Math.abs(st.a2 - st.a1)}°, jadi sudut antara = ${diff.toFixed(2)}°`;
+      }
+    },
+    {
+      title: 'Vektor unit dalam arah paduan dua vektor',
+      invalid: st => {
+        const x = 3 * Math.cos((st.a1 * Math.PI) / 180) + 4 * Math.cos((st.a2 * Math.PI) / 180);
+        const y = 3 * Math.sin((st.a1 * Math.PI) / 180) + 4 * Math.sin((st.a2 * Math.PI) / 180);
+        return Math.hypot(x, y) ? '' : 'Paduan ialah vektor sifar. Ubah sudut untuk meneruskan.';
+      },
+      controls: [slider('a1', 'Sudut v₁ (°)', 0, 350, 15, 60), slider('a2', 'Sudut v₂ (°)', 0, 350, 15, 180)],
+      prompt: st => `Diberi ${m('v₁')} dengan magnitud 3 di sudut ${st.a1}° dan ${m('v₂')} dengan magnitud 4 di sudut ${st.a2}°. Cari vektor unit dalam arah paduan ${m('v₁ + v₂')} (4 t.p.).`,
+      visual: st => {
+        const x1 = 3 * Math.cos((st.a1 * Math.PI) / 180);
+        const y1 = 3 * Math.sin((st.a1 * Math.PI) / 180);
+        const x2 = 4 * Math.cos((st.a2 * Math.PI) / 180);
+        const y2 = 4 * Math.sin((st.a2 * Math.PI) / 180);
+        const sx = x1 + x2;
+        const sy = y1 + y2;
+        return buildDiagramSVG([v(0, 0, x1, y1, 'blue', 'v₁'), v(0, 0, x2, y2, 'red', 'v₂'), v(0, 0, sx, sy, 'green', 'v₁ + v₂')]);
+      },
+      readout: st => {
+        const x1 = 3 * Math.cos((st.a1 * Math.PI) / 180);
+        const y1 = 3 * Math.sin((st.a1 * Math.PI) / 180);
+        const x2 = 4 * Math.cos((st.a2 * Math.PI) / 180);
+        const y2 = 4 * Math.sin((st.a2 * Math.PI) / 180);
+        const sx = x1 + x2;
+        const sy = y1 + y2;
+        const mag = Math.hypot(sx, sy);
+        return mag ? eq(`Paduan = ${m(vec(Number(sx.toFixed(4)), Number(sy.toFixed(4))))}`, `Magnitud = ${mag.toFixed(4)}`, `${m('u = paduan / magnitud')}`) : 'Paduan ialah vektor sifar. Ubah sudut.';
+      },
+      fields: () => [box('ui', 'Komponen i bagi u (4 t.p.)', 4), box('uj', 'Komponen j bagi u (4 t.p.)', 4)],
+      answers: st => {
+        const x1 = 3 * Math.cos((st.a1 * Math.PI) / 180);
+        const y1 = 3 * Math.sin((st.a1 * Math.PI) / 180);
+        const x2 = 4 * Math.cos((st.a2 * Math.PI) / 180);
+        const y2 = 4 * Math.sin((st.a2 * Math.PI) / 180);
+        const sx = x1 + x2;
+        const sy = y1 + y2;
+        const mag = Math.hypot(sx, sy) || 1;
+        return { ui: sx / mag, uj: sy / mag };
+      },
+      hint: () => 'Tukar magnitud dan sudut kepada komponen. Tambah komponen dahulu untuk mendapat paduan. Kemudian bahagikan setiap komponen paduan dengan magnitudnya.',
+      solution: st => {
+        const x1 = 3 * Math.cos((st.a1 * Math.PI) / 180);
+        const y1 = 3 * Math.sin((st.a1 * Math.PI) / 180);
+        const x2 = 4 * Math.cos((st.a2 * Math.PI) / 180);
+        const y2 = 4 * Math.sin((st.a2 * Math.PI) / 180);
+        const sx = x1 + x2;
+        const sy = y1 + y2;
+        const mag = Math.hypot(sx, sy);
+        if (!mag) return 'Paduan ialah vektor sifar, jadi tiada vektor unit.';
+        return steps(`${m('v₁ = 3 cos ' + st.a1 + '° i + 3 sin ' + st.a1 + '° j ≈ ' + vec(Number(x1.toFixed(4)), Number(y1.toFixed(4))))}`, `${m('v₂ = 4 cos ' + st.a2 + '° i + 4 sin ' + st.a2 + '° j ≈ ' + vec(Number(x2.toFixed(4)), Number(y2.toFixed(4))))}`, `${m('v₁ + v₂ ≈ ' + vec(Number(sx.toFixed(4)), Number(sy.toFixed(4))))}`, `${m('u ≈ ' + vec(Number((sx / mag).toFixed(4)), Number((sy / mag).toFixed(4))))}`);
+      }
     }
   ];
 
@@ -341,6 +471,45 @@ const VectorExamples = (() => {
       },
       hint: () => 'Tulis laluan sebagai hasil tambah sisi berlabel. Setiap kali anda bergerak melawan anak panah yang diberi, tukar tandanya.',
       solution: st => m(VectorExtensions.routeWork(st.p, st.q, st.r, st.target))
+    },
+    {
+      title: 'Kesamarataan vektor: mengenal vektor yang sama',
+      controls: [slider('x1', 'Komponen i A', -5, 5, 1, 2), slider('y1', 'Komponen j A', -5, 5, 1, 3), slider('x2', 'Komponen i B', -5, 5, 1, 2), slider('y2', 'Komponen j B', -5, 5, 1, 3)],
+      prompt: st => `Diberi ${m('A = ' + vec(st.x1, st.y1))} dan ${m('B = ' + vec(st.x2, st.y2))}. Adakah A sama dengan B? Jika tidak, cari ${m('A − B')}.`,
+      visual: st => buildDiagramSVG([v(0, 0, st.x1, st.y1, 'blue', 'A'), v(0, 0, st.x2, st.y2, 'red', 'B'), (st.x1 !== st.x2 || st.y1 !== st.y2) && v(0, 0, st.x1 - st.x2, st.y1 - st.y2, 'green', 'A − B')].filter(Boolean)),
+      readout: st => st.x1 === st.x2 && st.y1 === st.y2 ? `${m('A = B')}: vektor sama kerana kedua-dua komponen sama.` : eq(`${m('A ≠ B')}`, `${m('A − B = ' + vec(st.x1 - st.x2, st.y1 - st.y2))}`),
+      fields: () => [pick('equal', 'Adakah A = B?', [['yes', 'Ya, A sama dengan B'], ['no', 'Tidak, A berbeza daripada B']]), box('i', 'Jika tidak sama, komponen i A − B'), box('j', 'Jika tidak sama, komponen j A − B')],
+      answers: st => {
+        const equal = st.x1 === st.x2 && st.y1 === st.y2 ? 'yes' : 'no';
+        return { equal, i: st.x1 - st.x2, j: st.y1 - st.y2 };
+      },
+      hint: () => 'Dua vektor sama jika dan hanya jika semua komponen mereka sama. Jika tidak, tolak komponen demi komponen.',
+      solution: st => {
+        if (st.x1 === st.x2 && st.y1 === st.y2) {
+          return `${m('A = B')}: Kedua-dua vektor mempunyai komponen i = ${st.x1} dan komponen j = ${st.y1}.`;
+        }
+        return steps(`Bandingkan komponen:`, `Komponen i: ${st.x1} ${st.x1 === st.x2 ? '=' : '≠'} ${st.x2}`, `Komponen j: ${st.y1} ${st.y1 === st.y2 ? '=' : '≠'} ${st.y2}`, `Oleh itu, ${m('A ≠ B')}`, `${m('A − B = ' + vec(st.x1 - st.x2, st.y1 - st.y2))}`);
+      }
+    },
+    {
+      title: 'Keseimbangan: mencari vektor ketiga dalam persamaan tertutup',
+      controls: [slider('ax', 'Komponen i A', -6, 6, 1, 2), slider('ay', 'Komponen j A', -6, 6, 1, 3), slider('bx', 'Komponen i B', -6, 6, 1, 1), slider('by', 'Komponen j B', -6, 6, 1, -2), slider('cx', 'Komponen i C (ubah)', -6, 6, 1, -3)],
+      prompt: st => `Dalam segitiga tertutup, ${m('A + B + C = zero')}. Diberi ${m('A = ' + vec(st.ax, st.ay))}} dan ${m('B = ' + vec(st.bx, st.by))}}. Cari C supaya jumlah ketiga-tiga ialah sifar. Komponen i harus ${st.ax + st.bx + st.cx}} sama dengan sifar.`,
+      visual: st => buildDiagramSVG([v(0, 0, st.ax, st.ay, 'blue', 'A'), v(st.ax, st.ay, st.bx, st.by, 'red', 'B'), v(st.ax + st.bx, st.ay + st.by, -st.ax - st.bx, -st.ay - st.by, 'green', 'C')]),
+      readout: st => {
+        const cy = -(st.ay + st.by);
+        const sumI = st.ax + st.bx + st.cx;
+        const sumJ = st.ay + st.by + cy;
+        return eq(`Untuk keseimbangan: ${m('A + B + C = zero')}`, `Jumlah i: ${st.ax} + ${st.bx} + ${st.cx} = ${sumI}`, `Jumlah j: ${st.ay} + ${st.by} + ${cy} = ${sumJ}`);
+      },
+      fields: () => [box('cy', 'Komponen j C (untuk keseimbangan)'), box('i_sum', 'Jumlah komponen i (mesti 0)'), box('j_sum', 'Jumlah komponen j (mesti 0)')],
+      answers: st => ({
+        cy: -(st.ay + st.by),
+        i_sum: 0,
+        j_sum: 0
+      }),
+      hint: () => 'Untuk keseimbangan (vektor jumlah = sifar), jumlah kesemua komponen i mesti 0 dan jumlah kesemua komponen j mesti 0. C = −(A + B).',
+      solution: st => steps(`${m('A + B = ' + vec(st.ax + st.bx, st.ay + st.by))}`, `Untuk jumlah = sifar: ${m('C = −(A + B) = ' + vec(-(st.ax + st.bx), -(st.ay + st.by)))}`, `Semakan: ${m(vec(st.ax, st.ay) + ' + ' + vec(st.bx, st.by) + ' + ' + vec(-(st.ax + st.bx), -(st.ay + st.by)) + ' = zero')}`)
     }
   ];
 
@@ -428,6 +597,44 @@ const VectorExamples = (() => {
       answers: st => ({ k: st.bx / st.ax, j: st.bx / st.ax - st.by }),
       hint: () => 'Tetapkan komponen i hasil kepada sifar: k·aₓ − bₓ = 0, jadi k = bₓ/aₓ. Gunakan nilai k yang sama dalam komponen j.',
       solution: st => steps(`${m('k = ' + st.bx + '/' + st.ax + ' ≈ ' + (st.bx / st.ax).toFixed(4))}`, `Komponen j: ${m('k × 1 − ' + neg(st.by) + ' ≈ ' + (st.bx / st.ax - st.by).toFixed(4))}`, `${m('r ≈ ' + vec(0, Number((st.bx / st.ax - st.by).toFixed(4))))}`)
+    },
+    {
+      title: 'Penyelesaian sistem: dua vektor, dua parameter',
+      controls: [slider('kx', 'Komponen i vektor hasil', -6, 6, 1, 5), slider('ky', 'Komponen j vektor hasil', -6, 6, 1, 2)],
+      prompt: st => `Diberi ${m('a')} = ${col(2, 1)} dan ${m('b')} = ${col(1, -2)}. Cari p dan q supaya ${m('pa + qb = ' + vec(st.kx, st.ky))}}. Jawab kepada 2 tempat perpuluhan.`,
+      visual: st => {
+        const p = (2 * st.ky + st.kx) / 5;
+        const q = (2 * st.kx - st.ky) / 5;
+        return buildDiagramSVG(drawable([v(0, 0, 2 * p, p, 'blue', 'pa'), v(2 * p, p, q, -2 * q, 'red', 'qb'), v(0, 0, 2 * p + q, p - 2 * q, 'green', 'hasil')]));
+      },
+      readout: st => eq(`Persamaan: ${m('2p + q = ' + st.kx)}`, `${m('p − 2q = ' + st.ky)}`),
+      fields: () => [box('p', 'Nilai p (2 t.p.)', 2), box('q', 'Nilai q (2 t.p.)', 2)],
+      answers: st => {
+        const p = (2 * st.ky + st.kx) / 5;
+        const q = (2 * st.kx - st.ky) / 5;
+        return { p, q };
+      },
+      hint: () => 'Tuliskan dua persamaan komponen: komponen i dan komponen j. Selesaikan sistem dua persamaan, dua pemboleh ubah menggunakan penggantian atau penghapusan.',
+      solution: st => {
+        const p = (2 * st.ky + st.kx) / 5;
+        const q = (2 * st.kx - st.ky) / 5;
+        return steps(`Sistem: ${m('2p + q = ' + st.kx + ', p − 2q = ' + st.ky)}`, `Daripada persamaan kedua: ${m('p = ' + st.ky + ' + 2q')}`, `Gantikan ke persamaan pertama: ${m('2(' + st.ky + ' + 2q) + q = ' + st.kx)}`, `${m('5q = ' + (2 * st.kx - st.ky).toFixed(2))}`, `${m('p ≈ ' + p.toFixed(2) + ', q ≈ ' + q.toFixed(2))}`);
+      }
+    },
+    {
+      title: 'Magnitud gabungan vektor lajur dengan pekali negatif',
+      controls: [slider('p', 'Pekali p', -4, -1, 1, -2), slider('q', 'Pekali q', 1, 5, 1, 3)],
+      prompt: st => `Diberi ${m('a')} = ${col(3, 2)} dan ${m('b')} = ${col(-1, 4)}. Cari ${m('|' + st.p + 'a + ' + st.q + 'b|')} kepada 4 tempat perpuluhan.`,
+      visual: st => buildDiagramSVG(drawable([v(0, 0, 3 * st.p, 2 * st.p, 'blue', `${st.p}a`), v(3 * st.p, 2 * st.p, -st.q, 4 * st.q, 'red', `${st.q}b`), v(0, 0, 3 * st.p - st.q, 2 * st.p + 4 * st.q, 'green', 'hasil')])),
+      readout: st => eq(`${m(st.p + 'a = ' + vec(3 * st.p, 2 * st.p))}`, `${m(st.q + 'b = ' + vec(-st.q, 4 * st.q))}`, `${m('Hasil = ' + vec(3 * st.p - st.q, 2 * st.p + 4 * st.q))}`),
+      fields: () => [box('mag', 'Magnitud (4 t.p.)', 4)],
+      answers: st => ({ mag: Math.hypot(3 * st.p - st.q, 2 * st.p + 4 * st.q) }),
+      hint: () => 'Lakukan pendaraban skalar untuk kedua-dua vektor, tambah komponen, kemudian gunakan formula magnitud √(x² + y²).',
+      solution: st => {
+        const x = 3 * st.p - st.q;
+        const y = 2 * st.p + 4 * st.q;
+        return steps(`${m(st.p + 'a = ' + vec(3 * st.p, 2 * st.p))}`, `${m(st.q + 'b = ' + vec(-st.q, 4 * st.q))}`, `${m('Hasil = ' + vec(x, y))}`, `${m('|Hasil| = √(' + neg(x) + '² + ' + neg(y) + '²) = √' + (x * x + y * y) + ' ≈ ' + Math.hypot(x, y).toFixed(4))}`);
+      }
     }
   ];
 
@@ -498,6 +705,48 @@ const VectorExamples = (() => {
       answers: st => ({ i: st.px + st.t * (st.qx - st.px), j: st.py + st.t * (st.qy - st.py) }),
       hint: () => 't = 0 memberi P dan t = 1 memberi Q. Darab PQ dengan t dahulu, kemudian tambah kepada OP.',
       solution: st => steps(`${m('PQ = ' + vec(st.qx - st.px, st.qy - st.py))}`, `${m('OR = ' + vec(st.px, st.py) + ' + ' + n(st.t) + '(' + vec(st.qx - st.px, st.qy - st.py) + ')')}`, `${m('OR ≈ ' + vec(Number((st.px + st.t * (st.qx - st.px)).toFixed(2)), Number((st.py + st.t * (st.qy - st.py)).toFixed(2))))}`)
+    },
+    {
+      title: 'Formula nisbah bahagian dalam: titik yang membahagi PQ',
+      controls: [slider('px', 'x bagi P', -6, 6, 1, -2), slider('py', 'y bagi P', -6, 6, 1, 1), slider('qx', 'x bagi Q', -6, 6, 1, 4), slider('qy', 'y bagi Q', -6, 6, 1, 5), slider('m', 'Nisbah m dalam m:n', 1, 4, 1, 2), slider('n', 'Nisbah n dalam m:n', 1, 4, 1, 1)],
+      prompt: st => `Titik R membahagi PQ dengan nisbah ${st.m}:${st.n}. Gunakan ${m('OR = (m·OQ + n·OP)/(m+n)')}} untuk cari koordinat R (2 t.p.), dengan P(${st.px}, ${st.py}) dan Q(${st.qx}, ${st.qy}).`,
+      visual: st => {
+        const total = st.m + st.n;
+        const rx = (st.m * st.qx + st.n * st.px) / total;
+        const ry = (st.m * st.qy + st.n * st.py) / total;
+        return buildDiagramSVG([v(st.px, st.py, st.qx - st.px, st.qy - st.py, 'blue', 'PQ', true), v(0, 0, rx, ry, 'green', 'R')]);
+      },
+      readout: st => eq(`Nisbah: ${st.m}:${st.n}`, `${m('OR = (' + st.m + 'OQ + ' + st.n + 'OP)/' + (st.m + st.n))}`),
+      fields: () => [box('i', 'Koordinat x bagi R (2 t.p.)', 2), box('j', 'Koordinat y bagi R (2 t.p.)', 2)],
+      answers: st => {
+        const total = st.m + st.n;
+        return { i: (st.m * st.qx + st.n * st.px) / total, j: (st.m * st.qy + st.n * st.py) / total };
+      },
+      hint: () => 'Formula nisbah bahagian: pembilang = m kali titik akhir + n kali titik awal; penyebut = m + n.',
+      solution: st => {
+        const total = st.m + st.n;
+        const rx = (st.m * st.qx + st.n * st.px) / total;
+        const ry = (st.m * st.qy + st.n * st.py) / total;
+        return steps(`${m('OR = (' + st.m + ' × ' + st.qx + ' + ' + st.n + ' × ' + neg(st.px) + ')/' + total + ' i')}`, `${m('OR = (' + st.m + ' × ' + st.qy + ' + ' + st.n + ' × ' + neg(st.py) + ')/' + total + ' j')}`, `${m('OR ≈ (' + rx.toFixed(2) + ', ' + ry.toFixed(2) + ')')})`);
+      }
+    },
+    {
+      title: 'Kesamaan vektor dalam penyelesaian masalah geometri',
+      controls: [slider('k', 'Pengganda k dalam AB = ka', 1, 6, 1, 3), slider('m', 'Pekali m dalam OC = m·OA', 0.2, 2, 0.2, 1)],
+      prompt: st => `Dalam segi empat OABC, ${m('OA = a')}, ${m('OB = b')}, ${m('AB = ' + st.k + 'a')}. Guna kesamarataan vektor untuk menunjukkan bahawa ${m('OC = ' + n(st.m) + '(b − a + ' + st.k + 'a)')} dan cari ${m('|OC|')}} jika ${m('|a| = 2')} dan ${m('|b| = 5')}} dan a, b berserenjang.`,
+      visual: st => buildDiagramSVG([v(0, 0, 2, 0, 'blue', 'a'), v(0, 0, 0, 5, 'red', 'b'), v(2, 0, st.k * 2, 0, 'purple', 'AB')]),
+      readout: st => eq(`Guna kesamarataan: ${m('OB = OA + AB')}`, `${m('b = a + ' + st.k + 'a = (1 + ' + st.k + ')a')}`, `Kerana a ⊥ b: ${m('|OC|² = |b − a + ' + st.k + 'a|² = |' + (st.k - 1) + 'b|²')}}`),
+      fields: () => [box('mag', `Magnitud |OC| (2 t.p.)`, 2)],
+      answers: st => {
+        const resultMag = Math.abs(st.k - 1) * 5;
+        return { mag: st.m * resultMag };
+      },
+      hint: () => 'Gunakan kesamarataan vektor untuk menulis hubungan antara OA, OB dan AB. Kerana berserenjang, gunakan teorem Pythagoras untuk magnitud.',
+      solution: st => {
+        const resultMag = Math.abs(st.k - 1) * 5;
+        const ocMag = st.m * resultMag;
+        return steps(`Kesamarataan vektor: ${m('OB = OA + AB')}`, `${m('b = a + ' + st.k + 'a')}`, `${m('OC = ' + n(st.m) + '(b − a + ' + st.k + 'a) = ' + n(st.m) + ' × ' + (st.k - 1) + 'a')}`, `Kerana a ⊥ b, dan |a| = 2, |b| = 5:`, `${m('|OC| = ' + n(st.m) + ' × ' + (st.k - 1) + ' × 5 = ' + ocMag.toFixed(2))}`);
+      }
     }
   ];
 
@@ -676,9 +925,9 @@ const VectorExamples = (() => {
     const section = document.createElement('section');
     section.className = 'example-ladder';
     section.id = `ladder-${area.key}`;
-    section.innerHTML = `<div class="lab-kicker">Enam contoh tambahan · mudah ke sukar</div>
+    section.innerHTML = `<div class="lab-kicker">Lapan contoh tambahan · mudah ke sukar</div>
       <h3>${escapeAttr(area.title)}</h3>
-      <p class="ex-ladder-intro">Enam contoh interaktif berikut melanjutkan contoh di atas. Tahap 1 dan 2 menguji pengecaman atau pengiraan terus, tahap 3 dan 4 memerlukan penaakulan vektor beberapa langkah, dan tahap 5 dan 6 ialah masalah gunaan atau geometri. Ubah kawalan, masukkan jawapan anda, kemudian semak.</p>
+      <p class="ex-ladder-intro">Lapan contoh interaktif berikut melanjutkan konsep dengan progres pembelajaran yang jelas. Tahap 1−3 menguji pengecaman atau pengiraan terus, tahap 4−6 memerlukan penaakulan vektor beberapa langkah dengan kesamarataan (keseimbangan), dan tahap 7−8 ialah masalah gunaan, geometri atau sistem kompleks. Ubah kawalan, masukkan jawapan anda, kemudian semak.</p>
       <ol class="ex-ladder-scale">${LEVELS.map(level => `<li>${level.label}</li>`).join('')}</ol>`;
     area.examples.forEach((spec, index) => {
       const card = buildCard(area, spec, index);
