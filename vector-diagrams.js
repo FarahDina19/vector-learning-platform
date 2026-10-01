@@ -1,23 +1,36 @@
-/* Helper: Draw component decomposition (i and j) with right-angle indicator and magnitude */
+/* Helper: Draw component decomposition (i and j) with right-angle indicator, magnitude, and directional arrows */
 function drawComponentDecomposition(x, y, px, py, scale, color, label) {
   const x1=px(0), y1=py(0), x2=px(x), y2=py(y);
   const cornerSize=8;
   const ixEnd=px(x), iyEnd=py(y);
   const jxEnd=px(0), jyEnd=py(y);
   const absx=Math.abs(x), absy=Math.abs(y);
+  const arrowSize=5;
 
-  // Draw i-component (horizontal, dashed, lighter)
+  // Draw i-component (horizontal, dashed, lighter) with directional arrow
+  const iMid=(x1+ixEnd)/2;
+  const iArrow=x>0
+    ? `<path d="M${ixEnd-arrowSize} ${y2-arrowSize}L${ixEnd} ${y2}L${ixEnd-arrowSize} ${y2+arrowSize}" stroke="${color}" stroke-width="1" fill="none" opacity="0.6"/>`
+    : `<path d="M${x1+arrowSize} ${y2-arrowSize}L${x1} ${y2}L${x1+arrowSize} ${y2+arrowSize}" stroke="${color}" stroke-width="1" fill="none" opacity="0.6"/>`;
+
   const iElements=[
     `<path d="M${x1} ${y2}L${ixEnd} ${y2}" stroke="${color}" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6" fill="none"/>`,
-    `<text x="${(x1+ixEnd)/2}" y="${y2+15}" text-anchor="middle" font-size="11" fill="${color}" opacity="0.8">${x.toFixed(0)}i</text>`,
-    `<text x="${(x1+ixEnd)/2}" y="${y2+27}" text-anchor="middle" font-size="9" fill="${color}" opacity="0.6">(|${absx.toFixed(0)}|)</text>`
+    iArrow,
+    `<text x="${iMid}" y="${y2+15}" text-anchor="middle" font-size="11" fill="${color}" opacity="0.8">${x.toFixed(0)}i</text>`,
+    `<text x="${iMid}" y="${y2+27}" text-anchor="middle" font-size="9" fill="${color}" opacity="0.6">(|${absx.toFixed(0)}|)</text>`
   ];
 
-  // Draw j-component (vertical, dashed, lighter)
+  // Draw j-component (vertical, dashed, lighter) with directional arrow
+  const jMid=(y1+y2)/2;
+  const jArrow=y>0
+    ? `<path d="M${ixEnd-arrowSize} ${y2-arrowSize}L${ixEnd} ${y2}L${ixEnd+arrowSize} ${y2-arrowSize}" stroke="${color}" stroke-width="1" fill="none" opacity="0.6"/>`
+    : `<path d="M${ixEnd-arrowSize} ${y1+arrowSize}L${ixEnd} ${y1}L${ixEnd+arrowSize} ${y1+arrowSize}" stroke="${color}" stroke-width="1" fill="none" opacity="0.6"/>`;
+
   const jElements=[
     `<path d="M${ixEnd} ${y1}L${ixEnd} ${y2}" stroke="${color}" stroke-width="1.5" stroke-dasharray="4 3" opacity="0.6" fill="none"/>`,
-    `<text x="${ixEnd+16}" y="${(y1+y2)/2+4}" text-anchor="start" font-size="11" fill="${color}" opacity="0.8">${y.toFixed(0)}j</text>`,
-    `<text x="${ixEnd+16}" y="${(y1+y2)/2+15}" text-anchor="start" font-size="9" fill="${color}" opacity="0.6">(|${absy.toFixed(0)}|)</text>`
+    jArrow,
+    `<text x="${ixEnd+16}" y="${jMid+4}" text-anchor="start" font-size="11" fill="${color}" opacity="0.8">${y.toFixed(0)}j</text>`,
+    `<text x="${ixEnd+16}" y="${jMid+15}" text-anchor="start" font-size="9" fill="${color}" opacity="0.6">(|${absy.toFixed(0)}|)</text>`
   ];
 
   // Draw right-angle indicator at corner (small square for 90° angle)
