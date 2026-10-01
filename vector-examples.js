@@ -115,26 +115,42 @@ const VectorExamples = (() => {
       solution: st => steps(`${m(st.t + 'v = ' + vec(st.vx * st.t, st.vy * st.t))}`, `${m('p = ' + vec(2, 1) + ' + ' + '(' + vec(st.vx * st.t, st.vy * st.t) + ')')} = ${m(vec(2 + st.vx * st.t, 1 + st.vy * st.t))}`, `${m('|p| = √(' + neg(2 + st.vx * st.t) + '² + ' + neg(1 + st.vy * st.t) + '²) ≈ ' + Math.hypot(2 + st.vx * st.t, 1 + st.vy * st.t).toFixed(2))}`)
     },
     {
-      title: 'Robot bergerak dalam koordinat 3D (x, y, z)',
-      controls: [slider('x', 'Jarak ke Timur (m)', 1, 8, 1, 3), slider('y', 'Jarak ke Utara (m)', 1, 8, 1, 4), slider('z', 'Jarak ke atas (m)', 1, 6, 1, 2)],
-      prompt: st => `Robot bergerak ${st.x} m ke Timur, ${st.y} m ke Utara, dan ${st.z} m ke atas. Cari jarak keseluruhan dari titik mula (2 t.p.).`,
-      visual: st => buildDiagramSVG([v(0, 0, st.x, 0, 'blue', `${st.x}i`), v(st.x, 0, 0, st.y, 'red', `${st.y}j`), v(0, 0, st.x, st.y, 'green', 'paduan 2D')]),
-      readout: st => eq(`Pergerakan 3D: ${m(vec(st.x, st.y))} + ${st.z}k`, `Magnitud: ${m('√(x² + y² + z²)')}`, `Ini ialah sambungan kepada 2D; konsep kesamaan terus digunakan.`),
-      fields: () => [box('mag', 'Jarak keseluruhan (2 t.p.)', 2)],
-      answers: st => ({ mag: Math.hypot(st.x, st.y, st.z) }),
-      hint: () => 'Teorem Pythagoras 3D: tambah kuasa dua semua tiga komponen, kemudian ambil punca kuasa dua.',
-      solution: st => `${m('|r| = √(' + st.x + '² + ' + st.y + '² + ' + st.z + '²) = √' + (st.x * st.x + st.y * st.y + st.z * st.z) + ' ≈ ' + Math.hypot(st.x, st.y, st.z).toFixed(2))} m`
+      title: 'Mencari vektor yang hilang dalam paduan',
+      controls: [slider('rx', 'Komponen i paduan R', -10, 10, 1, 4), slider('ry', 'Komponen j paduan R', -10, 10, 1, 5), slider('ax', 'Komponen i vektor A', -10, 10, 1, 2), slider('ay', 'Komponen j vektor A', -10, 10, 1, 3)],
+      prompt: st => `Diberi: ${m('A = ' + vec(st.ax, st.ay))} dan paduan ${m('R = ' + vec(st.rx, st.ry) + ' = A + B')}. Cari vektor B dan magnitidnya (2 t.p.).`,
+      visual: st => buildDiagramSVG([v(0, 0, st.ax, st.ay, 'blue', 'A'), v(st.ax, st.ay, st.rx - st.ax, st.ry - st.ay, 'red', 'B'), v(0, 0, st.rx, st.ry, 'green', 'R')]),
+      readout: st => eq(`Persamaan: ${m('A + B = R')}`, `Penyelesaian: ${m('B = R − A')}`),
+      fields: () => [box('bx', 'Komponen i vektor B'), box('by', 'Komponen j vektor B'), box('mag', 'Magnitud |B| (2 t.p.)', 2)],
+      answers: st => ({ bx: st.rx - st.ax, by: st.ry - st.ay, mag: Math.hypot(st.rx - st.ax, st.ry - st.ay) }),
+      hint: () => 'Ubah suai: B = R − A. Tolak komponen A daripada komponen R untuk mendapatkan setiap komponen B.',
+      solution: st => steps(`${m('B = R − A')}`, `${m('B = ' + vec(st.rx, st.ry) + ' − ' + vec(st.ax, st.ay))}`, `${m('B = ' + vec(st.rx - st.ax, st.ry - st.ay))}`, `${m('|B| = √(' + (st.rx - st.ax) + '² + ' + (st.ry - st.ay) + '²) ≈ ' + Math.hypot(st.rx - st.ax, st.ry - st.ay).toFixed(2))}`)
     },
     {
-      title: 'Pengimbangan daya dalam tiga arah berbeza',
-      controls: [slider('fx', 'Daya Timur (N)', 100, 800, 50, 300), slider('fy', 'Daya Utara (N)', 100, 800, 50, 400), slider('fz', 'Daya ke atas (N)', 100, 800, 50, 250)],
-      prompt: st => `Tiga kabel menarik objek dengan ${st.fx} N ke Timur, ${st.fy} N ke Utara, dan ${st.fz} N ke atas. Cari magnitud daya paduan dan daya pengimbang yang diperlukan (2 t.p.).`,
-      visual: st => buildDiagramSVG([v(0, 0, st.fx, 0, 'blue', 'Fx'), v(0, 0, 0, st.fy, 'red', 'Fy'), v(0, 0, st.fx, st.fy, 'green', 'Paduan 2D')]),
-      readout: st => eq(`Paduan: ${m(vec(st.fx, st.fy))} + ${st.fz}k N`, `Keseimbangan: ${m('F₁ + F₂ + F₃ + E = zero')}`, `Daya pengimbang ialah negatif bagi paduan.`),
-      fields: () => [box('mag', 'Magnitud paduan (N, 2 t.p.)', 2), box('ei', 'Komponen i daya pengimbang (N)'), box('ej', 'Komponen j daya pengimbang (N)'), box('ek', 'Komponen k daya pengimbang (N)')],
-      answers: st => ({ mag: Math.hypot(st.fx, st.fy, st.fz), ei: -st.fx, ej: -st.fy, ek: -st.fz }),
-      hint: () => 'Magnitud paduan menggunakan teorem Pythagoras 3D. Daya pengimbang mempunyai tanda bertentangan untuk setiap komponen.',
-      solution: st => steps(`${m('R = ' + vec(st.fx, st.fy) + ' + ' + st.fz + 'k')} N`, `${m('|R| = √(' + st.fx + '² + ' + st.fy + '² + ' + st.fz + '²) ≈ ' + Math.hypot(st.fx, st.fy, st.fz).toFixed(2))} N`, `${m('E = ' + vec(-st.fx, -st.fy) + ' − ' + st.fz + 'k')} N`)
+      title: 'Daya pada satah condong (ciri sudut)',
+      controls: [slider('f', 'Magnitud daya (N)', 100, 500, 50, 300), slider('ang', 'Sudut dari Timur (°)', -90, 90, 15, 30)],
+      prompt: st => `Daya ${st.f} N bertindak pada sudut ${st.ang}° dari arah Timur (Utara ialah 90°). Cari komponen Timur (i) dan Utara (j) (2 t.p.).`,
+      visual: st => {
+        const rad = (st.ang * Math.PI) / 180;
+        const fx = st.f * Math.cos(rad);
+        const fy = st.f * Math.sin(rad);
+        return buildDiagramSVG([v(0, 0, fx, 0, 'blue', `${fx.toFixed(1)}i`), v(fx, 0, 0, fy, 'red', `${fy.toFixed(1)}j`), v(0, 0, fx, fy, 'green', `${st.f}N`)]);
+      },
+      readout: st => {
+        const rad = (st.ang * Math.PI) / 180;
+        return eq(`Daya dalam bentuk komponen:`, `${m('F_x = F cos θ = ' + st.f + ' cos ' + st.ang + '°')}`, `${m('F_y = F sin θ = ' + st.f + ' sin ' + st.ang + '°')}`);
+      },
+      fields: () => [box('fx', 'Komponen Timur (N, 2 t.p.)', 2), box('fy', 'Komponen Utara (N, 2 t.p.)', 2)],
+      answers: st => {
+        const rad = (st.ang * Math.PI) / 180;
+        return { fx: st.f * Math.cos(rad), fy: st.f * Math.sin(rad) };
+      },
+      hint: () => 'Gunakan: Fx = F cos θ untuk komponen Timur, Fy = F sin θ untuk komponen Utara. Ingat bahawa 0° ialah Timur dan 90° ialah Utara.',
+      solution: st => {
+        const rad = (st.ang * Math.PI) / 180;
+        const fx = st.f * Math.cos(rad);
+        const fy = st.f * Math.sin(rad);
+        return steps(`${m('F_x = ' + st.f + ' cos ' + st.ang + '° ≈ ' + fx.toFixed(2))} N`, `${m('F_y = ' + st.f + ' sin ' + st.ang + '° ≈ ' + fy.toFixed(2))} N`, `Dalam bentuk vektor: ${m(vec(fx.toFixed(2), fy.toFixed(2)))} N`);
+      }
     }
   ];
 
