@@ -83,37 +83,809 @@
             margin-top: 5px;
         }
 
-        .tab-container { background: var(--white); border-radius: 0; overflow: hidden; box-shadow: none; margin-bottom: 0; }
-        .tab-navigation { display: flex; flex-wrap: wrap; background: var(--white); border-bottom: 2px solid var(--accent-light-tan); overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 0 60px; }
-        .tab-button { flex: 0 1 auto; min-width: 140px; padding: 24px 20px; border: none; background: transparent; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-muted); transition: all 0.3s ease; border-bottom: 2px solid transparent; position: relative; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px; }
-        .tab-button:hover { background: transparent; color: var(--primary-brown); }
-        .tab-button.active { background: transparent; color: var(--primary-brown); border-bottom-color: var(--primary-gold); }
-        .tab-content { padding: 50px 40px; display: none; animation: fadeIn 0.5s ease; }
-        .tab-content.active { display: block; }
-        .content-header { margin-bottom: 40px; }
-        .content-header h2 { font-size: 42px; font-weight: 300; letter-spacing: 2px; margin-bottom: 15px; color: var(--primary-brown); text-transform: uppercase; }
-        .content-header p { font-size: 15px; color: var(--text-muted); line-height: 1.8; letter-spacing: 0.5px; }
-        .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 50px; }
-        .card { background: var(--white); border: 1px solid var(--accent-light-tan); border-radius: 0; padding: 40px; transition: all 0.4s ease; cursor: pointer; position: relative; overflow: hidden; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
-        .card:hover { transform: translateY(-3px); border-color: var(--primary-gold); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); }
-        .card-icon { font-size: 48px; margin-bottom: 20px; opacity: 0.9; }
-        .card-title { font-size: 18px; font-weight: 600; margin-bottom: 12px; color: var(--primary-brown); letter-spacing: 0.5px; }
-        .card-description { font-size: 14px; color: var(--text-muted); line-height: 1.8; margin-bottom: 18px; }
-        .card-meta { display: flex; gap: 12px; font-size: 11px; color: var(--primary-gold); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
-        .card-meta span { background: var(--accent-light-tan); padding: 6px 12px; border-radius: 0; border-left: 2px solid var(--primary-gold); }
-        .learning-path { background: var(--accent-light-tan); border-left: 3px solid var(--primary-gold); padding: 40px; border-radius: 0; margin-bottom: 50px; }
-        .learning-path h3 { font-size: 16px; font-weight: 600; margin-bottom: 20px; color: var(--primary-brown); text-transform: uppercase; letter-spacing: 1px; }
-        .learning-path ol { margin-left: 25px; }
-        .learning-path li { margin-bottom: 14px; color: var(--text-dark); line-height: 1.8; font-size: 14px; }
-        .cta-button { display: inline-flex; align-items: center; gap: 12px; padding: 16px 40px; background: var(--primary-brown); color: var(--primary-gold); border: 2px solid var(--primary-brown); border-radius: 0; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.4s ease; box-shadow: none; text-transform: uppercase; letter-spacing: 1px; }
-        .cta-button:hover { background: transparent; color: var(--primary-brown); border-color: var(--primary-brown); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); }
-        .cta-button::after { content: '→'; font-size: 16px; }
-        @media (max-width: 768px) { .header { flex-direction: column; gap: 20px; padding: 30px 20px; } .tab-navigation { padding: 0 20px; } .tab-button { flex: 1; min-width: 110px; padding: 18px 10px; font-size: 11px; } .tab-content { padding: 40px 20px; } .content-header h2 { font-size: 28px; letter-spacing: 1px; } .card-grid { grid-template-columns: 1fr; gap: 20px; } .cta-button { width: 100%; justify-content: center; } }
+        /* ===== TAB NAVIGATION ===== */
+        .tab-container {
+            background: var(--white);
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: none;
+            margin-bottom: 0;
+        }
+
+        .tab-navigation {
+            display: flex;
+            flex-wrap: wrap;
+            background: var(--white);
+            border-bottom: 2px solid var(--accent-light-tan);
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 0 60px;
+        }
+
+        .tab-button {
+            flex: 0 1 auto;
+            min-width: 140px;
+            padding: 24px 20px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+            border-bottom: 2px solid transparent;
+            position: relative;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .tab-button:hover {
+            background: transparent;
+            color: var(--primary-brown);
+        }
+
+        .tab-button.active {
+            background: transparent;
+            color: var(--primary-brown);
+            border-bottom-color: var(--primary-gold);
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--primary-gold);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: scaleX(0);
+                transform-origin: left;
+            }
+            to {
+                transform: scaleX(1);
+            }
+        }
+
+        .tab-icon {
+            font-size: 18px;
+        }
+
+        /* ===== CONTENT SECTIONS ===== */
+        .tab-content {
+            padding: 50px 40px;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .content-header {
+            margin-bottom: 40px;
+        }
+
+        .content-header h2 {
+            font-size: 42px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            color: var(--primary-brown);
+            text-transform: uppercase;
+        }
+
+        .content-header p {
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== CARD GRID ===== */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--accent-light-tan);
+            border-radius: 0;
+            padding: 40px;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(196, 165, 116, 0.05), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-gold);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+        }
+
+        .card-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--primary-brown);
+            letter-spacing: 0.5px;
+        }
+
+        .card-description {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 18px;
+        }
+
+        .card-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 11px;
+            color: var(--primary-gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .card-meta span {
+            background: var(--accent-light-tan);
+            padding: 6px 12px;
+            border-radius: 0;
+            border-left: 2px solid var(--primary-gold);
+        }
+
+        /* ===== LEARNING PATH ===== */
+        .learning-path {
+            background: var(--accent-light-tan);
+            border-left: 3px solid var(--primary-gold);
+            padding: 40px;
+            border-radius: 0;
+            margin-bottom: 50px;
+        }
+
+        .learning-path h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--primary-brown);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .learning-path ol {
+            margin-left: 25px;
+        }
+
+        .learning-path li {
+            margin-bottom: 14px;
+            color: var(--text-dark);
+            line-height: 1.8;
+            font-size: 14px;
+        }
+
+        /* ===== CTA BUTTON ===== */
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 40px;
+            background: var(--primary-brown);
+            color: var(--primary-gold);
+            border: 2px solid var(--primary-brown);
+            border-radius: 0;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button:hover {
+            background: transparent;
+            color: var(--primary-brown);
+            border-color: var(--primary-brown);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        .cta-button::after {
+            content: '→';
+            font-size: 16px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                padding: 30px 20px;
+            }
+
+            .logo-section {
+                width: 100%;
+            }
+
+            .tab-navigation {
+                padding: 0 20px;
+            }
+
+            .tab-button {
+                flex: 1;
+                min-width: 110px;
+                padding: 18px 10px;
+                font-size: 11px;
+            }
+
+            .tab-icon {
+                font-size: 16px;
+            }
+
+            .tab-content {
+                padding: 40px 20px;
+            }
+
+            .content-header h2 {
+                font-size: 28px;
+                letter-spacing: 1px;
+            }
+
+            .card-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .cta-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* ===== FEATURE SHOWCASE ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .feature-box {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 0;
+            border-left: 3px solid var(--primary-gold);
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .feature-box-icon {
+            font-size: 36px;
+            margin-bottom: 15px;
+            opacity: 0.85;
+        }
+
+        .feature-box-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary-brown);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .feature-box-text {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ===== DIFFICULTY BADGES ===== */
+        .difficulty-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 0;
+            font-size: 10px;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-top: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-left: 2px solid;
+        }
+
+        .difficulty-easy {
+            background: rgba(196, 165, 116, 0.08);
+            color: #6b5d42;
+            border-left-color: #8b7355;
+        }
+
+        .difficulty-medium {
+            background: rgba(196, 165, 116, 0.12);
+            color: #5a4a42;
+            border-left-color: var(--primary-gold);
+        }
+
+        .difficulty-hard {
+            background: rgba(61, 40, 23, 0.08);
+            color: #3d2817;
+            border-left-color: var(--primary-brown);
+        }
+
+        /* ===== PRACTICE: XP HEADER ===== */
+        .xp-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            background: var(--accent-light-tan);
+            border-left: 3px solid var(--primary-gold);
+            padding: 16px 24px;
+            margin-bottom: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--primary-brown);
+            flex-wrap: wrap;
+        }
+
+        .xp-header-icon {
+            font-size: 16px;
+        }
+
+        .xp-bar-track {
+            flex: 1;
+            min-width: 120px;
+            height: 8px;
+            background: rgba(90, 74, 66, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .xp-bar-fill {
+            height: 100%;
+            background: var(--primary-gold);
+            transition: width 0.4s ease;
+        }
+
+        /* ===== PRACTICE: SESSION TOOLBAR ===== */
+        .session-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .back-link {
+            background: none;
+            border: none;
+            color: var(--primary-brown);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0;
+        }
+
+        .back-link:hover {
+            color: var(--primary-gold);
+        }
+
+        .diff-selector {
+            display: flex;
+            gap: 8px;
+        }
+
+        .diff-button {
+            padding: 8px 16px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: var(--white);
+            border: 1px solid var(--accent-light-tan);
+            cursor: pointer;
+            color: var(--text-muted);
+            transition: all 0.25s ease;
+        }
+
+        .diff-button:hover {
+            border-color: var(--primary-gold);
+        }
+
+        .diff-button.active {
+            background: var(--primary-brown);
+            color: var(--primary-gold);
+            border-color: var(--primary-brown);
+        }
+
+        .session-title {
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: var(--primary-brown);
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .progress-row {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .progress-row span {
+            color: var(--primary-brown);
+        }
+
+        .progress-track {
+            height: 6px;
+            background: var(--accent-light-tan);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--success-gold);
+            transition: width 0.4s ease;
+        }
+
+        /* ===== PRACTICE: PROBLEM CARD ===== */
+        .problem-card {
+            display: grid;
+            grid-template-columns: minmax(240px, 320px) 1fr;
+            gap: 40px;
+            background: var(--white);
+            border: 1px solid var(--accent-light-tan);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+        }
+
+        .problem-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .problem-diagram svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .problem-text {
+            font-size: 16px;
+            line-height: 1.9;
+            color: var(--text-dark);
+            margin-bottom: 24px;
+        }
+
+        .problem-text strong {
+            color: var(--primary-brown);
+        }
+
+        .answer-area {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--primary-brown);
+        }
+
+        .ans-input {
+            width: 70px;
+            padding: 10px 8px;
+            font-size: 15px;
+            font-weight: 600;
+            text-align: center;
+            border: 2px solid var(--accent-light-tan);
+            background: var(--accent-cream);
+            color: var(--text-dark);
+            transition: all 0.25s ease;
+        }
+
+        .ans-input:focus {
+            outline: none;
+            border-color: var(--primary-gold);
+            background: var(--white);
+        }
+
+        .ans-input.state-typing {
+            border-color: var(--warning-orange, #c9a227);
+        }
+
+        .ans-input.state-correct {
+            border-color: #2f7d4f;
+            background: rgba(47, 125, 79, 0.08);
+            color: #2f7d4f;
+        }
+
+        .ans-input.state-wrong {
+            border-color: #b3452c;
+            background: rgba(179, 69, 44, 0.08);
+            color: #b3452c;
+        }
+
+        .choice-btn {
+            padding: 12px 22px;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: var(--white);
+            border: 2px solid var(--accent-light-tan);
+            color: var(--primary-brown);
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .choice-btn:hover {
+            border-color: var(--primary-gold);
+        }
+
+        .choice-btn.selected {
+            background: var(--primary-brown);
+            color: var(--primary-gold);
+            border-color: var(--primary-brown);
+        }
+
+        .choice-btn.correct-reveal {
+            border-color: #2f7d4f;
+            background: rgba(47, 125, 79, 0.1);
+            color: #235c3c;
+        }
+
+        .choice-btn.wrong-reveal {
+            border-color: #b3452c;
+            background: rgba(179, 69, 44, 0.1);
+            color: #8a3521;
+        }
+
+        .feedback-box {
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            line-height: 1.7;
+            border-left: 3px solid;
+        }
+
+        .feedback-box.correct {
+            background: rgba(47, 125, 79, 0.08);
+            border-left-color: #2f7d4f;
+            color: #235c3c;
+        }
+
+        .feedback-box.wrong {
+            background: rgba(179, 69, 44, 0.08);
+            border-left-color: #b3452c;
+            color: #8a3521;
+        }
+
+        .hint-box {
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            line-height: 1.8;
+            background: rgba(196, 165, 116, 0.12);
+            border-left: 3px solid var(--primary-gold);
+            color: var(--primary-brown);
+        }
+
+        .hint-box div {
+            margin-bottom: 6px;
+        }
+
+        .solution-box {
+            padding: 16px 20px;
+            margin-bottom: 16px;
+            font-size: 14px;
+            line-height: 1.8;
+            background: var(--accent-light-tan);
+            border-left: 3px solid var(--primary-brown);
+            color: var(--text-dark);
+            white-space: pre-line;
+        }
+
+        .action-row {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            padding: 12px 22px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.25s ease;
+        }
+
+        .action-check {
+            background: var(--primary-brown);
+            color: var(--primary-gold);
+            border-color: var(--primary-brown);
+        }
+
+        .action-check:hover {
+            background: transparent;
+            color: var(--primary-brown);
+        }
+
+        .action-hint {
+            background: var(--white);
+            color: var(--primary-brown);
+            border-color: var(--accent-light-tan);
+        }
+
+        .action-hint:hover {
+            border-color: var(--primary-gold);
+        }
+
+        .action-solution {
+            background: var(--white);
+            color: var(--text-muted);
+            border-color: var(--accent-light-tan);
+        }
+
+        .action-solution:hover {
+            border-color: var(--primary-gold);
+        }
+
+        .action-next {
+            background: var(--success-gold);
+            color: var(--accent-dark-brown);
+            border-color: var(--success-gold);
+        }
+
+        .action-btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        /* ===== PRACTICE: SUMMARY ===== */
+        .summary-card {
+            max-width: 520px;
+            margin: 20px auto;
+            text-align: center;
+            background: var(--white);
+            border: 1px solid var(--accent-light-tan);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            padding: 50px 40px;
+        }
+
+        .summary-icon {
+            font-size: 56px;
+            margin-bottom: 10px;
+        }
+
+        .summary-card h3 {
+            font-size: 26px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            color: var(--primary-brown);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .summary-card p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            line-height: 1.7;
+        }
+
+        .summary-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .summary-stat strong {
+            display: block;
+            font-size: 26px;
+            color: var(--primary-brown);
+        }
+
+        .summary-stat span {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        .resource-links {
+            margin-top: 14px;
+            padding-left: 20px;
+        }
+
+        .resource-links li + li {
+            margin-top: 8px;
+        }
+
+        .resource-links a {
+            color: var(--primary-brown);
+            font-weight: 600;
+        }
+
+        .resource-links a:hover {
+            color: var(--primary-gold);
+        }
+
+        @media (max-width: 768px) {
+            .problem-card {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
     <link rel="stylesheet" href="vector-labs.css">
     <link rel="stylesheet" href="vector-examples.css">
 </head>
 <body>
+    <!-- ===== HEADER ===== -->
     <div class="header">
         <div class="logo-section">
             <div class="logo-icon">→</div>
@@ -124,48 +896,1352 @@
         </div>
     </div>
 
+    <!-- ===== TAB NAVIGATION ===== -->
     <div class="tab-container">
         <div class="tab-navigation">
-            <button class="tab-button active" data-tab="intro"><span class="tab-icon">🏠</span><span>Intro</span></button>
-            <button class="tab-button" data-tab="concept1"><span class="tab-icon">📘</span><span>Scalar & Vector</span></button>
-            <button class="tab-button" data-tab="concept2"><span class="tab-icon">📗</span><span>Component Form</span></button>
-            <button class="tab-button" data-tab="concept3"><span class="tab-icon">📕</span><span>Addition</span></button>
-            <button class="tab-button" data-tab="practice"><span class="tab-icon">🎮</span><span>Practice</span></button>
-            <button class="tab-button" data-tab="resources"><span class="tab-icon">💡</span><span>Resources</span></button>
-            <button class="tab-button" data-tab="glossary"><span class="tab-icon">📖</span><span>Glossary</span></button>
+            <button class="tab-button active" data-tab="intro">
+                <span class="tab-icon">🏠</span>
+                <span>Intro</span>
+            </button>
+            <button class="tab-button" data-tab="concept1">
+                <span class="tab-icon">📘</span>
+                <span>Scalar & Vector</span>
+            </button>
+            <button class="tab-button" data-tab="concept2">
+                <span class="tab-icon">📗</span>
+                <span>Component Form</span>
+            </button>
+            <button class="tab-button" data-tab="concept3">
+                <span class="tab-icon">📕</span>
+                <span>Addition</span>
+            </button>
+            <button class="tab-button" data-tab="practice">
+                <span class="tab-icon">🎮</span>
+                <span>Practice</span>
+            </button>
+            <button class="tab-button" data-tab="resources">
+                <span class="tab-icon">💡</span>
+                <span>Resources</span>
+            </button>
         </div>
 
+        <!-- ===== TAB 1: INTRO ===== -->
         <div class="tab-content active" id="intro">
-            <div class="content-header"><h2>Kenapa Pelajari Vektor?</h2><p>Temui bagaimana vektor digunakan dalam dunia nyata melalui cerita yang menarik</p></div>
-            <div class="card-grid">
-                <div class="card"><div class="card-icon">✈️</div><div class="card-title">Pesawat Terbang - Halaju Paduan</div><div class="card-description">Pesawat terbang 300 km/j ke Utara, tetapi angin bertiup 50 km/j ke Timur. Arah sebenar pesawat (paduan) berbeza dari arah yang dimaksudkan! Vektor membantu pilot mengira laluan yang betul.</div><div class="card-meta"><span>Halaju Pesawat</span><span>Halaju Angin</span></div></div>
-                <div class="card"><div class="card-icon">🏗️</div><div class="card-title">Pembinaan Bangunan - Daya Paduan</div><div class="card-description">Dua kabel berkait pada hook untuk mengangkat beban berat. Satu kabel tarik dengan daya 800 N pada 30° dari mendatar, satu lagi 600 N pada 45°. Jurutera harus kira vektor paduan untuk keselamatan struktur.</div><div class="card-meta"><span>Daya Kabel 1</span><span>Daya Kabel 2</span></div></div>
-                <div class="card"><div class="card-icon">🎮</div><div class="card-title">Permainan Video - Pergerakan Objek</div><div class="card-description">Dalam permainan, setiap karakter, peluru, dan objek mempunyai vektor kedudukan (position) dan vektor halaju (velocity). Setiap bingkai permainan, halaju ditambah ke kedudukan untuk menggerakkan objek.</div><div class="card-meta"><span>Kedudukan XY</span><span>Halaju VX VY</span></div></div>
+            <div class="content-header">
+                <h2>Kenapa Pelajari Vektor?</h2>
+                <p>Temui bagaimana vektor digunakan dalam dunia nyata melalui cerita yang menarik</p>
             </div>
-            <div class="learning-path worked-examples"><h3>Contoh Vektor dalam Situasi Harian</h3><ol><li><strong>Kenal pasti jenis kuantiti:</strong> Laju 60 km/j ialah skalar; halaju 60 km/j ke Timur ialah vektor kerana arah dinyatakan.</li><li><strong>Gabung dua gerakan:</strong> 3 km ke Timur dan 4 km ke Utara memberi sesaran 3i + 4j km, dengan magnitud √(3² + 4²) = 5 km.</li></ol></div>
-            <div class="learning-path"><h3>🎯 Laluan Pembelajaran Anda (Struktur Syllabus Unit 5):</h3><ol><li><strong>Unit 5.1 - Mulai dengan asas:</strong> Pelajari definisi skalar vs vektor, jenis-jenis vektor (null, unit, parallel, equal, negative), dan perbezaan fundamental antara kuantiti yang hanya ada magnitud dan yang ada magnitud + arah</li><li><strong>Unit 5.2 - Visualisasi dan Komponen:</strong> Lihat vektor dalam satah Cartes 2D, pelajari bentuk komponen (xi + yj), bentuk kolom, cara tukar koordinat ke vektor, dan formula magnitud |v| = √(x² + y²)</li><li><strong>Unit 5.3 - Operasi Vektor:</strong> Praktik menambah dan tolak vektor menggunakan Hukum Segitiga dan Hukum Segiempat Selari. Pelajari pendaraban skalar (kv) dan sifat-sifat vektor algebra</li><li><strong>Latihan Interaktif:</strong> Selesaikan 55+ soalan dengan gambar interaktif, hint sistem 4-tahap, dan maklum balas serta-merta untuk setiap langkah penyelesaian</li><li><strong>Soal Dunia Nyata:</strong> Gunakan pengetahuan untuk masalah praktikal (pesawat + angin, daya paduan pada bangunan, pergerakan bot) dan kuasai aplikasi dalam kehidupan sebenar</li><li><strong>Kuasai dengan Ujian:</strong> Selesaikan ujian akhir 20 soalan bercampur semua topik. Kelulusan 80% memberi sijil penguasaan Unit 5 VECTOR</li></ol></div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">✈️</div>
+                    <div class="card-title">Pesawat Terbang - Halaju Paduan</div>
+                    <div class="card-description">
+                        Pesawat terbang 300 km/j ke Utara, tetapi angin bertiup 50 km/j ke Timur. Arah sebenar pesawat (paduan) berbeza dari arah yang dimaksudkan! Vektor membantu pilot mengira laluan yang tepat untuk sampai ke destinasi. Ini adalah penambahan dua vektor halaju.
+                    </div>
+                    <div class="card-meta">
+                        <span>Halaju Pesawat</span>
+                        <span>Halaju Angin</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🏗️</div>
+                    <div class="card-title">Pembinaan Bangunan - Daya Paduan</div>
+                    <div class="card-description">
+                        Dua kabel berkait pada hook untuk mengangkat beban berat. Satu kabel tarik dengan daya 800 N pada 30° dari mendatar, satu lagi 600 N pada 45°. Jurutera harus kira vektor daya paduan untuk memastikan struktur selamat dan tidak runtuh. Ini melibatkan penambahan vektor daya 2D.
+                    </div>
+                    <div class="card-meta">
+                        <span>Daya Kabel 1</span>
+                        <span>Daya Kabel 2</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">🎮</div>
+                    <div class="card-title">Permainan Video - Pergerakan Objek</div>
+                    <div class="card-description">
+                        Dalam permainan, setiap karakter, peluru, dan objek mempunyai vektor kedudukan (position) dan vektor halaju (velocity). Setiap bingkai permainan, halaju ditambah ke kedudukan untuk mengira kedudukan baru. Grafiknya perlu menampilkan sudut dan arah dengan tepat menggunakan trigonometri vektor.
+                    </div>
+                    <div class="card-meta">
+                        <span>Kedudukan XY</span>
+                        <span>Halaju VX VY</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="learning-path worked-examples">
+                <h3>Contoh Vektor dalam Situasi Harian</h3>
+                <ol>
+                    <li><strong>Kenal pasti jenis kuantiti:</strong> Laju 60 km/j ialah skalar; halaju 60 km/j ke Timur ialah vektor kerana arah dinyatakan.</li>
+                    <li><strong>Gabung dua gerakan:</strong> 3 km ke Timur dan 4 km ke Utara memberi sesaran 3i + 4j km, dengan magnitud √(3² + 4²) = 5 km.</li>
+                </ol>
+            </div>
+
+            <div class="learning-path">
+                <h3>🎯 Laluan Pembelajaran Anda (Struktur Syllabus Unit 5):</h3>
+                <ol>
+                    <li><strong>Unit 5.1 - Mulai dengan asas:</strong> Pelajari definisi skalar vs vektor, jenis-jenis vektor (null, unit, parallel, equal, negative), dan perbezaan fundamental antara kuantiti yang hanya ada magnitud dan yang ada magnitud + arah</li>
+                    <li><strong>Unit 5.2 - Visualisasi dan Komponen:</strong> Lihat vektor dalam satah Cartes 2D, pelajari bentuk komponen (xi + yj), bentuk kolom, cara tukar koordinat ke vektor, dan formula magnitud |v| = √(x² + y²)</li>
+                    <li><strong>Unit 5.3 - Operasi Vektor:</strong> Praktik menambah dan tolak vektor menggunakan Hukum Segitiga dan Hukum Segiempat Selari. Pelajari pendaraban skalar (kv) dan sifat-sifat vektor algebra</li>
+                    <li><strong>Latihan Interaktif:</strong> Selesaikan 55+ soalan dengan gambar interaktif, hint sistem 4-tahap, dan maklum balas serta-merta untuk setiap langkah penyelesaian</li>
+                    <li><strong>Soal Dunia Nyata:</strong> Gunakan pengetahuan untuk masalah praktikal (pesawat + angin, daya paduan pada bangunan, pergerakan bot) dan kuasai aplikasi dalam kehidupan sebenar</li>
+                    <li><strong>Kuasai dengan Ujian:</strong> Selesaikan ujian akhir 20 soalan bercampur semua topik. Kelulusan 80% memberi sijil penguasaan Unit 5 VECTOR</li>
+                </ol>
+            </div>
+
             <button class="cta-button" onclick="switchTab('concept1')">Mula Belajar</button>
         </div>
 
-        <!-- Tab contents omitted for brevity in this update; existing 5.2/5.3 ordering remains as in the current file. -->
+        <!-- ===== TAB 2: SCALAR VS VECTOR ===== -->
+        <div class="tab-content" id="concept1">
+            <div class="content-header">
+                <h2>Skalar vs Vektor (5.1)</h2>
+                <p>Ketahui perbezaan asas yang memisahkan skalar dari vektor</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">🔢</div>
+                    <div class="card-title">Skalar (Scalar)</div>
+                    <div class="card-description">
+                        <strong>Definisi:</strong> Kuantiti yang hanya mempunyai <strong>magnitud (saiz)</strong> sahaja. Tiada arah. Diwakili oleh satu nombor positif atau negatif.<br><br>
+                        <strong>Contoh dalam kehidupan:</strong><br>
+                        • Suhu: 25°C (hanya ada nilai)<br>
+                        • Laju: 50 km/h (hanya ada kelajuan)<br>
+                        • Jisim: 2 kg (hanya ada berat)<br>
+                        • Masa: 5 jam<br>
+                        • Tekanan: 100 Pa (Pascal)
+                    </div>
+                    <div class="card-meta">
+                        <span>Hanya Magnitud</span>
+                        <span>Tiada Arah</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">➡️</div>
+                    <div class="card-title">Vektor (Vector)</div>
+                    <div class="card-description">
+                        <strong>Definisi:</strong> Kuantiti yang mempunyai <strong>magnitud DAN arah</strong>. Kedua-dua unsur penting untuk melukiskan dengan lengkap. Dilambangkan dengan anak panah atau huruf tebal.<br><br>
+                        <strong>Contoh dalam kehidupan:</strong><br>
+                        • Halaju: 50 km/h Utara (ada arah bergerak)<br>
+                        • Daya: 500 N ke bawah (ada arah tindakan)<br>
+                        • Sesaran: 100 m ke Timur (ada arah pergerakan)<br>
+                        • Pecutan: 10 m/s² ke hadapan
+                    </div>
+                    <div class="card-meta">
+                        <span>Magnitud + Arah</span>
+                        <span>Kritis untuk operasi</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="feature-box-icon">📊</div>
+                    <div class="feature-box-title">Magnitud</div>
+                    <div class="feature-box-text"><strong>Skalar:</strong> Ya saja (25°C)<br><strong>Vektor:</strong> Ya + Arah (50 km/h Utara)</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-box-icon">🧭</div>
+                    <div class="feature-box-title">Arah</div>
+                    <div class="feature-box-text"><strong>Skalar:</strong> Tidak ada<br><strong>Vektor:</strong> Penting (Utara, Timur, dll)</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-box-icon">➕</div>
+                    <div class="feature-box-title">Penambahan</div>
+                    <div class="feature-box-text"><strong>Skalar:</strong> 3 + 2 = 5 (mudah)<br><strong>Vektor:</strong> Guna Segitiga/Segiempat</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-box-icon">🔤</div>
+                    <div class="feature-box-title">Notasi</div>
+                    <div class="feature-box-text"><strong>Skalar:</strong> 5, −3, 25<br><strong>Vektor:</strong> 5i+3j atau (5,3) atau →v</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-box-icon">⚡</div>
+                    <div class="feature-box-title">Operasi</div>
+                    <div class="feature-box-text"><strong>Skalar:</strong> + − × ÷ (algebra biasa)<br><strong>Vektor:</strong> + − × skalar (algebra khusus)</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-box-icon">🎯</div>
+                    <div class="feature-box-title">Aplikasi</div>
+                    <div class="feature-box-text"><strong>Skalar:</strong> Suhu, Jisim, Masa<br><strong>Vektor:</strong> Halaju, Daya, Sesaran</div>
+                </div>
+            </div>
+
+            <div class="card" id="vector-types" style="margin-top: 30px;">
+                <div class="card-icon">🎯</div>
+                <div class="card-title">Jenis-jenis Vektor</div>
+                <div class="card-description">
+                    <strong>Vektor Null (Sifar):</strong> Vektor dengan magnitud sifar, tiada panjang dan tiada arah yang ditakrifkan. Dilambangkan sebagai <strong>0</strong> atau <strong>𝟎</strong>.<br><br>
+
+                    <strong>Vektor Unit:</strong> Vektor yang mempunyai magnitud tepat 1 unit. Unit vektor arah x ialah <strong>i = (1, 0)</strong> dan arah y ialah <strong>j = (0, 1)</strong>.<br><br>
+
+                    <strong>Vektor Selari (Parallel):</strong> Dua vektor A dan B adalah selari jika <strong>A = kB</strong> untuk beberapa skalar k ≠ 0. Mereka mempunyai arah sama (k > 0) atau bertentangan (k < 0), tetapi magnitud mungkin berbeza. Contoh: Jika A = 2i + 4j dan B = i + 2j, maka A = 2B (selari).<br><br>
+
+                    <strong>Vektor Sama (Equal):</strong> Dua vektor A dan B adalah sama jika mereka mempunyai komponen-i dan komponen-j yang tepat sama: A_x = B_x DAN A_y = B_y. Arah sama DAN magnitud sama, walaupun kedudukan pangkal berlainan.<br><br>
+
+                    <strong>Vektor Negatif:</strong> Negatif vektor A (ditulis −A) mempunyai magnitud yang sama tetapi arah bertentangan. Jika A = 3i + 4j, maka −A = −3i − 4j.
+                </div>
+                <div class="difficulty-badge difficulty-medium">Sederhana - Penting</div>
+            </div>
+
+            <div class="learning-path worked-examples">
+                <h3>Contoh Pantas: Skalar dan Vektor</h3>
+                <ol>
+                    <li><strong>Bandingkan:</strong> 12 kg ialah skalar. Daya 12 N ke bawah ialah vektor kerana nilainya disertakan arah.</li>
+                    <li><strong>Vektor sama:</strong> A = 2i − 3j dan B = 2i − 3j adalah sama walaupun anak panahnya bermula di titik berlainan.</li>
+                    <li><strong>Vektor selari:</strong> Jika A = 2i + j dan B = −4i − 2j, maka B = −2A; kedua-duanya selari tetapi berarah bertentangan.</li>
+                </ol>
+            </div>
+
+            <button class="cta-button" onclick="switchTab('concept2')">Seterusnya: Bentuk Komponen</button>
+        </div>
+
+        <!-- ===== TAB 3: COMPONENT FORM ===== -->
+        <div class="tab-content" id="concept2">
+            <div class="content-header">
+                <h2>Vektor dalam Satah Cartes (5.2)</h2>
+                <p>Pelajari cara mengungkapkan vektor dalam bentuk komponen i, j</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">📐</div>
+                    <div class="card-title">Bentuk Komponen (i, j)</div>
+                    <div class="card-description">
+                        v = xi + yj<br>
+                        <strong>i:</strong> Unit vektor arah x (Timur)<br>
+                        <strong>j:</strong> Unit vektor arah y (Utara)
+                    </div>
+                    <div class="card-meta">
+                        <span>Contoh: 3i + 4j</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <div class="card-title">Bentuk Kolom</div>
+                    <div class="card-description">
+                        Vektor boleh ditulis dalam bentuk kolom:<br>
+                        <span id="columnExample"></span><br>
+                        Bererti 3 unit Timur, 4 unit Utara
+                    </div>
+                    <div class="card-meta">
+                        <span>Juga dipanggil: Column vector</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">📏</div>
+                    <div class="card-title">Magnitud Vektor</div>
+                    <div class="card-description">
+                        <strong>Formula:</strong> |v| = √(x² + y²)<br>
+                        <strong>Contoh:</strong> Jika v = 3i + 4j,<br>
+                        |v| = √(9 + 16) = √25 = 5
+                    </div>
+                    <div class="card-meta">
+                        <span>Panjang vektor</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="learning-path">
+                <h3>📍 Koordinat ↔️ Bentuk Komponen - Contoh Terperinci:</h3>
+                <ol>
+                    <li><strong>P(2, 3), dari O:</strong> OP = 2i + 3j (2 unit Timur, 3 unit Utara)</li>
+                    <li><strong>P(5, −1), dari O:</strong> OP = 5i − j (5 unit Timur, 1 unit Selatan)</li>
+                    <li><strong>P(−3, 4), dari O:</strong> OP = −3i + 4j (3 unit Barat, 4 unit Utara)</li>
+                    <li><strong>P(−2, −5), dari O:</strong> OP = −2i − 5j (2 unit Barat, 5 unit Selatan)</li>
+                    <li><strong>Petua:</strong> Negatif bermakna arah sebaliknya pada paksi itu. Komponen positif = ke Timur/Utara, Negatif = ke Barat/Selatan</li>
+                </ol>
+            </div>
+
+            <div class="learning-path worked-examples">
+                <h3>Contoh: Komponen, Magnitud dan Vektor Unit</h3>
+                <ol>
+                    <li><strong>Daripada koordinat:</strong> Jika P(−2, 5), maka OP = −2i + 5j; tanda negatif menunjukkan gerakan ke Barat.</li>
+                    <li><strong>Magnitud:</strong> Bagi v = 6i + 8j, |v| = √(6² + 8²) = 10.</li>
+                    <li><strong>Vektor unit:</strong> Arah unit v ialah v/|v| = (3/5)i + (4/5)j, yang bermagnitud 1.</li>
+                </ol>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="feature-box-icon">🔵</div>
+                    <div class="feature-box-title">Komponen i</div>
+                    <div class="feature-box-text">Selalu BIRU (Timur/Barat)</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-box-icon">🔴</div>
+                    <div class="feature-box-title">Komponen j</div>
+                    <div class="feature-box-text">Selalu MERAH (Utara/Selatan)</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-box-icon">📐</div>
+                    <div class="feature-box-title">Unit Vektor</div>
+                    <div class="feature-box-text">i = (1, 0), j = (0, 1)</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-box-icon">➡️</div>
+                    <div class="feature-box-title">Arah</div>
+                    <div class="feature-box-text">θ = atan2(y, x). Sudut diukur lawan jam dari paksi x positif; vektor sifar tiada arah.</div>
+                </div>
+            </div>
+
+            <button class="cta-button" onclick="switchTab('concept3')">Seterusnya: Penambahan Vektor</button>
+        </div>
+
+        <!-- ===== TAB 4: ADDITION ===== -->
+        <div class="tab-content" id="concept3">
+            <div class="content-header">
+                <h2>Penambahan & Pengurangan Vektor (5.3)</h2>
+                <p>Dua kaedah untuk menambah vektor: Hukum Segitiga dan Hukum Segiempat Selari</p>
+            </div>
+
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">△</div>
+                    <div class="card-title">Hukum Segitiga (Triangle Law)</div>
+                    <div class="card-description">
+                        <strong>Penyataan Formal:</strong> Untuk menambah dua vektor A dan B, lukis A dari titik O, kemudian dari hujung A, lukis B. Vektor paduan adalah garis lurus dari O ke hujung B.<br><br>
+                        <strong>Langkah-langkah:</strong><br>
+                        1. Lukis vektor <strong>A</strong> dari O ke titik pertengahan<br>
+                        2. Dari hujung A, lukis vektor <strong>B</strong><br>
+                        3. Vektor paduan: Garis lurus dari O ke hujung B<br>
+                        <strong>Hasil Akhir:</strong> A + B = C<br><br>
+                        <strong>Contoh:</strong> Jika A = 3i + 4j dan B = 2i − 1j, maka A + B = 5i + 3j
+                    </div>
+                    <div class="difficulty-badge difficulty-medium">Sederhana - Sering Digunakan</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">▭</div>
+                    <div class="card-title">Hukum Segiempat Selari (Parallelogram Law)</div>
+                    <div class="card-description">
+                        <strong>Penyataan Formal:</strong> Untuk menambah dua vektor A dan B, lukis kedua-duanya dari titik O yang sama. Lengkapkan segiempat selari dengan kedua vektor sebagai sisi bersebelahan. Pepenjuru dari O adalah vektor paduan.<br><br>
+                        <strong>Langkah-langkah:</strong><br>
+                        1. Lukis <strong>A</strong> dan <strong>B</strong> dari O<br>
+                        2. Dari hujung A, lukis garis selari dengan B<br>
+                        3. Dari hujung B, lukis garis selari dengan A<br>
+                        4. Pepenjuru utama = vektor paduan A + B<br>
+                        <strong>Hasil Akhir:</strong> Sama dengan hukum segitiga
+                    </div>
+                    <div class="difficulty-badge difficulty-medium">Sederhana</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">➕</div>
+                    <div class="card-title">Penambahan Algebra</div>
+                    <div class="card-description">
+                        <strong>Formula:</strong><br>
+                        (A_x + B_x)i + (A_y + B_y)j<br><br>
+                        <strong>Contoh:</strong><br>
+                        (3i+4j) + (2i-1j) = 5i+3j
+                    </div>
+                    <div class="difficulty-badge difficulty-easy">Mudah</div>
+                </div>
+
+                <div class="card">
+                    <div class="card-icon">➖</div>
+                    <div class="card-title">Pengurangan</div>
+                    <div class="card-description">
+                        <strong>Formula:</strong><br>
+                        (A_x − B_x)i + (A_y − B_y)j<br><br>
+                        <strong>Ingat:</strong> A - B = A + (-B)
+                    </div>
+                    <div class="difficulty-badge difficulty-medium">Sederhana</div>
+                </div>
+            </div>
+
+            <div class="learning-path">
+                <h3>📝 Langkah-langkah Menambah Vektor:</h3>
+                <ol>
+                    <li><strong>Langkah 1:</strong> Tulis vektor dalam bentuk xi + yj</li>
+                    <li><strong>Langkah 2:</strong> Tambah komponen i dengan komponen i</li>
+                    <li><strong>Langkah 3:</strong> Tambah komponen j dengan komponen j</li>
+                    <li><strong>Langkah 4:</strong> Tulis jawapan sebagai vektor baru</li>
+                    <li><strong>Langkah 5:</strong> Lukis gambar untuk sahkan jawapan</li>
+                </ol>
+            </div>
+
+            <div class="learning-path worked-examples">
+                <h3>Contoh Berjalan: Tambah, Tolak dan Laluan</h3>
+                <ol>
+                    <li><strong>Tambah komponen:</strong> (3i + 4j) + (2i − j) = 5i + 3j.</li>
+                    <li><strong>Tolak sebagai tambah songsang:</strong> (4i − 2j) − (i + 3j) = (4i − 2j) + (−i − 3j) = 3i − 5j.</li>
+                    <li><strong>Laluan geometri:</strong> Jika AB = 3y dan AD = 2x, laluan D → A → B memberi DB = DA + AB = −2x + 3y.</li>
+                </ol>
+            </div>
+
+            <div class="card" style="margin-top: 30px;">
+                <div class="card-icon">🔑</div>
+                <div class="card-title">Sifat-sifat Penambahan & Pendaraban Vektor (Vector Algebra)</div>
+                <div class="card-description">
+                    <strong>1. Komutatif:</strong> A + B = B + A (urutan tidak penting dalam penambahan)<br>
+                    <strong>2. Asosiatif:</strong> (A + B) + C = A + (B + C) (pengelompokan tidak penting)<br>
+                    <strong>3. Identiti Penambahan:</strong> A + <strong>0</strong> = A (menambah vektor sifar tidak mengubah vektor)<br>
+                    <strong>4. Songsang Penambahan:</strong> A + (−A) = <strong>0</strong> (vektor dan negatifnya menghasilkan sifar)<br><br>
+
+                    <strong>5. Komutatif Pendaraban Skalar:</strong> k₁(k₂A) = k₂(k₁A) = (k₁k₂)A<br>
+                    <strong>6. Distributif ke Vektor:</strong> k(A + B) = kA + kB (skalar boleh diagihkan)<br>
+                    <strong>7. Distributif ke Skalar:</strong> (k₁ + k₂)A = k₁A + k₂A (skalar boleh diagihkan)<br>
+                    <strong>8. Identiti Pendaraban:</strong> 1 × A = A (skalar 1 tidak mengubah vektor)
+                </div>
+                <div class="difficulty-badge difficulty-hard">Mencabar - Hukum Vektor</div>
+            </div>
+
+            <button class="cta-button" onclick="switchTab('practice')">Seterusnya: Latihan Interaktif</button>
+        </div>
+
+        <!-- ===== TAB 5: PRACTICE ===== -->
+        <div class="tab-content" id="practice">
+            <div class="content-header">
+                <h2>Latihan Interaktif 🎮</h2>
+                <p>Praktikal soalan dengan maklum balas serta-merta</p>
+            </div>
+
+            <div class="xp-header">
+                <div class="xp-header-item">
+                    <span class="xp-header-icon">⭐</span>
+                    <span id="playerLevel">Tahap 1</span>
+                </div>
+                <div class="xp-bar-track">
+                    <div class="xp-bar-fill" id="globalXpBar" style="width:0%;"></div>
+                </div>
+                <div class="xp-header-item"><span id="playerXp">0</span> XP</div>
+            </div>
+
+            <div class="learning-path worked-examples">
+                <h3>Contoh Soalan dan Semakan Ringkas</h3>
+                <ol>
+                    <li><strong>Komponen:</strong> Titik P(−3, 2) memberi OP = −3i + 2j.</li>
+                    <li><strong>Skalar:</strong> Jika v = 2i − 3j, maka −2v = −4i + 6j; tanda negatif membalikkan arah.</li>
+                    <li><strong>Laluan Rajah 3:</strong> AB = 4y dan AD = 5x. Untuk DB, ikut D → A → B: DA = −5x, maka DB = −5x + 4y. Cuba variasi lain dalam set Laluan ABCD di bawah.</li>
+                </ol>
+            </div>
+
+            <!-- ===== PRACTICE MENU (category picker) ===== -->
+            <div id="practiceMenu">
+                <div class="card-grid">
+                    <div class="card">
+                        <div class="card-icon">📝</div>
+                        <div class="card-title">Ungkapkan Vektor</div>
+                        <div class="card-description">
+                            Diberi koordinat, tulis vektor dalam bentuk xi + yj. Sahkan jawapan anda dengan gambar interaktif.
+                        </div>
+                        <div class="card-meta">
+                            <span>10 soalan</span>
+                            <span>Semua tahap</span>
+                        </div>
+                        <button class="cta-button" style="width: 100%; margin-top: 15px; justify-content: center;" onclick="startPractice('express')">Mulai →</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">➕</div>
+                        <div class="card-title">Tambah Vektor</div>
+                        <div class="card-description">
+                            Selesaikan penambahan vektor langkah demi langkah. Dapatkan maklum balas untuk setiap komponen.
+                        </div>
+                        <div class="card-meta">
+                            <span>15 soalan</span>
+                            <span>Semua tahap</span>
+                        </div>
+                        <button class="cta-button" style="width: 100%; margin-top: 15px; justify-content: center;" onclick="startPractice('add')">Mulai →</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">🔄</div>
+                        <div class="card-title">Periksa Kesamaan</div>
+                        <div class="card-description">
+                            Tentukan sama ada dua vektor sama atau tidak. Bandingkan komponen dan tentukan hubungan mereka.
+                        </div>
+                        <div class="card-meta">
+                            <span>12 soalan</span>
+                            <span>Semua tahap</span>
+                        </div>
+                        <button class="cta-button" style="width: 100%; margin-top: 15px; justify-content: center;" onclick="startPractice('equality')">Mulai →</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">🔢</div>
+                        <div class="card-title">Pendaraban Skalar</div>
+                        <div class="card-description">
+                            Kalikan vektor dengan skalar. Lihat bagaimana magnitud dan arah berubah.
+                        </div>
+                        <div class="card-meta">
+                            <span>10 soalan</span>
+                            <span>Semua tahap</span>
+                        </div>
+                        <button class="cta-button" style="width: 100%; margin-top: 15px; justify-content: center;" onclick="startPractice('scalar')">Mulai →</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">🌍</div>
+                        <div class="card-title">Masalah Dunia Nyata</div>
+                        <div class="card-description">
+                            Gunakan vektor untuk menyelesaikan masalah tentang pesawat, bangunan, dan enjin.
+                        </div>
+                        <div class="card-meta">
+                            <span>8 soalan</span>
+                            <span>Mencabar</span>
+                        </div>
+                        <button class="cta-button" style="width: 100%; margin-top: 15px; justify-content: center;" onclick="startPractice('realworld')">Mulai →</button>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-icon">🏆</div>
+                        <div class="card-title">Ujian Akhir</div>
+                        <div class="card-description">
+                            Soalan campuran dari semua topik. Capai 80% untuk lulus dan dapatkan sijil.
+                        </div>
+                        <div class="card-meta">
+                            <span>20 soalan</span>
+                            <span>Semua tahap</span>
+                        </div>
+                        <button class="cta-button" style="width: 100%; margin-top: 15px; justify-content: center;" onclick="startPractice('quiz')">Mulai →</button>
+                    </div>
+                </div>
+
+                <div class="features-grid" style="margin-top: 40px;">
+                    <div class="feature-box">
+                        <div class="feature-box-icon">⚡</div>
+                        <div class="feature-box-title">Maklum Balas Serta-merta</div>
+                        <div class="feature-box-text">Tahu benar atau salah dengan segera</div>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-box-icon">💡</div>
+                        <div class="feature-box-title">Petua Progresif</div>
+                        <div class="feature-box-text">4 tahap petua jika anda tersesat</div>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-box-icon">📊</div>
+                        <div class="feature-box-title">Penyelesaian Lengkap</div>
+                        <div class="feature-box-text">Lihat setiap langkah dalam jalan kerja</div>
+                    </div>
+                    <div class="feature-box">
+                        <div class="feature-box-icon">🎮</div>
+                        <div class="feature-box-title">Gamifikasi</div>
+                        <div class="feature-box-text">Dapatkan XP, lencana, dan naik tahap</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== PRACTICE SESSION (active exercise) ===== -->
+            <div id="practiceSession" style="display:none;">
+                <div class="session-toolbar">
+                    <button class="back-link" onclick="backToMenu()">← Kembali ke Senarai</button>
+                    <div class="diff-selector" id="diffSelector">
+                        <button class="diff-button diff-easy" data-diff="easy" onclick="setDifficulty('easy')">Mudah</button>
+                        <button class="diff-button diff-medium" data-diff="medium" onclick="setDifficulty('medium')">Sederhana</button>
+                        <button class="diff-button diff-hard" data-diff="hard" onclick="setDifficulty('hard')">Mencabar</button>
+                    </div>
+                </div>
+
+                <h3 id="sessionTitle" class="session-title">Latihan</h3>
+
+                <div class="progress-row">
+                    <div class="progress-stat">Soalan <span id="qIndex">1</span>/<span id="qTotal">10</span></div>
+                    <div class="progress-stat">Tepat: <span id="qCorrect">0</span></div>
+                    <div class="progress-stat">Peratus: <span id="qAccuracy">0%</span></div>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="qProgressFill" style="width:0%;"></div>
+                </div>
+
+                <div class="problem-card">
+                    <div class="problem-diagram" id="problemDiagram"></div>
+                    <div class="problem-body">
+                        <div class="problem-text" id="problemText"></div>
+                        <div class="answer-area" id="answerArea"></div>
+                        <div class="feedback-box" id="feedbackBox" style="display:none;"></div>
+                        <div class="hint-box" id="hintBox" style="display:none;"></div>
+                        <div class="solution-box" id="solutionBox" style="display:none;"></div>
+
+                        <div class="action-row">
+                            <button class="action-btn action-check" id="btnCheck" onclick="checkAnswer()">✓ Semak Jawapan</button>
+                            <button class="action-btn action-hint" id="btnHint" onclick="showHint()">💡 Petua</button>
+                            <button class="action-btn action-solution" id="btnSolution" onclick="showSolution()">📖 Tunjukkan Penyelesaian</button>
+                            <button class="action-btn action-next" id="btnNext" onclick="nextQuestion()" style="display:none;">Seterusnya →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== PRACTICE SUMMARY (end of set) ===== -->
+            <div id="practiceSummary" style="display:none;">
+                <div class="summary-card" id="summaryCard">
+                    <div class="summary-icon" id="summaryIcon">🎉</div>
+                    <h3 id="summaryTitle">Selesai!</h3>
+                    <p id="summaryText"></p>
+                    <div class="summary-stats">
+                        <div class="summary-stat"><strong id="summaryScore">0/0</strong><span>Skor</span></div>
+                        <div class="summary-stat"><strong id="summaryAccuracy">0%</strong><span>Ketepatan</span></div>
+                        <div class="summary-stat"><strong id="summaryXp">0</strong><span>XP Diperoleh</span></div>
+                    </div>
+                    <div class="action-row" style="justify-content:center;">
+                        <button class="action-btn action-check" onclick="retryPractice()">↻ Cuba Lagi</button>
+                        <button class="action-btn action-hint" onclick="backToMenu()">← Kembali ke Senarai</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== TAB 6: RESOURCES ===== -->
+        <div class="tab-content" id="resources">
+            <div class="content-header">
+                <h2>Sumber dan Petua 💡</h2>
+                <p>Rujukan cepat, kesilapan biasa, dan formula penting</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">⚠️</div>
+                <div class="card-title">Kesilapan Biasa dan Cara Mengelaknya</div>
+                <div class="card-description">
+                    <strong>❌ KESILAPAN 1: Mencampurkan Komponen</strong><br>
+                    Salah: "3i + 4j = 7"<br>
+                    ✓ Betul: Vektor 3i + 4j adalah DUO komponen, bukan satu nombor. Magnitud ialah √(3² + 4²) = 5<br><br>
+
+                    <strong>❌ KESILAPAN 2: Menambah Magnitud Terus</strong><br>
+                    Salah: "Untuk tambah A + B, cukup tambah |A| + |B|"<br>
+                    ✓ Betul: Mesti gunakan hukum segitiga (tail-to-head) atau segiempat selari. Contoh: (3i+0j) + (0i+4j) = 3i+4j dengan |hasil| = 5, bukan 7<br><br>
+
+                    <strong>❌ KESILAPAN 3: Salah Tafsir Negatif</strong><br>
+                    Salah: "−3i bermakna tiada komponen i"<br>
+                    ✓ Betul: −3i bermakna 3 unit dalam arah NEGATIF i (ke Barat). Komponen x = −3, bukan 0<br><br>
+
+                    <strong>❌ KESILAPAN 4: Salah Kesamaan Vektor</strong><br>
+                    Salah: "Vektor A = 2i+3j dan B = 2i+3j sama dengan kedudukannya berlainan"<br>
+                    ✓ Betul: A dan B ADALAH sama! Vektor sama jika komponen sama, kedudukan pangkal boleh berbeza<br><br>
+
+                    <strong>❌ KESILAPAN 5: Salah Parallel</strong><br>
+                    Salah: "A = 4i+2j dan B = 2i+j tidak selari kerana tiada skalar k"<br>
+                    ✓ Betul: A = 2B, jadi A dan B ADALAH selari dengan k = 2. Kira nisbah: (4/2) = (2/1) = 2 ✓
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 25px;">
+                <div class="card-icon">📐</div>
+                <div class="card-title">Formula Penting dan Takrifan Matematik</div>
+                <div class="card-description">
+                    <strong>NOTASI:</strong> Huruf tebal (A, B, v) menandakan vektor; i dan j ialah vektor unit asas. A_x dan A_y ialah komponen skalar vektor A. |A| atau ‖A‖ menandakan magnitud.<br><br>
+
+                    <strong>BENTUK VEKTOR:</strong><br>
+                    • Bentuk Komponen: v = xi + yj = x(1,0) + y(0,1)<br>
+                    • Bentuk Pasangan: v = (x, y)<br>
+                    • Bentuk Kolom: v = [x / y]<br><br>
+
+                    <strong>MAGNITUD DAN ARAH:</strong><br>
+                    • Magnitud: |v| = √(x² + y²) (panjang vektor)<br>
+                    • Arah: θ = atan2(y, x) (sudut dari paksi x positif, lawan jam)<br>
+                    • Unit Vektor: û = v / |v|, bagi v ≠ 0 (arah dengan magnitud 1)<br><br>
+
+                    <strong>OPERASI VEKTOR:</strong><br>
+                    • Penambahan: A + B = (A_x + B_x)i + (A_y + B_y)j<br>
+                    • Pengurangan: A − B = (A_x − B_x)i + (A_y − B_y)j<br>
+                    • Pendaraban Skalar: kv = (kx)i + (ky)j, k adalah skalar<br>
+                    • Magnitud kv: |kv| = |k| × |v|<br><br>
+
+                    <strong>JENIS VEKTOR:</strong><br>
+                    • Vektor Sama: A = B ⟺ A_x = B_x AND A_y = B_y<br>
+                    • Vektor Selari: A ∥ B ⟺ A = kB dengan k ≠ 0 (kedua-dua bukan sifar)<br>
+                    • Vektor Songsang: −A mempunyai magnitud |A| dengan arah bertentangan<br>
+                    • Vektor Sifar: 0 = 0i + 0j (tiada arah)
+                </div>
+            </div>
+
+            <div class="learning-path worked-examples">
+                <h3>Contoh Formula Digunakan</h3>
+                <ol>
+                    <li><strong>Daripada dua titik:</strong> P(1, 2) dan Q(4, 6) memberi PQ = (4 − 1)i + (6 − 2)j = 3i + 4j, dengan |PQ| = 5.</li>
+                    <li><strong>Pendaraban skalar:</strong> −2(2i − 3j) = −4i + 6j; magnitud menjadi dua kali ganda dan arah terbalik.</li>
+                    <li><strong>Laluan:</strong> Jika AD = 5x, maka DA = −5x. Menulis laluan dengan arah anak panah mengelakkan kesilapan tanda.</li>
+                </ol>
+            </div>
+
+            <div class="card" style="margin-top: 25px;">
+                <div class="card-icon">📚</div>
+                <div class="card-title">Rujukan Cepat & Teknik Penyelesaian</div>
+                <div class="card-description">
+                    <strong>WARNA SISTEM KOD DALAM GAMBAR:</strong><br>
+                    🔵 <strong>Biru</strong> = Komponen i (arah x, Timur/Barat)<br>
+                    🔴 <strong>Merah</strong> = Komponen j (arah y, Utara/Selatan)<br>
+                    🟢 <strong>Hijau</strong> = Vektor paduan (hasil akhir)<br><br>
+
+                    <strong>PERBEZAAN SKALAR vs VEKTOR:</strong><br>
+                    • Skalar: Magnitud sahaja (25°C, 50 km/h, 5 kg)<br>
+                    • Vektor: Magnitud + Arah (50 km/h Utara, 500 N ke bawah)<br><br>
+
+                    <strong>TEKNIK KOMPONEN:</strong><br>
+                    1. Bahagi vektor kepada komponen i (mendatar) dan j (menegak)<br>
+                    2. Operasi: Lakukan pada setiap komponen secara berasingan<br>
+                    3. Gabung: Tulis semula sebagai bentuk xi + yj<br><br>
+
+                    <strong>OPERASI ASAS:</strong><br>
+                    • Penambahan: Tambah i dengan i, j dengan j ➜ A + B = (A_x+B_x)i + (A_y+B_y)j<br>
+                    • Pengurangan: Tolak i dengan i, j dengan j ➜ A − B = (A_x−B_x)i + (A_y−B_y)j<br>
+                    • Pendaraban: k(xi+yj) = kxi + kyj (darab setiap komponen dengan k)<br><br>
+
+                    <strong>ANALISIS VEKTOR:</strong><br>
+                    • Magnitud: Gunakan Teorem Pythagoras |v| = √(x² + y²)<br>
+                    • Arah: Gunakan tangen songsang tan⁻¹(y/x), perhatian kepada kuadran<br>
+                    • Parallelogram: Untuk visualisasi penambahan vektor dua vektor
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 25px;">
+                <div class="card-icon">🔗</div>
+                <div class="card-title">Pautan Berguna</div>
+                <div class="card-description">
+                    Akses dokumen dan artifak utama yang disimpan bersama projek gabungan ini:
+                    <ul class="resource-links">
+                        <li>📘 <a href="DETAILED_VECTOR_PROMPT_PRODUCTION.md">Spesifikasi projek VECTOR (Markdown)</a></li>
+                        <li>📄 <a href="DETAILED_VECTOR_PROMPT_PRODUCTION.md.pdf">Spesifikasi projek VECTOR (PDF)</a></li>
+                        <li>🧭 <a href="README.md">README repositori gabungan</a></li>
+                        <li>🗂️ <a href="https://github.com/FarahDina19/VECTOR">Repositori sumber asal VECTOR</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="features-grid" style="margin-top: 40px;">
+                <div class="feature-box">
+                    <div class="feature-box-icon">⏱️</div>
+                    <div class="feature-box-title">Jangka Masa</div>
+                    <div class="feature-box-text">6-8 jam belajar penuh</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-box-icon">📈</div>
+                    <div class="feature-box-title">Kesukaran</div>
+                    <div class="feature-box-text">Mudah → Mencabar</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-box-icon">🎯</div>
+                    <div class="feature-box-title">Matlamat</div>
+                    <div class="feature-box-text">Kuasai semua topik</div>
+                </div>
+                <div class="feature-box">
+                    <div class="feature-box-icon">✅</div>
+                    <div class="feature-box-title">Penilaian</div>
+                    <div class="feature-box-text">Sijil apabila selesai</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div style="text-align: center; margin-top: 80px; padding: 50px 40px; background: var(--primary-brown); color: var(--accent-cream); font-size: 13px; border-top: 1px solid rgba(196, 165, 116, 0.2);">
+        <p style="letter-spacing: 0.5px; margin-bottom: 8px;">PLATFORM PEMBELAJARAN INTERAKTIF VECTOR</p>
+        <p style="margin-top: 15px; font-size: 12px; opacity: 0.85; line-height: 1.6;">Dirancang untuk pelajar dengan fokus kepada pembelajaran interaktif yang berkesan dan menyeronokkan. © 2026</p>
     </div>
 
     <script src="vector-math.js"></script>
     <script src="vector-diagrams.js"></script>
     <script>
+        // Tab Switching Function
         function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            document.querySelectorAll('.tab-button').forEach(button => button.classList.remove('active'));
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected tab content
             const selectedContent = document.getElementById(tabName);
-            if (selectedContent) selectedContent.classList.add('active');
-            const selectedButton = document.querySelector(`.tab-button[data-tab="${tabName}"]`);
-            if (selectedButton) selectedButton.classList.add('active');
+            if (selectedContent) {
+                selectedContent.classList.add('active');
+            }
+
+            // Activate corresponding button
+            buttons.forEach(button => {
+                if (button.getAttribute('data-tab') === tabName) {
+                    button.classList.add('active');
+                }
+            });
+
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Add event listeners to tab buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const tabName = this.getAttribute('data-tab');
+                    switchTab(tabName);
+                });
+            });
+
+            updateXpHeader();
+        });
+
+        /* =====================================================
+           PRACTICE ENGINE — problem generation, validation,
+           hints, scoring and gamification (XP / levels)
+           ===================================================== */
+
+        // ---------- number / formatting helpers ----------
+        function randInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+        function randNonZeroInt(min, max) { let n; do { n = randInt(min, max); } while (n === 0); return n; }
+        function randDecimal(min, max) { let n; do { n = parseFloat((Math.random() * (max - min) + min).toFixed(1)); } while (n === 0); return n; }
+        function round1(n) { return Math.round(n * 10) / 10; }
+        function round2(n) { return Math.round(n * 100) / 100; }
+        function fmtNum(n) { n = parseFloat(n); return Number.isInteger(n) ? String(n) : n.toFixed(1); }
+        function fmtVector(x, y) {
+            x = round1(x); y = round1(y);
+            const yPart = y >= 0 ? `+ ${fmtNum(y)}` : `- ${fmtNum(Math.abs(y))}`;
+            return `${fmtNum(x)}i ${yPart}j`;
+        }
+        function diffLabel(d) { return d === 'easy' ? 'Mudah' : d === 'medium' ? 'Sederhana' : 'Mencabar'; }
+        function pickVal(diff, easyRange, mixRange, hardRange) {
+            easyRange = easyRange || [2, 12];
+            mixRange = mixRange || [-12, 12];
+            hardRange = hardRange || [-15, 15];
+            if (diff === 'easy') return randInt(easyRange[0], easyRange[1]) * (Math.random() < 0.3 ? -1 : 1);
+            if (diff === 'medium') return randNonZeroInt(mixRange[0], mixRange[1]);
+            return randDecimal(hardRange[0], hardRange[1]);
+        }
+
+        // ---------- SVG Cartesian-plane diagram builder ----------
+        const VECTOR_COLORS = { blue: '#2f6fed', red: '#e0483a', green: '#2f9e5c', orange: '#c98a1f', purple: '#7b4fc9' };
+        // ---------- problem generators (Pattern 1-5 + quiz) ----------
+        function genExpress(diff) {
+            let x, y;
+            if (diff === 'easy') { x = randInt(1, 5); y = randInt(1, 5); }
+            else if (diff === 'medium') { x = randNonZeroInt(-8, 8); y = randNonZeroInt(-8, 8); }
+            else { x = randDecimal(-9, 9); y = randDecimal(-9, 9); }
+
+            const diagram = buildDiagramSVG([
+                { ox: 0, oy: 0, dx: x, dy: 0, color: 'blue', dashed: true },
+                { ox: x, oy: 0, dx: 0, dy: y, color: 'red', dashed: true },
+                { ox: 0, oy: 0, dx: x, dy: y, color: 'green', label: 'OP' }
+            ]);
+
+            return {
+                diagram,
+                text: `Diberi titik <strong>P(${fmtNum(x)}, ${fmtNum(y)})</strong>. Ungkapkan vektor <strong>OP</strong> dalam bentuk komponen (xi + yj).`,
+                inputsHTML: `OP = <input class="ans-input" data-key="i" aria-label="komponen i"> i + <input class="ans-input" data-key="j" aria-label="komponen j"> j`,
+                answers: { i: x, j: y },
+                hints: [
+                    'Lihat kedudukan mendatar (arah-i, garis BIRU). Berapa unit dari O?',
+                    `Nilai komponen-i ialah ${fmtNum(x)}.`,
+                    'Sekarang lihat kedudukan menegak (arah-j, garis MERAH). Berapa unit dari O?',
+                    `Jawapan penuh: OP = ${fmtVector(x, y)}`
+                ],
+                solution: `Vektor OP = ${fmtVector(x, y)}\nMaksud: ${fmtNum(Math.abs(x))} unit ke ${x >= 0 ? 'Timur' : 'Barat'} (arah-i) dan ${fmtNum(Math.abs(y))} unit ke ${y >= 0 ? 'Utara' : 'Selatan'} (arah-j).`
+            };
+        }
+
+        function genAdd(diff) {
+            let a1, a2, b1, b2;
+            if (diff === 'easy') { a1 = randInt(1, 5); a2 = randInt(1, 5); b1 = randInt(1, 5); b2 = randInt(1, 5); }
+            else if (diff === 'medium') { a1 = randNonZeroInt(-8, 8); a2 = randNonZeroInt(-8, 8); b1 = randNonZeroInt(-8, 8); b2 = randNonZeroInt(-8, 8); }
+            else { a1 = randDecimal(-9, 9); a2 = randDecimal(-9, 9); b1 = randDecimal(-9, 9); b2 = randDecimal(-9, 9); }
+
+            const op = diff === 'easy' ? 'add' : (Math.random() < 0.5 ? 'add' : 'subtract');
+            const sign = op === 'add' ? 1 : -1;
+            const ri = round1(a1 + sign * b1), rj = round1(a2 + sign * b2);
+            const bx = sign * b1, by = sign * b2;
+            const opSymbol = op === 'add' ? '+' : '−';
+
+            const diagram = buildDiagramSVG([
+                { ox: 0, oy: 0, dx: a1, dy: a2, color: 'red', label: 'A' },
+                { ox: a1, oy: a2, dx: bx, dy: by, color: 'blue', label: op === 'add' ? 'B' : '−B' },
+                { ox: 0, oy: 0, dx: a1 + bx, dy: a2 + by, color: 'green', label: `A${opSymbol}B` }
+            ]);
+
+            return {
+                diagram,
+                text: `Diberi <strong>A = ${fmtVector(a1, a2)}</strong> dan <strong>B = ${fmtVector(b1, b2)}</strong>.<br>Cari <strong>A ${opSymbol} B</strong>.`,
+                inputsHTML: `A ${opSymbol} B = <input class="ans-input" data-key="i"> i + <input class="ans-input" data-key="j"> j`,
+                answers: { i: ri, j: rj },
+                hints: [
+                    `Langkah 1: Kira komponen-i: ${fmtNum(a1)} ${opSymbol} ${fmtNum(b1)}`,
+                    `Komponen-i = ${fmtNum(a1)} ${opSymbol} ${fmtNum(b1)} = ${fmtNum(ri)}`,
+                    `Langkah 2: Kira komponen-j: ${fmtNum(a2)} ${opSymbol} ${fmtNum(b2)}`,
+                    `Jawapan penuh: A ${opSymbol} B = ${fmtVector(ri, rj)}`
+                ],
+                solution: `Komponen-i: ${fmtNum(a1)} ${opSymbol} ${fmtNum(b1)} = ${fmtNum(ri)}\nKomponen-j: ${fmtNum(a2)} ${opSymbol} ${fmtNum(b2)} = ${fmtNum(rj)}\nA ${opSymbol} B = ${fmtVector(ri, rj)}`
+            };
+        }
+
+        function genEquality(diff) {
+            let a1, a2, type;
+            if (diff === 'easy') {
+                a1 = randInt(1, 6); a2 = randInt(1, 6);
+                type = Math.random() < 0.5 ? 'equal' : 'notequal';
+            } else if (diff === 'medium') {
+                a1 = randNonZeroInt(-8, 8); a2 = randNonZeroInt(-8, 8);
+                type = Math.random() < 0.4 ? 'equal' : 'notequal';
+            } else {
+                a1 = randNonZeroInt(-8, 8); a2 = randNonZeroInt(-8, 8);
+                const r = Math.random();
+                type = r < 0.34 ? 'equal' : (r < 0.67 ? 'parallel' : 'notequal');
+            }
+
+            let b1, b2;
+            if (type === 'equal') { b1 = a1; b2 = a2; }
+            else if (type === 'parallel') {
+                const k = diff === 'hard' ? randInt(2, 4) * (Math.random() < 0.5 ? -1 : 1) : randInt(2, 3);
+                b1 = a1 * k; b2 = a2 * k;
+            } else {
+                do {
+                    b1 = a1 + randInt(1, 4);
+                    b2 = a2 + randInt(1, 4);
+                } while (a1 * b2 === a2 * b1);
+            }
+
+            const choiceKeys = diff === 'hard' ? ['equal', 'parallel', 'notequal'] : ['equal', 'notequal'];
+            const choiceLabels = { equal: 'SAMA (Equal)', parallel: 'SELARI TETAPI TIDAK SAMA', notequal: 'TIDAK SAMA DAN TIDAK SELARI' };
+
+            const diagram = buildDiagramSVG([
+                { ox: 0, oy: 0, dx: a1, dy: a2, color: 'blue', label: 'X' },
+                { ox: 0, oy: 2.5, dx: b1, dy: b2, color: 'red', label: 'Y' }
+            ]);
+
+            const hints = [
+                'Bandingkan komponen-i kedua-dua vektor. Adakah sama?',
+                `Komponen-i: X_x = ${fmtNum(a1)}, Y_x = ${fmtNum(b1)}.`,
+                'Jika Y = kX dengan k ≠ 0, maka dua vektor bukan sifar ini selari (termasuk vektor yang sama).'
+            ];
+            let verdict;
+            if (type === 'equal') { hints.push('Kedua-dua komponen sama tepat, jadi X = Y (SAMA).'); verdict = 'X = Y (SAMA — magnitud dan arah serupa)'; }
+            else if (type === 'parallel') { const k = round1(b1 / a1); hints.push(`Y = ${fmtNum(k)} × X, jadi X dan Y SELARI tetapi TIDAK SAMA (magnitud berbeza).`); verdict = `X selari dengan Y (Y = ${fmtNum(k)}X) tetapi TIDAK SAMA`; }
+            else { hints.push('Komponen tidak sama dan tidak berkadar, jadi TIADA hubungan istimewa.'); verdict = 'X dan Y tiada hubungan istimewa (tidak sama, tidak selari)'; }
+
+            return {
+                diagram,
+                text: `Diberi <strong>X = ${fmtVector(a1, a2)}</strong> dan <strong>Y = ${fmtVector(b1, b2)}</strong>.<br>Apakah hubungan antara X dan Y?`,
+                choiceMode: true,
+                choices: choiceKeys.map(k => ({ key: k, label: choiceLabels[k] })),
+                answers: { choice: type },
+                hints,
+                solution: `Komponen-i: X_x = ${fmtNum(a1)}, Y_x = ${fmtNum(b1)}\nKomponen-j: X_y = ${fmtNum(a2)}, Y_y = ${fmtNum(b2)}\nKesimpulan: ${verdict}`
+            };
+        }
+
+        function genScalar(diff) {
+            if (diff === 'hard') {
+                const pairs = [[3, 4, 5], [6, 8, 10], [5, 12, 13], [8, 15, 17], [9, 12, 15], [12, 16, 20]];
+                const p = pairs[randInt(0, pairs.length - 1)];
+                const x = p[0], y = p[1], mag = p[2];
+                const kMultiplier = randInt(2, 3);
+                const target = mag * kMultiplier;
+                const diagram = buildDiagramSVG([{ ox: 0, oy: 0, dx: x, dy: y, color: 'blue', label: 'v' }]);
+                return {
+                    diagram,
+                    text: `Diberi <strong>v = ${fmtVector(x, y)}</strong> dengan |v| = ${mag}.<br>Cari nilai <strong>k &gt; 0</strong> supaya |kv| = ${target}.`,
+                    inputsHTML: `k = <input class="ans-input" data-key="k">`,
+                    answers: { k: kMultiplier },
+                    hints: [
+                        'Gunakan hubungan |kv| = |k| × |v|.',
+                        `|v| = ${mag}, jadi |k| × ${mag} = ${target}`,
+                        `|k| = ${target} ÷ ${mag} = ${kMultiplier}`,
+                        `k = ${kMultiplier} (ambil nilai positif)`
+                    ],
+                    solution: `|kv| = |k| × |v|\n|k| × ${mag} = ${target}\n|k| = ${kMultiplier}\nk = ${kMultiplier} (atau k = −${kMultiplier}, tetapi soalan minta k positif)`
+                };
+            }
+
+            let x, y, k;
+            if (diff === 'easy') { x = randInt(1, 5); y = randInt(1, 5); k = randInt(2, 4) * (Math.random() < 0.3 ? -1 : 1); }
+            else { x = randNonZeroInt(-8, 8); y = randNonZeroInt(-8, 8); k = randNonZeroInt(-4, 4); }
+
+            const kx = round1(k * x), ky = round1(k * y);
+            const diagram = buildDiagramSVG([
+                { ox: 0, oy: 0, dx: x, dy: y, color: 'blue', label: 'v' },
+                { ox: 0, oy: 0, dx: kx, dy: ky, color: 'green', label: `${k}v` }
+            ]);
+
+            return {
+                diagram,
+                text: `Diberi <strong>v = ${fmtVector(x, y)}</strong>.<br>Cari <strong>${k}v</strong> (v didarab dengan skalar ${k}).`,
+                inputsHTML: `${k}v = <input class="ans-input" data-key="i"> i + <input class="ans-input" data-key="j"> j`,
+                answers: { i: kx, j: ky },
+                hints: [
+                    `Darab setiap komponen dengan ${k}: kv = (${k} × x)i + (${k} × y)j`,
+                    `Komponen-i: ${k} × ${fmtNum(x)} = ${fmtNum(kx)}`,
+                    `Komponen-j: ${k} × ${fmtNum(y)} = ${fmtNum(ky)}`,
+                    `Jawapan penuh: ${k}v = ${fmtVector(kx, ky)}`
+                ],
+                solution: `${k}v = ${k}(${fmtVector(x, y)}) = ${fmtVector(kx, ky)}`
+            };
+        }
+
+        function genRealWorld(diff) {
+            const showMag = diff === 'hard';
+            const roll = Math.random();
+
+            if (roll < 0.34) {
+                const x = pickVal(diff, [2, 8], [-9, 9], [-10, 10]);
+                const y = pickVal(diff, [2, 8], [-9, 9], [-10, 10]);
+                const xDir = x >= 0 ? 'Timur' : 'Barat';
+                const yDir = y >= 0 ? 'Utara' : 'Selatan';
+                const mag = round2(Math.sqrt(x * x + y * y));
+                const diagram = buildDiagramSVG([
+                    { ox: 0, oy: 0, dx: x, dy: 0, color: 'blue', dashed: true },
+                    { ox: x, oy: 0, dx: 0, dy: y, color: 'red', dashed: true },
+                    { ox: 0, oy: 0, dx: x, dy: y, color: 'green', label: 'Sesaran' }
+                ]);
+                let inputsHTML = `Sesaran = <input class="ans-input" data-key="i"> i + <input class="ans-input" data-key="j"> j km`;
+                if (showMag) inputsHTML += `, |sesaran| = <input class="ans-input" data-key="mag"> km`;
+                return {
+                    diagram,
+                    text: `Sebuah bot bergerak <strong>${fmtNum(Math.abs(x))} km ke ${xDir}</strong>, kemudian <strong>${fmtNum(Math.abs(y))} km ke ${yDir}</strong>.<br>Ungkapkan jumlah sesaran bot sebagai vektor.`,
+                    inputsHTML,
+                    answers: showMag ? { i: x, j: y, mag } : { i: x, j: y },
+                    hints: [
+                        'Pergerakan mendatar (Timur/Barat) ialah komponen-i.',
+                        `Komponen-i = ${fmtNum(x)} km (positif = Timur, negatif = Barat).`,
+                        'Pergerakan menegak (Utara/Selatan) ialah komponen-j.',
+                        `Vektor sesaran = ${fmtVector(x, y)} km${showMag ? `, |sesaran| = √((${fmtNum(x)})² + (${fmtNum(y)})²) ≈ ${mag} km` : ''}`
+                    ],
+                    solution: `Sesaran = ${fmtVector(x, y)} km` + (showMag ? `\n|sesaran| = √((${fmtNum(x)})² + (${fmtNum(y)})²) ≈ ${mag} km` : '')
+                };
+            } else if (roll < 0.67) {
+                const v = diff === 'easy' ? randInt(200, 320) : diff === 'medium' ? randInt(150, 350) : randDecimal(150, 350);
+                const w = pickVal(diff, [20, 60], [-60, 60], [-60, 60]);
+                const wDir = w >= 0 ? 'Timur' : 'Barat';
+                const mag = round2(Math.sqrt(v * v + w * w));
+                const diagram = buildDiagramSVG([
+                    { ox: 0, oy: 0, dx: 0, dy: v, color: 'red', label: 'Pesawat' },
+                    { ox: 0, oy: v, dx: w, dy: 0, color: 'blue', label: 'Angin' },
+                    { ox: 0, oy: 0, dx: w, dy: v, color: 'green', label: 'Paduan' }
+                ]);
+                let inputsHTML = `Halaju paduan = <input class="ans-input" data-key="i"> i + <input class="ans-input" data-key="j"> j km/h`;
+                if (showMag) inputsHTML += `, magnitud = <input class="ans-input" data-key="mag"> km/h`;
+                return {
+                    diagram,
+                    text: `Sebuah pesawat terbang pada <strong>${fmtNum(v)} km/h ke Utara</strong>. Angin bertiup pada <strong>${fmtNum(Math.abs(w))} km/h ke ${wDir}</strong>.<br>Cari vektor halaju paduan (resultant velocity) pesawat.`,
+                    inputsHTML,
+                    answers: showMag ? { i: w, j: v, mag } : { i: w, j: v },
+                    hints: [
+                        'Halaju pesawat (Utara) ialah komponen-j; halaju angin (Timur/Barat) ialah komponen-i.',
+                        `Komponen-i (angin) = ${fmtNum(w)} km/h`,
+                        `Komponen-j (pesawat) = ${fmtNum(v)} km/h`,
+                        `Halaju paduan = ${fmtVector(w, v)} km/h${showMag ? `, magnitud ≈ ${mag} km/h` : ''}`
+                    ],
+                    solution: `Halaju paduan = ${fmtVector(w, v)} km/h` + (showMag ? `\nMagnitud = √((${fmtNum(w)})² + (${fmtNum(v)})²) ≈ ${mag} km/h` : '')
+                };
+            } else {
+                const a1 = pickVal(diff, [5, 15], [-15, 15], [-15, 15]);
+                const a2 = pickVal(diff, [5, 15], [-15, 15], [-15, 15]);
+                const b1 = pickVal(diff, [5, 15], [-15, 15], [-15, 15]);
+                const b2 = pickVal(diff, [5, 15], [-15, 15], [-15, 15]);
+                const ri = round1(a1 + b1), rj = round1(a2 + b2);
+                const mag = round2(Math.sqrt(ri * ri + rj * rj));
+                const diagram = buildDiagramSVG([
+                    { ox: 0, oy: 0, dx: a1, dy: a2, color: 'red', label: 'F₁' },
+                    { ox: a1, oy: a2, dx: b1, dy: b2, color: 'blue', label: 'F₂' },
+                    { ox: 0, oy: 0, dx: ri, dy: rj, color: 'green', label: 'F₁+F₂' }
+                ]);
+                let inputsHTML = `Daya paduan = <input class="ans-input" data-key="i"> i + <input class="ans-input" data-key="j"> j N`;
+                if (showMag) inputsHTML += `, magnitud = <input class="ans-input" data-key="mag"> N`;
+                return {
+                    diagram,
+                    text: `Dua daya bertindak ke atas objek: <strong>F₁ = ${fmtVector(a1, a2)} N</strong> dan <strong>F₂ = ${fmtVector(b1, b2)} N</strong>.<br>Cari daya paduan (resultant force).`,
+                    inputsHTML,
+                    answers: showMag ? { i: ri, j: rj, mag } : { i: ri, j: rj },
+                    hints: [
+                        'Tambah komponen-i kedua-dua daya.',
+                        `Komponen-i: ${fmtNum(a1)} + ${fmtNum(b1)} = ${fmtNum(ri)}`,
+                        `Komponen-j: ${fmtNum(a2)} + ${fmtNum(b2)} = ${fmtNum(rj)}`,
+                        `Daya paduan = ${fmtVector(ri, rj)} N${showMag ? `, magnitud ≈ ${mag} N` : ''}`
+                    ],
+                    solution: `Daya paduan = F₁ + F₂ = ${fmtVector(ri, rj)} N` + (showMag ? `\nMagnitud = √((${fmtNum(ri)})² + (${fmtNum(rj)})²) ≈ ${mag} N` : '')
+                };
+            }
+        }
+
+        const GENERATORS = { express: genExpress, add: genAdd, equality: genEquality, scalar: genScalar, realworld: genRealWorld };
+
+        function genQuiz(diff) {
+            const types = ['express', 'add', 'equality', 'scalar', 'realworld'];
+            const t = types[randInt(0, types.length - 1)];
+            const d = ['easy', 'medium', 'hard'][randInt(0, 2)];
+            const problem = GENERATORS[t](d);
+            problem.tag = `${CATEGORY_CONFIG[t].title} • ${diffLabel(d)}`;
+            return problem;
+        }
+
+        const CATEGORY_CONFIG = {
+            express: { title: 'Ungkapkan Vektor', total: 10, gen: genExpress },
+            add: { title: 'Tambah / Tolak Vektor', total: 15, gen: genAdd },
+            equality: { title: 'Periksa Kesamaan', total: 12, gen: genEquality },
+            scalar: { title: 'Pendaraban Skalar', total: 10, gen: genScalar },
+            realworld: { title: 'Masalah Dunia Nyata', total: 8, gen: genRealWorld },
+            quiz: { title: 'Ujian Akhir', total: 20, gen: genQuiz, isQuiz: true }
+        };
+
+        // ---------- gamification (XP / level), persisted in localStorage ----------
+        let progress = loadProgress();
+        function loadProgress() {
+            try {
+                const raw = localStorage.getItem('vectorAppProgress');
+                if (raw) return JSON.parse(raw);
+            } catch (e) { /* ignore corrupt storage */ }
+            return { xp: 0, level: 1 };
+        }
+        function saveProgress() {
+            try { localStorage.setItem('vectorAppProgress', JSON.stringify(progress)); } catch (e) { /* storage unavailable */ }
+        }
+        function updateXpHeader() {
+            const levelEl = document.getElementById('playerLevel');
+            const xpEl = document.getElementById('playerXp');
+            const barEl = document.getElementById('globalXpBar');
+            if (!levelEl) return;
+            levelEl.textContent = `Tahap ${progress.level}`;
+            xpEl.textContent = progress.xp;
+            barEl.style.width = (progress.xp % 100) + '%';
+        }
+        function addXp(amount) {
+            progress.xp += amount;
+            progress.level = Math.floor(progress.xp / 100) + 1;
+            saveProgress();
+            updateXpHeader();
+        }
+
+        // ---------- practice session controller ----------
+        let session = null;
+
+        function startPractice(category) {
+            const cfg = CATEGORY_CONFIG[category];
+            session = { category, difficulty: 'easy', index: 0, total: cfg.total, correct: 0, attempts: 0, hintLevel: 0, sessionXp: 0, problem: null, answered: false };
+            document.getElementById('practiceMenu').style.display = 'none';
+            document.getElementById('practiceSummary').style.display = 'none';
+            document.getElementById('practiceSession').style.display = 'block';
+            document.getElementById('sessionTitle').textContent = cfg.title + (cfg.isQuiz ? ' (Soalan Campuran)' : '');
+            document.getElementById('diffSelector').style.display = (cfg.isQuiz || cfg.isWorkbook) ? 'none' : 'flex';
+            setDifficultyButtons('easy');
+            document.getElementById('qTotal').textContent = cfg.total;
+            loadQuestion();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function setDifficulty(diff) {
+            if (!session || CATEGORY_CONFIG[session.category].isWorkbook) return;
+            session.difficulty = diff;
+            setDifficultyButtons(diff);
+            renderQuestion(CATEGORY_CONFIG[session.category].gen(diff));
+        }
+
+        function setDifficultyButtons(diff) {
+            document.querySelectorAll('.diff-button').forEach(b => b.classList.toggle('active', b.dataset.diff === diff));
+        }
+
+        function loadQuestion() {
+            session.attempts = 0;
+            session.hintLevel = 0;
+            session.answered = false;
+            const cfg = CATEGORY_CONFIG[session.category];
+            renderQuestion(cfg.gen(session.difficulty));
+        }
+
+        function renderQuestion(problem) {
+            session.problem = problem;
+            session.attempts = 0;
+            session.hintLevel = 0;
+            session.answered = false;
+
+            document.getElementById('problemDiagram').innerHTML = problem.diagram;
+            let textHTML = problem.text;
+            if (problem.answers.mag !== undefined) textHTML += '<br><small>Bulatkan magnitud kepada 2 tempat perpuluhan.</small>';
+            if (problem.tag) textHTML = `<div style="font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">${problem.tag}</div>` + textHTML;
+            document.getElementById('problemText').innerHTML = textHTML;
+
+            const answerArea = document.getElementById('answerArea');
+            if (problem.choiceMode) {
+                answerArea.innerHTML = problem.choices.map(c => `<button type="button" class="choice-btn" data-choice="${c.key}" onclick="selectChoice(this)">${c.label}</button>`).join('');
+            } else {
+                answerArea.innerHTML = problem.inputsHTML;
+                answerArea.querySelectorAll('.ans-input').forEach(inp => {
+                    inp.addEventListener('input', () => {
+                        inp.classList.remove('state-correct', 'state-wrong');
+                        inp.classList.add('state-typing');
+                    });
+                });
+            }
+
+            document.getElementById('feedbackBox').style.display = 'none';
+            const hintBox = document.getElementById('hintBox');
+            hintBox.style.display = 'none';
+            hintBox.innerHTML = '';
+            document.getElementById('solutionBox').style.display = 'none';
+            document.getElementById('btnCheck').disabled = false;
+            document.getElementById('btnHint').disabled = false;
+            document.getElementById('btnHint').textContent = '💡 Petua';
+            document.getElementById('btnSolution').disabled = false;
+            document.getElementById('btnNext').style.display = 'none';
+
+            ['problemText','answerArea'].forEach(id => VectorMath.render(document.getElementById(id)));
+            document.getElementById('qIndex').textContent = session.index + 1;
+            document.getElementById('qCorrect').textContent = session.correct;
+            const acc = session.index > 0 ? Math.round(session.correct / session.index * 100) : 0;
+            document.getElementById('qAccuracy').textContent = acc + '%';
+            document.getElementById('qProgressFill').style.width = Math.round(session.index / session.total * 100) + '%';
+        }
+
+        function selectChoice(btn) {
+            btn.parentElement.querySelectorAll('.choice-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        function flashNeedAnswer() {
+            const feedbackBox = document.getElementById('feedbackBox');
+            feedbackBox.style.display = 'block';
+            feedbackBox.className = 'feedback-box wrong';
+            feedbackBox.innerHTML = 'Sila lengkapkan / pilih jawapan dahulu.';
+        }
+
+        function checkAnswer() {
+            if (!session || session.answered) return;
+            const problem = session.problem;
+            let correct;
+
+            if (problem.choiceMode) {
+                const sel = document.querySelector('#answerArea .choice-btn.selected');
+                if (!sel) { flashNeedAnswer(); return; }
+                correct = sel.dataset.choice === problem.answers.choice;
+                document.querySelectorAll('#answerArea .choice-btn').forEach(b => {
+                    if (b.dataset.choice === problem.answers.choice) b.classList.add('correct-reveal');
+                    else if (b.classList.contains('selected')) b.classList.add('wrong-reveal');
+                });
+            } else {
+                const inputs = document.querySelectorAll('#answerArea .ans-input');
+                let allFilled = true, allCorrect = true;
+                inputs.forEach(inp => {
+                    const key = inp.dataset.key;
+                    const raw = inp.value.trim();
+                    const val = Number(raw);
+                    if (!/^[-+]?(?:\d+(?:\.\d*)?|\.\d+)$/.test(raw) || !Number.isFinite(val)) { allFilled = false; return; }
+                    const expected = problem.answers[key];
+                    const tolerance = problem.tolerances?.[key] ?? (key === "mag" ? 0.005001 : 0.000001);
+                    const ok = Math.abs(val - expected) < tolerance;
+                    inp.classList.remove('state-typing');
+                    inp.classList.toggle('state-correct', ok);
+                    inp.classList.toggle('state-wrong', !ok);
+                    if (!ok) allCorrect = false;
+                });
+                if (!allFilled) { flashNeedAnswer(); return; }
+                correct = allCorrect;
+            }
+
+            session.attempts++;
+            const feedbackBox = document.getElementById('feedbackBox');
+            feedbackBox.style.display = 'block';
+
+            if (correct) {
+                session.answered = true;
+                session.correct++;
+                let xpGain, msg;
+                if (session.hintLevel > 0) { xpGain = 5; msg = '✓ Betul! Syabas kerana cuba dengan petua.'; }
+                else if (session.attempts === 1) { xpGain = 10; msg = '✓ Sempurna! Jawapan pertama betul — Mod Master!'; }
+                else { xpGain = 7; msg = '✓ Betul! Usaha yang baik.'; }
+                session.sessionXp += xpGain;
+                addXp(xpGain);
+                feedbackBox.className = 'feedback-box correct';
+                feedbackBox.innerHTML = `${msg} <strong>+${xpGain} XP</strong>`;
+                document.getElementById('btnCheck').disabled = true;
+                document.getElementById('btnHint').disabled = true;
+                document.getElementById('btnSolution').disabled = true;
+                document.getElementById('btnNext').style.display = 'inline-block';
+            } else {
+                feedbackBox.className = 'feedback-box wrong';
+                feedbackBox.innerHTML = '✗ Belum tepat. Semak semula komponen anda, atau minta petua.';
+            }
+            document.getElementById('qCorrect').textContent = session.correct;
+            const acc = Math.round(session.correct / (session.index + 1) * 100);
+            document.getElementById('qAccuracy').textContent = acc + '%';
+        }
+
+        function showHint() {
+            if (!session || session.answered) return;
+            const problem = session.problem;
+            if (session.hintLevel >= problem.hints.length) return;
+            const hintBox = document.getElementById('hintBox');
+            hintBox.style.display = 'block';
+            session.hintLevel++;
+            let html = '';
+            for (let i = 0; i < session.hintLevel; i++) html += `<div>💡 Petua ${i + 1}: ${problem.hints[i]}</div>`;
+            hintBox.innerHTML = html;
+            VectorMath.render(hintBox);
+            if (session.hintLevel >= problem.hints.length) {
+                document.getElementById('btnHint').disabled = true;
+                document.getElementById('btnHint').textContent = '💡 Semua petua ditunjuk';
+            }
+        }
+
+        function showSolution() {
+            if (!session || session.answered) return;
+            const problem = session.problem;
+            session.answered = true;
+            const solBox = document.getElementById('solutionBox');
+            solBox.style.display = 'block';
+            solBox.innerHTML = `<strong>Penyelesaian penuh:</strong>\n${problem.solution}`;
+            VectorMath.render(solBox);
+            document.getElementById('btnCheck').disabled = true;
+            document.getElementById('btnHint').disabled = true;
+            document.getElementById('btnSolution').disabled = true;
+            document.getElementById('btnNext').style.display = 'inline-block';
+            const feedbackBox = document.getElementById('feedbackBox');
+            feedbackBox.style.display = 'block';
+            feedbackBox.className = 'feedback-box wrong';
+            feedbackBox.innerHTML = 'Tiada masalah — kaji penyelesaian ini, kemudian cuba soalan seterusnya.';
+        }
+
+        function nextQuestion() {
+            session.index++;
+            if (session.index >= session.total) endSession();
+            else loadQuestion();
+        }
+
+        function endSession() {
+            document.getElementById('practiceSession').style.display = 'none';
+            document.getElementById('practiceSummary').style.display = 'block';
+            const acc = Math.round(session.correct / session.total * 100);
+            document.getElementById('summaryScore').textContent = `${session.correct}/${session.total}`;
+            document.getElementById('summaryAccuracy').textContent = acc + '%';
+            document.getElementById('summaryXp').textContent = session.sessionXp;
+
+            const cfg = CATEGORY_CONFIG[session.category];
+            if (cfg.isQuiz) {
+                if (acc >= 80) {
+                    document.getElementById('summaryIcon').textContent = '🏆';
+                    document.getElementById('summaryTitle').textContent = 'Tahniah! Anda Lulus!';
+                    document.getElementById('summaryText').textContent = `Anda mencapai ${acc}% dan layak mendapat Sijil VECTOR Master.`;
+                } else {
+                    document.getElementById('summaryIcon').textContent = '📘';
+                    document.getElementById('summaryTitle').textContent = 'Hampir Berjaya!';
+                    document.getElementById('summaryText').textContent = 'Anda perlukan sekurang-kurangnya 80% untuk lulus. Cuba lagi!';
+                }
+            } else {
+                document.getElementById('summaryIcon').textContent = acc >= 80 ? '🎉' : '📘';
+                document.getElementById('summaryTitle').textContent = 'Set Selesai!';
+                document.getElementById('summaryText').textContent = `Anda menjawab ${session.correct} daripada ${session.total} soalan dengan betul.`;
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function retryPractice() { startPractice(session.category); }
+
+        function backToMenu() {
+            document.getElementById('practiceSession').style.display = 'none';
+            document.getElementById('practiceSummary').style.display = 'none';
+            document.getElementById('practiceMenu').style.display = 'block';
+            session = null;
         }
     </script>
     <script src="vector-labs.js"></script>
     <script src="vector-visuals.js"></script>
     <script src="vector-extensions.js"></script>
     <script src="vector-examples.js"></script>
-    <script src="vector-addition-lesson.js"></script>
+    <script>document.getElementById("columnExample").innerHTML = VectorMath.column(3,4); VectorMath.render(document.body);</script>
 </body>
 </html>
