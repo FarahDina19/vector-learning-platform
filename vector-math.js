@@ -42,7 +42,7 @@ const VectorMath = (() => {
     const parts=text.match(PART_REGEX)||[];
     let output='',run='';
     function flush(){if(!run)return;const trimmed=run.trim();const core=trimmed.replace(/^[,]+|[,]+$/g,'');
-      const valid=core&&(MATH_CHECK.test(core)||\b(?:i|j|v|u|kv|xi|yj|OP|A|B|C|X|Y|R|a|b|c)\b/.test(core));
+      const valid=core&&(MATH_CHECK.test(core)||/\b(?:i|j|v|u|kv|xi|yj|OP|A|B|C|X|Y|R|a|b|c)\b/.test(core));
       output+=valid?escape(run.slice(0,run.indexOf(core)))+math(core)+escape(run.slice(run.indexOf(core)+core.length)):escape(run);run='';}
     for(const part of parts){if(/^\s+$/.test(part)||names.has(part)||/^\d+(?:\.\d+)?$/.test(part)||PART_CHECK.test(part)){run+=part;}else{flush();output+=escape(part);}}flush();return output;
   }

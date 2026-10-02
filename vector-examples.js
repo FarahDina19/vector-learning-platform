@@ -68,7 +68,7 @@ const VectorExamples = (() => {
       fields: () => [box('mag', 'Displacement magnitude (km, 2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.e, st.u) }),
       hint: () => 'Your two paths meet at a RIGHT ANGLE. Use the Pythagorean Theorem: √(x² + y²) where x = East distance, y = North distance.',
-      solution: st => steps(`Your path: ${st.e} km East and ${st.u} km North`, `${m('Displacement = √(' + st.e + '² + ' + st.u + '²)')}`, `${m('= √' + (st.e * st.e + st.u * st.u))} = ${m('√' + (st.e * st.e + st.u * st.u) + ' ≈ ' + Math.hypot(st.e, st.u).toFixed(2)))} km`, `Your straight-line distance from start = <strong>${Math.hypot(st.e, st.u).toFixed(2)} km</strong>`)
+      solution: st => steps(`Your path: ${st.e} km East and ${st.u} km North`, `${m('Displacement = √(' + st.e + '² + ' + st.u + '²)')}`, `${m('= √' + (st.e * st.e + st.u * st.u))} = ${m('√' + (st.e * st.e + st.u * st.u) + ' ≈ ' + Math.hypot(st.e, st.u).toFixed(2))} km`, `Your straight-line distance from start = <strong>${Math.hypot(st.e, st.u).toFixed(2)} km</strong>`)
     },
     {
       title: 'Distance vs Displacement: What\'s the Difference?',
@@ -112,7 +112,7 @@ const VectorExamples = (() => {
       fields: () => [box('x', 'Final x position'), box('y', 'Final y position'), box('d', 'Distance from origin (2 d.p.)', 2)],
       answers: st => ({ x: 2 + st.vx * st.t, y: 1 + st.vy * st.t, d: Math.hypot(2 + st.vx * st.t, 1 + st.vy * st.t) }),
       hint: () => 'Step 1: Multiply velocity by number of frames. Step 2: Add this to starting position. Step 3: Use distance formula to find how far from origin.',
-      solution: st => steps(`Velocity × Frames = ${m(vec(st.vx, st.t))} × ${st.t} = ${m(vec(st.vx * st.t, st.vy * st.t))}`, `Final position = ${m(vec(2, 1))} + ${m(vec(st.vx * st.t, st.vy * st.t))} = ${m(vec(2 + st.vx * st.t, 1 + st.vy * st.t))}`, `Distance from origin = ${m('√(' + neg(2 + st.vx * st.t) + '² + ' + neg(1 + st.vy * st.t) + '²) ≈ ' + Math.hypot(2 + st.vx * st.t, 1 + st.vy * st.t).toFixed(2))}`)`
+      solution: st => steps(`Velocity × Frames = ${m(vec(st.vx, st.vy))} × ${st.t} = ${m(vec(st.vx * st.t, st.vy * st.t))}`, `Final position = ${m(vec(2, 1))} + ${m(vec(st.vx * st.t, st.vy * st.t))} = ${m(vec(2 + st.vx * st.t, 1 + st.vy * st.t))}`, `Distance from origin = ${m('√(' + neg(2 + st.vx * st.t) + '² + ' + neg(1 + st.vy * st.t) + '²) ≈ ' + Math.hypot(2 + st.vx * st.t, 1 + st.vy * st.t).toFixed(2))}`)
     },
     {
       title: 'Robot Movement in 3D Space (Extension to 2D)',
@@ -221,7 +221,7 @@ const VectorExamples = (() => {
       prompt: st => `Given ${m('v = ' + vec(st.x, st.y))}. Find ${m('|' + n(st.k1) + 'v|')} and ${m('|' + n(st.k2) + 'v|')} (2 d.p.), and the ratio between them.`,
       visual: st => buildDiagramSVG([v(0, 0, st.x, st.y, 'blue', 'v'), v(0, 0, st.k1 * st.x, st.k1 * st.y, 'red', `${n(st.k1)}v`), v(0, 0, st.k2 * st.x, st.k2 * st.y, 'green', `${n(st.k2)}v`)]),
       readout: st => eq(`${m('|kv| = |k| × |v|')}`, `${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(4))}`),
-      fields: () => [box('mag1', `Magnitude |${n(st.k1)}v| (2 d.p.)`, 2), box('mag2', `Magnitude |${n(st.k2)}v| (2 d.p.)`, 2), box('ratio', `Ratio |${n(st.k2)}v| : |${n(st.k1)}v| (2 d.p.)`, 2)],
+      fields: st => [box('mag1', `Magnitude |${n(st.k1)}v| (2 d.p.)`, 2), box('mag2', `Magnitude |${n(st.k2)}v| (2 d.p.)`, 2), box('ratio', `Ratio |${n(st.k2)}v| : |${n(st.k1)}v| (2 d.p.)`, 2)],
       answers: st => {
         const mag1 = Math.abs(st.k1) * Math.hypot(st.x, st.y);
         const mag2 = Math.abs(st.k2) * Math.hypot(st.x, st.y);
