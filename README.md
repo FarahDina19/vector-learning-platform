@@ -109,9 +109,10 @@ From the repository root, with Playwright available (or `PLAYWRIGHT_MODULE` set 
 
 ```text
 node tests/diagram-audit.cjs
+node tests/animation-audit.cjs
 node tests/lesson-audit.cjs
 node tests/workbook-audit.cjs
 node tests/examples-audit.cjs
 ```
 
-The checks use installed Microsoft Edge in headless mode. Screenshots go to ignored `tmp/`. The diagram audit samples 2,250 existing generated questions, verifies mathematical answers, arrow endpoints, arrowheads and equal axis scales. The other checks cover new geometry, all 12 new questions, slider states, the 14 workbook questions and mobile overflow. Random sampling does not exhaust every possible generated question.
+The checks use installed Microsoft Edge in headless mode. Screenshots go to ignored `tmp/`. The diagram audit samples 2,250 existing generated questions, verifies mathematical answers, arrow endpoints, arrowheads and equal axis scales. The animation audit checks the four restored labs in Scalar & Vector, Component Form, and Addition, including navigation, playback, stepping, reset, scrubbing, and live controls. The other checks cover new geometry, all 12 new questions, slider states, the 14 workbook questions and mobile overflow. Random sampling does not exhaust every possible generated question.
