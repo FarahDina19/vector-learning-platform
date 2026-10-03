@@ -1,13 +1,42 @@
 require('fs').mkdirSync('tmp', {recursive:true});
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const {pathToFileURL}=require('url');const path=require('path');
-const TABS=['intro','concept1','concept2','concept3','practice','resources'];
+const TABS=['intro','concept1','concept2','concept3','practice','resources','glossary'];
 (async()=>{
  const browser=await chromium.launch({headless:true,channel:'msedge'});
  const page=await browser.newPage({viewport:{width:1280,height:950}});const errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  page.on('console',message=>{if(message.type()==='error')errors.push('console: '+message.text());});
  await page.goto(pathToFileURL(path.resolve('VECTOR-LANDING-PAGE.html')).href);
+ for(const tab of TABS){
+  await page.locator(`.tab-button[data-tab="${tab}"]`).click();
+  if(await page.locator('.tab-content.active').count()!==1||!await page.locator(`#${tab}`).isVisible())throw Error('Tab button did not open '+tab);
+  if(!await page.locator(`.tab-button[data-tab="${tab}"]`).evaluate(button=>button.classList.contains('active')))throw Error('Tab button not active '+tab);
+  const cards=await page.locator(`#${tab} .ex-card`).all();
+  if(cards.length!==6)throw Error('Six cards not mounted in '+tab);
+  for(const card of cards){
+   if(!await card.isVisible())throw Error('Hidden example card in '+tab);
+   if(await card.locator('.ex-feedback').getAttribute('role')!=='status')throw Error('Missing aria status in '+tab);
+   if(await card.locator('.ex-readout').getAttribute('aria-live')!=='polite')throw Error('Missing live readout in '+tab);
+   await card.locator('[data-act="hint"]').click();
+   if(!await card.locator('.ex-hint').isVisible())throw Error('Hint button failed in '+tab);
+   await card.locator('[data-act="solution"]').click();
+   if(!await card.locator('.ex-solution').isVisible())throw Error('Solution button failed in '+tab);
+   await card.locator('[data-act="reset"]').click();
+   if(await card.locator('.ex-hint').isVisible()||await card.locator('.ex-solution').isVisible())throw Error('Reset button failed in '+tab);
+   const control=card.locator('.ex-controls [data-control]').first();
+   const before=await card.evaluate(element=>element.querySelector('.ex-prompt').innerHTML+element.querySelector('.ex-readout').innerHTML+element.querySelector('.ex-visual').innerHTML);
+   const next=await control.evaluate(input=>{
+    if(input.tagName==='SELECT')return [...input.options].find(option=>option.value!==input.value).value;
+    return String(Number(input.value)<Number(input.max)?Number(input.value)+Number(input.step):Number(input.min));
+   });
+   if(await control.evaluate(input=>input.tagName==='SELECT'))await control.selectOption(next);
+   else await control.fill(next);
+   const after=await card.evaluate(element=>element.querySelector('.ex-prompt').innerHTML+element.querySelector('.ex-readout').innerHTML+element.querySelector('.ex-visual').innerHTML);
+   if(before===after)throw Error('Control did not update live example in '+tab);
+   await card.locator('[data-act="reset"]').click();
+  }
+ }
  const results=await page.evaluate(EXPECTED_TABS=>{
   const assert=(value,message)=>{if(!value)throw Error(message);};
   const near=(a,b)=>Math.abs(a-b)<1e-7;
@@ -22,8 +51,8 @@ const TABS=['intro','concept1','concept2','concept3','practice','resources'];
    assert(ladders.length===1,'Exactly one example ladder in '+tab);
    assert(ladders[0].previousElementSibling.classList.contains('worked-examples'),'Ladder follows the example area in '+tab);
   }
-  assert(document.querySelectorAll('.example-ladder').length===6,'Six ladders overall');
-  assert(document.querySelectorAll('.ex-card').length===36,'Thirty-six new interactive examples');
+  assert(document.querySelectorAll('.example-ladder').length===7,'Seven ladders overall');
+  assert(document.querySelectorAll('.ex-card').length===42,'Forty-two new interactive examples');
   assert(document.querySelectorAll('.vector-lab').length>=9,'Existing labs untouched');
   const ids=[...document.querySelectorAll('[id]')].map(element=>element.id);
   assert(ids.length===new Set(ids).size,'No duplicate element ids');
@@ -42,7 +71,7 @@ const TABS=['intro','concept1','concept2','concept3','practice','resources'];
     else element.value=String(Number(answers[element.dataset.key])+999);
    });
   };
-  let checked=0,blockedStates=0,interactiveControls=0;
+  let checked=0,blockedStates=0,interactiveControls=0,readoutChanges=0,diagramChanges=0;
   for(const area of VectorExamples.AREAS){
    const section=document.getElementById('ladder-'+area.key);
    assert(section,'Ladder mounted for '+area.key);
@@ -65,6 +94,8 @@ const TABS=['intro','concept1','concept2','concept3','practice','resources'];
      interactiveControls++;
     });
 
+    let previousVisual=card.querySelector('.ex-visual').innerHTML;
+    let previousReadout=card.querySelector('.ex-readout').innerHTML;
     // sweep several control states, including the defaults
     for(let variant=0;variant<4;variant++){
      if(variant){
@@ -79,6 +110,22 @@ const TABS=['intro','concept1','concept2','concept3','practice','resources'];
      const state=VectorExamples.readState(card);
      const visual=card.querySelector('.ex-visual').innerHTML;
      const readout=card.querySelector('.ex-readout').innerHTML;
+     const expectedReadout=document.createElement('div');
+     expectedReadout.innerHTML=spec.readout?spec.readout(state):'';
+     VectorMath.render(expectedReadout);
+     assert(readout===expectedReadout.innerHTML,'Live readout matches current controls in '+card.id);
+     const expectedVisual=document.createElement('div');
+     expectedVisual.innerHTML=spec.visual?spec.visual(state):'';
+     assert(visual===expectedVisual.innerHTML,'Diagram matches current controls in '+card.id);
+     if(visual!==previousVisual)diagramChanges++;
+     if(readout!==previousReadout)readoutChanges++;
+     previousVisual=visual;previousReadout=readout;
+     (spec.controls||[]).forEach(control=>{
+      const input=card.querySelector(`[data-control="${control.key}"]`);
+      assert(String(state[control.key])===input.value,'Live state follows '+control.key+' in '+card.id);
+      const output=input.parentElement.querySelector('output');
+      if(output)assert(output.textContent===input.value,'Control readout follows '+control.key+' in '+card.id);
+     });
      assert(!/NaN|Infinity|undefined/.test(visual+readout+card.querySelector('.ex-prompt').innerHTML),'Finite live output in '+card.id);
      card.querySelector('[data-act="hint"]').click();
      card.querySelector('[data-act="solution"]').click();
@@ -89,15 +136,15 @@ const TABS=['intro','concept1','concept2','concept3','practice','resources'];
      assert(!/NaN|Infinity|undefined/.test(solution.innerHTML),'Finite solution in '+card.id);
      const answers=spec.answers(state);
      spoil(card,answers);
-     assert(VectorExamples.check(card,spec)===false,'Wrong answer rejected in '+card.id);
+     card.querySelector('[data-act="check"]').click();
+     assert(card.querySelector('.ex-feedback').dataset.state==='wrong','Check button rejects wrong answer in '+card.id);
      const first=card.querySelector('.ex-answer [data-key]');
      if(first.tagName!=='SELECT'){first.value='3abc';assert(VectorExamples.check(card,spec)===false,'Malformed answer rejected in '+card.id);}
      fill(card,answers);
-     assert(VectorExamples.check(card,spec)===true,'Correct answer accepted in '+card.id+' variant '+variant);
+     card.querySelector('[data-act="check"]').click();
      assert(card.querySelector('.ex-feedback').dataset.state==='correct','Immediate feedback in '+card.id);
      checked++;
     }
-
     // reset restores the published defaults and clears the answer state
     card.querySelector('[data-act="reset"]').click();
     (spec.controls||[]).forEach(control=>{
@@ -107,12 +154,14 @@ const TABS=['intro','concept1','concept2','concept3','practice','resources'];
     assert(card.querySelector('.ex-hint').hidden&&card.querySelector('.ex-solution').hidden,'Reset hides help in '+card.id);
    });
   }
+  assert(readoutChanges>0,'Changing controls updates live readouts');
+  assert(diagramChanges>0,'Changing controls redraws vector diagrams');
 
   // the zero-vector state of the unit-vector examples refuses a meaningless answer
   const zeroCard=document.getElementById('ex-component-5');
   ['x','y'].forEach(key=>{const input=zeroCard.querySelector(`[data-control="${key}"]`);input.value='0';input.dispatchEvent(new Event('input',{bubbles:true}));});
   assert(zeroCard.querySelector('[data-act="check"]').disabled,'Zero vector blocks checking');
-  assert(zeroCard.querySelector('.ex-feedback').textContent.includes('tidak tertakrif'),'Zero vector is explained');
+  assert(/zero vector.*no unit vector is defined|tidak tertakrif/i.test(zeroCard.querySelector('.ex-feedback').textContent),'Zero vector is explained');
   assert(VectorExamples.check(zeroCard,VectorExamples.AREAS[2].examples[4])===false,'Zero vector answer never scores');
   zeroCard.querySelector('[data-act="reset"]').click();
   assert(!zeroCard.querySelector('[data-act="check"]').disabled,'Reset re-enables checking');
@@ -138,23 +187,25 @@ const TABS=['intro','concept1','concept2','concept3','practice','resources'];
   // the practice engine and its workbook categories still behave
   switchTab('practice');startPractice('examRoutes');
   assert(session.problem.answers.x===-5&&session.problem.answers.y===4,'Existing practice engine intact');
-  return {ladders:6,newExamples:36,verifiedStates:checked,blockedStates:blockedStates,controls:interactiveControls};
+  backToMenu();
+  return {ladders:7,newExamples:42,verifiedStates:checked,blockedStates:blockedStates,controls:interactiveControls,readoutChanges,diagramChanges};
  },TABS);
 
  for(const tab of TABS){
-  await page.evaluate(name=>switchTab(name),tab);
+  await page.locator(`.tab-button[data-tab="${tab}"]`).click();
   await page.locator(`#${tab} .example-ladder`).screenshot({path:`tmp/ladder-${tab}.png`});
  }
  await page.setViewportSize({width:390,height:844});
  for(const tab of TABS){
-  await page.evaluate(name=>switchTab(name),tab);
+  await page.locator(`.tab-button[data-tab="${tab}"]`).click();
+  for(const card of await page.locator(`#${tab} .ex-card`).all())if(!await card.isVisible())throw Error('Hidden mobile example in '+tab);
   if(await page.evaluate(()=>document.documentElement.scrollWidth>window.innerWidth))throw Error('Mobile overflow '+tab);
  }
- await page.evaluate(()=>switchTab('concept2'));
+ await page.locator('.tab-button[data-tab="concept2"]').click();
  await page.locator('#ladder-component').screenshot({path:'tmp/ladder-mobile.png'});
 
  // keyboard reachability of the controls and actions of one card
- await page.evaluate(()=>switchTab('concept3'));
+ await page.locator('.tab-button[data-tab="concept3"]').click();
  await page.focus('#ex-addition-1 [data-control="ax"]');
  const reachable=await page.evaluate(async()=>{
   const card=document.getElementById('ex-addition-1');
