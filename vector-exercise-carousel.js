@@ -139,43 +139,42 @@ const ExerciseCarousel = (() => {
   // Exercises for Geometry Route (Laluan Rajah ABCD)
   const geometryExercises = [
     {
-      title: 'Laluan DB Asas',
-      question: 'Dalam rajah ABCD: <strong>AB = 4y</strong>, <strong>AD = 5x</strong>. Cari <strong>DB</strong>.',
-      answer: '-5x + 4y',
-      hint: 'DB = DA + AB. Ingat: DA = −AD.',
+      title: 'Laluan DB - Set 1',
+      question: 'Dalam segi empat selari ABCD: <strong>AB = 3p</strong>, <strong>AD = 2q</strong>. Cari vektor <strong>DB</strong>.',
+      answer: '-2q + 3p',
+      hint: 'DB = DA + AB. Ingat: DA adalah negatif AD.',
       steps: [
-        'Diberi: AB = 4y, AD = 5x',
-        'Cari DA: DA = −AD = −5x',
-        'Gunakan triangle law: DB = DA + AB',
-        'DB = −5x + 4y'
+        'Diberi: AB = 3p, AD = 2q',
+        'DA = −AD = −2q',
+        'Gunakan hukum segitiga: DB = DA + AB',
+        'DB = −2q + 3p'
       ],
-      solution: '<strong>DB = −5x + 4y</strong>'
+      solution: '<strong>DB = −2q + 3p</strong>'
     },
     {
-      title: 'Laluan AC Asas',
-      question: 'Dalam rajah ABCD: <strong>AB = 3y</strong>, <strong>AD = 4x</strong>. Cari <strong>AC</strong>.',
-      answer: '4x + 3y',
-      hint: 'AC = AD + DC. Tetapi DC = AB (selari).',
+      title: 'Laluan AC - Set 1',
+      question: 'Dalam segi empat selari ABCD: <strong>AB = 5q</strong>, <strong>AD = 3p</strong>. Cari vektor <strong>AC</strong>.',
+      answer: '3p + 5q',
+      hint: 'AC = AD + DC, dan DC = AB kerana sisi selari.',
       steps: [
-        'Diberi: AB = 3y, AD = 4x',
-        'ABCD adalah parallelogram, jadi DC = AB = 3y',
-        'Gunakan triangle law: AC = AD + DC',
-        'AC = 4x + 3y'
+        'Diberi: AB = 5q, AD = 3p',
+        'DC = AB = 5q (sisi selari sama)',
+        'AC = AD + DC = 3p + 5q',
+        'AC = 3p + 5q'
       ],
-      solution: '<strong>AC = 4x + 3y</strong>'
+      solution: '<strong>AC = 3p + 5q</strong>'
     },
     {
-      title: 'Laluan Kombinasi',
-      question: 'Jika <strong>AB = 2y</strong>, <strong>AD = 6x</strong>. Cari <strong>DB + AC</strong>.',
-      answer: 'x + 6y',
-      hint: 'Cari DB dan AC terpisah, kemudian tambah.',
+      title: 'Laluan CD - Set 2',
+      question: 'Dalam segi empat selari ABCD: <strong>AB = 2r</strong>, <strong>AD = 4s</strong>. Cari vektor <strong>CD</strong>.',
+      answer: '-2r',
+      hint: 'CD adalah sisi selari dengan BA (berlawanan arah AB).',
       steps: [
-        'DB = −6x + 2y',
-        'AC = 6x + 2y',
-        'DB + AC = (−6x + 2y) + (6x + 2y)',
-        'DB + AC = 4y'
+        'Diberi: AB = 2r, AD = 4s',
+        'CD = −AB (sisi selari, arah berlawanan)',
+        'CD = −2r'
       ],
-      solution: '<strong>DB + AC = 4y</strong>'
+      solution: '<strong>CD = −2r</strong>'
     }
   ];
 
