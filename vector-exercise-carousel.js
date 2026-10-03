@@ -136,6 +136,92 @@ const ExerciseCarousel = (() => {
     }
   ];
 
+  // Exercises for Geometry Route (Laluan Rajah ABCD)
+  const geometryExercises = [
+    {
+      title: 'Laluan DB Asas',
+      question: 'Dalam rajah ABCD: <strong>AB = 4y</strong>, <strong>AD = 5x</strong>. Cari <strong>DB</strong>.',
+      answer: '-5x + 4y',
+      hint: 'DB = DA + AB. Ingat: DA = −AD.',
+      steps: [
+        'Diberi: AB = 4y, AD = 5x',
+        'Cari DA: DA = −AD = −5x',
+        'Gunakan triangle law: DB = DA + AB',
+        'DB = −5x + 4y'
+      ],
+      solution: '<strong>DB = −5x + 4y</strong>'
+    },
+    {
+      title: 'Laluan AC Asas',
+      question: 'Dalam rajah ABCD: <strong>AB = 3y</strong>, <strong>AD = 4x</strong>. Cari <strong>AC</strong>.',
+      answer: '4x + 3y',
+      hint: 'AC = AD + DC. Tetapi DC = AB (selari).',
+      steps: [
+        'Diberi: AB = 3y, AD = 4x',
+        'ABCD adalah parallelogram, jadi DC = AB = 3y',
+        'Gunakan triangle law: AC = AD + DC',
+        'AC = 4x + 3y'
+      ],
+      solution: '<strong>AC = 4x + 3y</strong>'
+    },
+    {
+      title: 'Laluan Kombinasi',
+      question: 'Jika <strong>AB = 2y</strong>, <strong>AD = 6x</strong>. Cari <strong>DB + AC</strong>.',
+      answer: 'x + 6y',
+      hint: 'Cari DB dan AC terpisah, kemudian tambah.',
+      steps: [
+        'DB = −6x + 2y',
+        'AC = 6x + 2y',
+        'DB + AC = (−6x + 2y) + (6x + 2y)',
+        'DB + AC = 4y'
+      ],
+      solution: '<strong>DB + AC = 4y</strong>'
+    }
+  ];
+
+  // Exercises for Unit Vector (Vektor Unit)
+  const unitVectorExercises = [
+    {
+      title: 'Vektor Unit Asas',
+      question: 'Cari vektor unit dalam arah <strong>v = 3i + 4j</strong>. Bundarkan ke 2 tempat perpuluhan.',
+      answer: '0.60i + 0.80j',
+      hint: 'Vektor unit = v / |v|. Pertama cari |v| = √(3² + 4²) = 5.',
+      steps: [
+        'Vektor: <strong>v = 3i + 4j</strong>',
+        'Cari magnitud: |v| = √(3² + 4²) = √25 = 5',
+        'Vektor unit: v/|v| = (3i + 4j)/5',
+        'Hasil: 0.60i + 0.80j'
+      ],
+      solution: '<strong>0.60i + 0.80j</strong>'
+    },
+    {
+      title: 'Vektor Unit Negatif',
+      question: 'Cari vektor unit dalam arah <strong>w = −6i + 8j</strong>. Bundarkan ke 2 tempat perpuluhan.',
+      answer: '-0.60i + 0.80j',
+      hint: '|w| = √(36 + 64) = √100 = 10.',
+      steps: [
+        'Vektor: <strong>w = −6i + 8j</strong>',
+        'Cari magnitud: |w| = √((−6)² + 8²) = √100 = 10',
+        'Vektor unit: w/|w| = (−6i + 8j)/10',
+        'Hasil: −0.60i + 0.80j'
+      ],
+      solution: '<strong>−0.60i + 0.80j</strong>'
+    },
+    {
+      title: 'Vektor Unit Kompleks',
+      question: 'Cari vektor unit dalam arah <strong>u = 5i + 12j</strong>. Bundarkan ke 4 tempat perpuluhan.',
+      answer: '0.3846i + 0.9231j',
+      hint: '|u| = √(25 + 144) = √169 = 13.',
+      steps: [
+        'Vektor: <strong>u = 5i + 12j</strong>',
+        'Cari magnitud: |u| = √(5² + 12²) = √169 = 13',
+        'Vektor unit: u/|u| = (5i + 12j)/13',
+        'Hasil: 0.3846i + 0.9231j'
+      ],
+      solution: '<strong>0.3846i + 0.9231j</strong>'
+    }
+  ];
+
   const solutionWithFinalAnswer = (stepsList, finalAnswer) => {
     const stepsHTML = `<div class="solution-steps"><ol>${stepsList.map(item => `<li>${item}</li>`).join('')}</ol></div>`;
     const answerHTML = `<div class="solution-final-answer"><strong>Final Answer:</strong> ${finalAnswer}</div>`;
@@ -243,6 +329,8 @@ const ExerciseCarousel = (() => {
       createCarousel('scalar-exercises', scalarExercises, 'Pendaraban Skalar · 3 Soalan');
       createCarousel('component-exercises', componentExercises, 'Komponen Cartes · 6 Soalan');
       createCarousel('addition-exercises', additionExercises, 'Tambah dan Tolak · 5 Soalan');
+      createCarousel('geometry-exercises', geometryExercises, 'Laluan Rajah ABCD · 3 Soalan');
+      createCarousel('unit-vector-exercises', unitVectorExercises, 'Vektor Unit · 3 Soalan');
     }
   };
 })();
