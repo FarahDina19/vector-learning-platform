@@ -28,6 +28,12 @@ const VectorExamples = (() => {
   const degrees = (y, x) => ((Math.atan2(y, x) * 180) / Math.PI + 360) % 360;
   const eq = (...lines) => lines.join('<br>');
   const steps = (...items) => `<ol>${items.map(item => `<li>${item}</li>`).join('')}</ol>`;
+  // Enhanced solution formatter with final answer box
+  const solutionWithFinalAnswer = (stepsList, finalAnswer) => {
+    const stepsHTML = `<div class="solution-steps"><ol>${stepsList.map(item => `<li>${item}</li>`).join('')}</ol></div>`;
+    const answerHTML = `<div class="solution-final-answer"><strong>Final Answer:</strong> ${finalAnswer}</div>`;
+    return stepsHTML + answerHTML;
+  };
   const v = (ox, oy, dx, dy, color, label, dashed, showComponents) => ({ ox, oy, dx, dy, color, label, dashed, showComponents });
   // a zero-length arrow has no direction, so it is dropped rather than drawn degenerately
   const drawable = arrows => arrows.filter(arrow => arrow.dx !== 0 || arrow.dy !== 0);
@@ -66,7 +72,15 @@ const VectorExamples = (() => {
       fields: () => [box('mag', 'Displacement magnitude (km, 2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.e, st.u) }),
       hint: () => 'Your two paths meet at a RIGHT ANGLE. Use the Pythagorean Theorem: √(x² + y²) where x = East distance, y = North distance.',
-      solution: st => steps(`Your path: ${st.e} km East and ${st.u} km North`, `${m('Displacement = √(' + st.e + '² + ' + st.u + '²)')}`, `${m('= √' + (st.e * st.e + st.u * st.u))} = ${m('√' + (st.e * st.e + st.u * st.u) + ' ≈ ' + Math.hypot(st.e, st.u).toFixed(2))} km`, `Your straight-line distance from start = <strong>${Math.hypot(st.e, st.u).toFixed(2)} km</strong>`)
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Your path: ${st.e} km East and ${st.u} km North`,
+          `${m('Displacement = √(East² + North²) = √(' + st.e + '² + ' + st.u + '²)')}`,
+          `${m('= √(' + (st.e * st.e + st.u * st.u) + ')')}`,
+          `${m('= ' + Math.hypot(st.e, st.u).toFixed(2))} km`
+        ],
+        `<strong>${Math.hypot(st.e, st.u).toFixed(2)} km</strong>`
+      )
     },
     {
       title: 'Distance vs Displacement: What\'s the Difference?',
@@ -77,7 +91,14 @@ const VectorExamples = (() => {
       fields: () => [box('dist', 'Total distance walked (m)'), box('disp', 'Final position (East = +, West = −, in m)')],
       answers: st => ({ dist: st.f + st.b, disp: st.f - st.b }),
       hint: () => '<strong>Think of it this way:</strong> Distance = "How much walking did you do?" (add all steps). Displacement = "How far from home are you?" (only start and end positions matter).',
-      solution: st => steps(`Total distance = ${st.f} + ${st.b} = <strong>${st.f + st.b}</strong> m (you walked this far)`, `Displacement = ${st.f} East − ${st.b} West = <strong>${st.f - st.b}</strong> m (you are ${st.f - st.b} m East of start)`, `<strong>Key difference:</strong> Distance is always positive. Displacement can be positive or negative.`)
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Total distance = ${st.f} + ${st.b} = ${st.f + st.b} m (sum of all path lengths)`,
+          `Displacement = ${st.f} m East − ${st.b} m West = ${st.f - st.b} m (net position from start)`,
+          `<strong>Key difference:</strong> Distance is scalar (always positive). Displacement is vector (can be negative).`
+        ],
+        `Total distance: <strong>${st.f + st.b} m</strong> | Displacement: <strong>${st.f - st.b} m East</strong>`
+      )
     },
     {
       title: 'Real-World Application: Airplane with Wind (Resultant Velocity)',
@@ -88,7 +109,15 @@ const VectorExamples = (() => {
       fields: () => [box('mag', 'Actual speed (km/h, 2 d.p.)', 2), box('ang', 'Direction from North (degrees, 2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.w, st.p), ang: (Math.atan2(st.w, st.p) * 180) / Math.PI }),
       hint: () => 'The North component is the vertical part (j), the East component is the horizontal part (i). Use: angle from North = atan2(East component, North component).',
-      solution: st => steps(`Resultant velocity = ${m(vec(st.w, st.p))} km/h`, `Speed = ${m('√(' + st.w + '² + ' + st.p + '²) ≈ ' + Math.hypot(st.w, st.p).toFixed(2))} km/h`, `Direction from North = ${m('atan2(' + st.w + ', ' + st.p + ') ≈ ' + ((Math.atan2(st.w, st.p) * 180) / Math.PI).toFixed(2))}°`)
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Resultant velocity = ${m(vec(st.w, st.p))} km/h`,
+          `Speed = ${m('√(' + st.w + '² + ' + st.p + '²) = √' + (st.w * st.w + st.p * st.p))}`,
+          `Speed ≈ ${m(Math.hypot(st.w, st.p).toFixed(2))} km/h`,
+          `Direction from North = ${m('atan2(' + st.w + ', ' + st.p + ') ≈ ' + ((Math.atan2(st.w, st.p) * 180) / Math.PI).toFixed(2))}°`
+        ],
+        `Speed: <strong>${Math.hypot(st.w, st.p).toFixed(2)} km/h</strong> | Direction: <strong>${((Math.atan2(st.w, st.p) * 180) / Math.PI).toFixed(2)}° from North</strong>`
+      )
     },
     {
       title: 'Two Perpendicular Forces on a Hook and Equilibrium (Balance)',
@@ -99,7 +128,15 @@ const VectorExamples = (() => {
       fields: () => [box('mag', 'Resultant magnitude (N, 2 d.p.)', 2), box('ei', 'East component of balance force (N)'), box('ej', 'North component of balance force (N)')],
       answers: st => ({ mag: Math.hypot(st.a, st.b), ei: -st.a, ej: -st.b }),
       hint: () => 'Step 1: Find the resultant (total) force. Step 2: The balance force is the OPPOSITE direction, so both components change sign (positive becomes negative).',
-      solution: st => steps(`Resultant = ${m(vec(st.a, st.b))} N`, `Magnitude = ${m('√(' + st.a + '² + ' + st.b + '²) ≈ ' + Math.hypot(st.a, st.b).toFixed(2))} N`, `Balance Force = −Resultant = ${m(vec(-st.a, -st.b))} N`, `This opposite force keeps the hook from moving.`)
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Resultant = Force 1 + Force 2 = ${m(vec(st.a, st.b))} N`,
+          `Magnitude = ${m('√(' + st.a + '² + ' + st.b + '²) = √' + (st.a * st.a + st.b * st.b))}`,
+          `Magnitude ≈ ${m(Math.hypot(st.a, st.b).toFixed(2))} N`,
+          `Balance Force = −Resultant = ${m(vec(-st.a, -st.b))} N (opposite direction)`
+        ],
+        `Resultant: <strong>${Math.hypot(st.a, st.b).toFixed(2)} N</strong> | Balance Force: <strong>${m(vec(-st.a, -st.b))} N</strong>`
+      )
     },
     {
       title: 'Game Object Position After Several Time Steps',
@@ -110,7 +147,15 @@ const VectorExamples = (() => {
       fields: () => [box('x', 'Final x position'), box('y', 'Final y position'), box('d', 'Distance from origin (2 d.p.)', 2)],
       answers: st => ({ x: 2 + st.vx * st.t, y: 1 + st.vy * st.t, d: Math.hypot(2 + st.vx * st.t, 1 + st.vy * st.t) }),
       hint: () => 'Step 1: Multiply velocity by number of frames. Step 2: Add this to starting position. Step 3: Use distance formula to find how far from origin.',
-      solution: st => steps(`Velocity × Frames = ${m(vec(st.vx, st.vy))} × ${st.t} = ${m(vec(st.vx * st.t, st.vy * st.t))}`, `Final position = ${m(vec(2, 1))} + ${m(vec(st.vx * st.t, st.vy * st.t))} = ${m(vec(2 + st.vx * st.t, 1 + st.vy * st.t))}`, `Distance from origin = ${m('√(' + neg(2 + st.vx * st.t) + '² + ' + neg(1 + st.vy * st.t) + '²) ≈ ' + Math.hypot(2 + st.vx * st.t, 1 + st.vy * st.t).toFixed(2))}`)
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Velocity per frame × Number of frames = ${m(vec(st.vx, st.vy))} × ${st.t} = ${m(vec(st.vx * st.t, st.vy * st.t))}`,
+          `Final position = Start + Total movement = ${m(vec(2, 1))} + ${m(vec(st.vx * st.t, st.vy * st.t))} = ${m(vec(2 + st.vx * st.t, 1 + st.vy * st.t))}`,
+          `Distance = ${m('√(x² + y²) = √(' + neg(2 + st.vx * st.t) + '² + ' + neg(1 + st.vy * st.t) + '²) = √' + ((2 + st.vx * st.t) ** 2 + (1 + st.vy * st.t) ** 2))}`,
+          `Distance ≈ ${m(Math.hypot(2 + st.vx * st.t, 1 + st.vy * st.t).toFixed(2))} units`
+        ],
+        `Position: <strong>${m(vec(2 + st.vx * st.t, 1 + st.vy * st.t))}</strong> | Distance from origin: <strong>${Math.hypot(2 + st.vx * st.t, 1 + st.vy * st.t).toFixed(2)} units</strong>`
+      )
     },
     {
       title: 'Robot Movement in 3D Space (Extension to 2D)',
@@ -121,7 +166,14 @@ const VectorExamples = (() => {
       fields: () => [box('mag', 'Total distance (2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.x, st.y, st.z) }),
       hint: () => '3D Pythagorean Theorem: Square all three components, add them, then take the square root.',
-      solution: st => `${m('|r| = √(' + st.x + '² + ' + st.y + '² + ' + st.z + '²) = √' + (st.x * st.x + st.y * st.y + st.z * st.z) + ' ≈ ' + Math.hypot(st.x, st.y, st.z).toFixed(2))} m`
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Apply 3D Pythagorean Theorem: ${m('√(x² + y² + z²)')}`,
+          `Substitute values: ${m('√(' + st.x + '² + ' + st.y + '² + ' + st.z + '²) = √(' + (st.x * st.x + st.y * st.y + st.z * st.z) + ')')}`,
+          `Calculate: ${m('≈ ' + Math.hypot(st.x, st.y, st.z).toFixed(2))} m`
+        ],
+        `Total distance from start: <strong>${Math.hypot(st.x, st.y, st.z).toFixed(2)} m</strong>`
+      )
     },
     {
       title: 'Force Balancing in Three Directions (3D Extension)',
@@ -132,7 +184,15 @@ const VectorExamples = (() => {
       fields: () => [box('mag', 'Resultant magnitude (N, 2 d.p.)', 2), box('ei', 'East component of balance force (N)'), box('ej', 'North component of balance force (N)'), box('ek', 'Up component of balance force (N)')],
       answers: st => ({ mag: Math.hypot(st.fx, st.fy, st.fz), ei: -st.fx, ej: -st.fy, ek: -st.fz }),
       hint: () => 'Step 1: Use 3D Pythagorean Theorem for magnitude. Step 2: Balance force is the OPPOSITE of resultant, so change the sign of every component.',
-      solution: st => steps(`${m('R = ' + vec(st.fx, st.fy) + ' + ' + st.fz + 'k')} N`, `${m('|R| = √(' + st.fx + '² + ' + st.fy + '² + ' + st.fz + '²) ≈ ' + Math.hypot(st.fx, st.fy, st.fz).toFixed(2))} N`, `${m('Balance = ' + vec(-st.fx, -st.fy) + ' − ' + st.fz + 'k')} N`)
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Resultant vector: ${m('R = ' + vec(st.fx, st.fy) + ' + ' + st.fz + 'k')} N`,
+          `Magnitude using 3D theorem: ${m('|R| = √(' + st.fx + '² + ' + st.fy + '² + ' + st.fz + '²) = √' + (st.fx * st.fx + st.fy * st.fy + st.fz * st.fz))}`,
+          `Magnitude ≈ ${m(Math.hypot(st.fx, st.fy, st.fz).toFixed(2))} N`,
+          `Balance force (opposite): ${m('−R = ' + vec(-st.fx, -st.fy) + ' − ' + st.fz + 'k')} N`
+        ],
+        `Resultant magnitude: <strong>${Math.hypot(st.fx, st.fy, st.fz).toFixed(2)} N</strong> | Balance force: <strong>${m(vec(-st.fx, -st.fy) + ' − ' + st.fz + 'k')} N</strong>`
+      )
     }
   ];
 
@@ -156,7 +216,13 @@ const VectorExamples = (() => {
       fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: -st.x, j: -st.y }),
       hint: () => 'Change the sign of BOTH components. Negative becomes positive, positive becomes negative.',
-      solution: st => `${m('−A = −(' + vec(st.x, st.y) + ') = ' + vec(-st.x, -st.y))}`
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Apply negative sign to each component: ${m('−A = −(' + vec(st.x, st.y) + ')')}`,
+          `Change all signs: i-component: ${m(st.x)} becomes ${m(-st.x)}, j-component: ${m(st.y)} becomes ${m(-st.y)}`
+        ],
+        `${m('−A = ' + vec(-st.x, -st.y))}`
+      )
     },
     {
       title: 'Magnitude of a Vector',
@@ -167,7 +233,14 @@ const VectorExamples = (() => {
       fields: () => [box('mag', 'Magnitude (2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.x, st.y) }),
       hint: () => 'Squaring a negative number gives a positive result, so negative signs do not affect magnitude. √16 = 4, and √16 from (−4)² = 4 too!',
-      solution: st => `${m('|v| = √(' + neg(st.x) + '² + ' + neg(st.y) + '²) = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(2))}`
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Square each component: ${m(neg(st.x))}² = ${st.x * st.x}, ${m(neg(st.y))}² = ${st.y * st.y}`,
+          `Add the squares: ${st.x * st.x} + ${st.y * st.y} = ${st.x * st.x + st.y * st.y}`,
+          `Take the square root: ${m('√' + (st.x * st.x + st.y * st.y))}`
+        ],
+        `${m('|v| ≈ ' + Math.hypot(st.x, st.y).toFixed(2))}`
+      )
     },
     {
       title: 'Scalar Multiplication and Effect on Length',
@@ -178,7 +251,16 @@ const VectorExamples = (() => {
       fields: () => [box('i', 'i-component of kv', 2), box('j', 'j-component of kv', 2), box('mag', 'Magnitude |kv| (2 d.p.)', 2)],
       answers: st => ({ i: st.k * st.x, j: st.k * st.y, mag: Math.abs(st.k) * Math.hypot(st.x, st.y) }),
       hint: () => 'Multiply EACH component by k. For magnitude, use |k| (absolute value), which is always positive, so |kv| is never negative.',
-      solution: st => steps(`${m('kv = ' + vec(st.k * st.x, st.k * st.y))}`, `${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(4))}`, `${m('|kv| = |' + n(st.k) + '| × |v| ≈ ' + (Math.abs(st.k) * Math.hypot(st.x, st.y)).toFixed(2))}`)
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Multiply each component of v by k = ${m(n(st.k))}`,
+          `i-component: ${m(n(st.k))} × ${m(n(st.x))} = ${m(n(st.k * st.x))}`,
+          `j-component: ${m(n(st.k))} × ${m(n(st.y))} = ${m(n(st.k * st.y))}`,
+          `Calculate original magnitude: ${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(4))}`,
+          `Magnitude of scaled vector: ${m('|kv| = |' + n(st.k) + '| × ' + Math.hypot(st.x, st.y).toFixed(4) + ' ≈ ' + (Math.abs(st.k) * Math.hypot(st.x, st.y)).toFixed(2))}`
+        ],
+        `kv = <strong>${m(vec(st.k * st.x, st.k * st.y))}</strong> | Magnitude: <strong>${m((Math.abs(st.k) * Math.hypot(st.x, st.y)).toFixed(2))}</strong>`
+      )
     },
     {
       title: 'Identifying Vector Relationships',
@@ -189,7 +271,12 @@ const VectorExamples = (() => {
       fields: () => [pick('rel', 'Relationship of B to A', [['same', 'Same vector'], ['negative', 'Negative of A'], ['parallel', 'Parallel and same direction'], ['opposite', 'Parallel but opposite direction'], ['zero', 'Zero vector (null)']])],
       answers: st => ({ rel: relation(st.k) }),
       hint: () => 'k = 1 gives the same vector | k = −1 gives the negative | k = 0 gives zero vector | Positive k: same direction | Negative k: opposite direction',
-      solution: st => `When ${m('k = ' + n(st.k))}, B is ${RELATION_TEXT[relation(st.k)]}.`
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Calculate B: ${m('B = ' + n(st.k) + 'A = ' + n(st.k) + '(' + vec(st.x, st.y) + ') = ' + vec(st.k * st.x, st.k * st.y))}`
+        ],
+        `When k = ${m(n(st.k))}, B is <strong>${RELATION_TEXT[relation(st.k)]}</strong>`
+      )
     },
     {
       title: 'Find Scalar k for Target Magnitude',
@@ -200,7 +287,15 @@ const VectorExamples = (() => {
       fields: () => [box('k', 'Value of k (4 d.p.)', 4)],
       answers: st => ({ k: st.t / Math.hypot(st.x, st.y) }),
       hint: () => 'Start from |kv| = |k| × |v|. Then solve for k by dividing: k = (target magnitude) ÷ |v|.',
-      solution: st => steps(`${m('|v| = √(' + st.x + '² + ' + st.y + '²) = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(4))}`, `${m('k = ' + st.t + '/|v| ≈ ' + (st.t / Math.hypot(st.x, st.y)).toFixed(4))}`)
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Calculate magnitude of original vector: ${m('|v| = √(' + st.x + '² + ' + st.y + '²) = √' + (st.x * st.x + st.y * st.y))}`,
+          `Calculate magnitude: ${m('|v| ≈ ' + Math.hypot(st.x, st.y).toFixed(4))}`,
+          `Set up equation: ${m('|k| × ' + Math.hypot(st.x, st.y).toFixed(4) + ' = ' + st.t)}``,
+          `Solve for k: ${m('k = ' + st.t + ' ÷ ' + Math.hypot(st.x, st.y).toFixed(4))}`
+        ],
+        `k = <strong>${(st.t / Math.hypot(st.x, st.y)).toFixed(4)}</strong>`
+      )
     },
     {
       title: 'Third Vector that Produces Zero (Closed Triangle)',
@@ -211,7 +306,15 @@ const VectorExamples = (() => {
       fields: () => [box('i', 'i-component of C'), box('j', 'j-component of C'), box('mag', 'Magnitude |C| (2 d.p.)', 2)],
       answers: st => ({ i: -(st.ax + st.bx), j: -(st.ay + st.by), mag: Math.hypot(st.ax + st.bx, st.ay + st.by) }),
       hint: () => 'Step 1: Add A and B first to get the resultant. Step 2: C must be the OPPOSITE to close the triangle and return to the start.',
-      solution: st => steps(`${m('A + B = ' + vec(st.ax + st.bx, st.ay + st.by))}`, `${m('C = ' + vec(-(st.ax + st.bx), -(st.ay + st.by)))}`, `${m('|C| = √' + ((st.ax + st.bx) ** 2 + (st.ay + st.by) ** 2) + ' ≈ ' + Math.hypot(st.ax + st.bx, st.ay + st.by).toFixed(2))}`)
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Add A and B: ${m('A + B = ' + vec(st.ax + st.bx, st.ay + st.by))}`,
+          `For zero sum, C must be opposite: ${m('C = −(A + B) = ' + vec(-(st.ax + st.bx), -(st.ay + st.by)))}`,
+          `Calculate magnitude: ${m('|C| = √' + ((st.ax + st.bx) ** 2 + (st.ay + st.by) ** 2))}`,
+          `Magnitude ≈ ${m(Math.hypot(st.ax + st.bx, st.ay + st.by).toFixed(2))}`
+        ],
+        `C = <strong>${m(vec(-(st.ax + st.bx), -(st.ay + st.by)))}</strong> | Magnitude: <strong>${Math.hypot(st.ax + st.bx, st.ay + st.by).toFixed(2)}</strong>`
+      )
     },
     {
       title: 'Comparing Magnitudes of Scaled Vectors',
