@@ -393,6 +393,14 @@
                     <div class="card"><div class="card-icon">🌍</div><div class="card-title">Masalah Dunia Nyata</div><div class="card-description">Gunakan vektor untuk menyelesaikan masalah tentang pesawat, bangunan, dan enjin.</div><div class="card-meta"><span>8 soalan</span><span>Mencabar</span></div><button class="cta-button" style="width:100%; margin-top:15px; justify-content:center;" onclick="startPractice('realworld')">Mulai →</button></div>
                     <div class="card"><div class="card-icon">🏆</div><div class="card-title">Ujian Akhir</div><div class="card-description">Soalan campuran dari semua topik. Capai 80% untuk lulus dan dapatkan sijil.</div><div class="card-meta"><span>20 soalan</span><span>Semua tahap</span></div><button class="cta-button" style="width:100%; margin-top:15px; justify-content:center;" onclick="startPractice('quiz')">Mulai →</button></div>
                 </div>
+                <h3 style="margin-top: 40px; margin-bottom: 20px;">📋 Set Praktis Tambahan (Dari Tab Konsep)</h3>
+                <div class="card-grid">
+                    <div class="card"><div class="card-icon">🔢</div><div class="card-title">Pendaraban Skalar - Set Praktis</div><div class="card-description">Latihan tambahan pendaraban skalar dengan soalan berbeza dan diagram berbeza dari tab Scalar & Vector.</div><div class="card-meta"><span>3 soalan</span><span>Tanpa tahap</span></div><button class="cta-button" style="width:100%; margin-top:15px; justify-content:center;" onclick="startPractice('scalarPractice')">Mulai →</button></div>
+                    <div class="card"><div class="card-icon">📐</div><div class="card-title">Komponen Cartes - Set Praktis</div><div class="card-description">Latihan komponen bentuk, magnitud, dan sudut arah dengan nombor berbeza.</div><div class="card-meta"><span>3 soalan</span><span>Tanpa tahap</span></div><button class="cta-button" style="width:100%; margin-top:15px; justify-content:center;" onclick="startPractice('componentPractice')">Mulai →</button></div>
+                    <div class="card"><div class="card-icon">➕</div><div class="card-title">Tambah dan Tolak - Set Praktis</div><div class="card-description">Latihan penambahan dan pengurangan vektor dengan soalan tambahan dan vektor berbeza.</div><div class="card-meta"><span>3 soalan</span><span>Tanpa tahap</span></div><button class="cta-button" style="width:100%; margin-top:15px; justify-content:center;" onclick="startPractice('additionPractice')">Mulai →</button></div>
+                    <div class="card"><div class="card-icon">📏</div><div class="card-title">Vektor Unit - Set Praktis</div><div class="card-description">Latihan vektor unit dengan magnitud Pythagoras berbeda dari tab Component Form.</div><div class="card-meta"><span>2 soalan</span><span>Tanpa tahap</span></div><button class="cta-button" style="width:100%; margin-top:15px; justify-content:center;" onclick="startPractice('unitvectorPractice')">Mulai →</button></div>
+                    <div class="card"><div class="card-icon">📦</div><div class="card-title">Laluan Rajah - Set Praktis</div><div class="card-description">Latihan laluan segi empat selari dengan parameter berbeza dari tab Addition.</div><div class="card-meta"><span>2 soalan</span><span>Tanpa tahap</span></div><button class="cta-button" style="width:100%; margin-top:15px; justify-content:center;" onclick="startPractice('geometryPractice')">Mulai →</button></div>
+                </div>
                 <div class="features-grid" style="margin-top:40px;">
                     <div class="feature-box"><div class="feature-box-icon">⚡</div><div class="feature-box-title">Maklum Balas Serta-merta</div><div class="feature-box-text">Tahu benar atau salah dengan segera</div></div>
                     <div class="feature-box"><div class="feature-box-icon">💡</div><div class="feature-box-title">Petua Progresif</div><div class="feature-box-text">4 tahap petua jika anda tersesat</div></div>
@@ -775,6 +783,23 @@
             return problem;
         }
 
+        // Workbook-style generator for carousel exercises
+        function createWorkbookGen(exerciseArray) {
+            let index = 0;
+            return (diff) => {
+                if (!exerciseArray || exerciseArray.length === 0) return { question: 'Sedang memuatkan...', answer: '', hint: '', solution: '', tag: 'Loading' };
+                const ex = exerciseArray[index % exerciseArray.length];
+                index++;
+                return {
+                  question: ex.question,
+                  answer: ex.answer,
+                  hint: ex.hint,
+                  solution: ex.steps.map((s, i) => `${i + 1}. ${s}`).join('\n'),
+                  tag: ex.title
+                };
+            };
+        }
+
         const CATEGORY_CONFIG = {
             express: { title: 'Ungkapkan Vektor', total: 10, gen: genExpress },
             add: { title: 'Tambah / Tolak Vektor', total: 15, gen: genAdd },
@@ -783,6 +808,19 @@
             realworld: { title: 'Masalah Dunia Nyata', total: 8, gen: genRealWorld },
             quiz: { title: 'Ujian Akhir', total: 20, gen: genQuiz, isQuiz: true }
         };
+
+        // Add carousel practice exercises after they load
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.PracticeExercises) {
+                Object.assign(CATEGORY_CONFIG, {
+                    scalarPractice: { title: 'Pendaraban Skalar (Set Praktis)', total: 3, gen: createWorkbookGen(window.PracticeExercises.scalar), isWorkbook: true },
+                    componentPractice: { title: 'Komponen Cartes (Set Praktis)', total: 3, gen: createWorkbookGen(window.PracticeExercises.component), isWorkbook: true },
+                    additionPractice: { title: 'Tambah dan Tolak (Set Praktis)', total: 3, gen: createWorkbookGen(window.PracticeExercises.addition), isWorkbook: true },
+                    unitvectorPractice: { title: 'Vektor Unit (Set Praktis)', total: 2, gen: createWorkbookGen(window.PracticeExercises.unitvector), isWorkbook: true },
+                    geometryPractice: { title: 'Laluan Rajah (Set Praktis)', total: 2, gen: createWorkbookGen(window.PracticeExercises.geometry), isWorkbook: true }
+                });
+            }
+        });
 
         // ---------- gamification (XP / level), persisted in localStorage ----------
         let progress = loadProgress();
