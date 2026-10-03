@@ -800,6 +800,18 @@
             };
         }
 
+        function initializePracticeCategories() {
+            if (window.PracticeExercises && !CATEGORY_CONFIG.scalarPractice) {
+                Object.assign(CATEGORY_CONFIG, {
+                    scalarPractice: { title: 'Pendaraban Skalar (Set Praktis)', total: 3, gen: createWorkbookGen(window.PracticeExercises.scalar), isWorkbook: true },
+                    componentPractice: { title: 'Komponen Cartes (Set Praktis)', total: 3, gen: createWorkbookGen(window.PracticeExercises.component), isWorkbook: true },
+                    additionPractice: { title: 'Tambah dan Tolak (Set Praktis)', total: 3, gen: createWorkbookGen(window.PracticeExercises.addition), isWorkbook: true },
+                    unitvectorPractice: { title: 'Vektor Unit (Set Praktis)', total: 2, gen: createWorkbookGen(window.PracticeExercises.unitvector), isWorkbook: true },
+                    geometryPractice: { title: 'Laluan Rajah (Set Praktis)', total: 2, gen: createWorkbookGen(window.PracticeExercises.geometry), isWorkbook: true }
+                });
+            }
+        }
+
         const CATEGORY_CONFIG = {
             express: { title: 'Ungkapkan Vektor', total: 10, gen: genExpress },
             add: { title: 'Tambah / Tolak Vektor', total: 15, gen: genAdd },
@@ -809,18 +821,12 @@
             quiz: { title: 'Ujian Akhir', total: 20, gen: genQuiz, isQuiz: true }
         };
 
-        // Add carousel practice exercises after they load
-        document.addEventListener('DOMContentLoaded', function() {
-            if (window.PracticeExercises) {
-                Object.assign(CATEGORY_CONFIG, {
-                    scalarPractice: { title: 'Pendaraban Skalar (Set Praktis)', total: 3, gen: createWorkbookGen(window.PracticeExercises.scalar), isWorkbook: true },
-                    componentPractice: { title: 'Komponen Cartes (Set Praktis)', total: 3, gen: createWorkbookGen(window.PracticeExercises.component), isWorkbook: true },
-                    additionPractice: { title: 'Tambah dan Tolak (Set Praktis)', total: 3, gen: createWorkbookGen(window.PracticeExercises.addition), isWorkbook: true },
-                    unitvectorPractice: { title: 'Vektor Unit (Set Praktis)', total: 2, gen: createWorkbookGen(window.PracticeExercises.unitvector), isWorkbook: true },
-                    geometryPractice: { title: 'Laluan Rajah (Set Praktis)', total: 2, gen: createWorkbookGen(window.PracticeExercises.geometry), isWorkbook: true }
-                });
-            }
-        });
+        // Initialize practice categories when DOM is ready or when accessed
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializePracticeCategories);
+        } else {
+            initializePracticeCategories();
+        }
 
         // ---------- gamification (XP / level), persisted in localStorage ----------
         let progress = loadProgress();
@@ -854,6 +860,7 @@
         let session = null;
 
         function startPractice(category) {
+            initializePracticeCategories();
             const cfg = CATEGORY_CONFIG[category];
             session = { category, difficulty: 'easy', index: 0, total: cfg.total, correct: 0, attempts: 0, hintLevel: 0, sessionXp: 0, problem: null, answered: false };
             document.getElementById('practiceMenu').style.display = 'none';
