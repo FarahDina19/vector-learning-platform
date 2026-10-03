@@ -94,7 +94,7 @@
         .content-header h2 { font-size: 42px; font-weight: 300; letter-spacing: 2px; margin-bottom: 15px; color: var(--primary-brown); text-transform: uppercase; }
         .content-header p { font-size: 15px; color: var(--text-muted); line-height: 1.8; letter-spacing: 0.5px; }
         .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; margin-bottom: 50px; }
-        .card { background: var(--white); border: 1px solid var(--accent-light-tan); border-radius: 0; padding: 40px; transition: all 0.4s ease; cursor: pointer; position: relative; overflow: hidden; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); }
+        .card { background: var(--white); border: 1px solid var(--accent-light-tan); border-radius: 0; padding: 40px; transition: all 0.4s ease; cursor: pointer; position: relative; overflow: hidden; }
         .card:hover { transform: translateY(-3px); border-color: var(--primary-gold); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12); }
         .card-icon { font-size: 48px; margin-bottom: 20px; opacity: 0.9; }
         .card-title { font-size: 18px; font-weight: 600; margin-bottom: 12px; color: var(--primary-brown); letter-spacing: 0.5px; }
@@ -105,10 +105,10 @@
         .learning-path h3 { font-size: 16px; font-weight: 600; margin-bottom: 20px; color: var(--primary-brown); text-transform: uppercase; letter-spacing: 1px; }
         .learning-path ol { margin-left: 25px; }
         .learning-path li { margin-bottom: 14px; color: var(--text-dark); line-height: 1.8; font-size: 14px; }
-        .cta-button { display: inline-flex; align-items: center; gap: 12px; padding: 16px 40px; background: var(--primary-brown); color: var(--primary-gold); border: 2px solid var(--primary-brown); border-radius: 0; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.4s ease; box-shadow: none; text-transform: uppercase; letter-spacing: 1px; }
+        .cta-button { display: inline-flex; align-items: center; gap: 12px; padding: 16px 40px; background: var(--primary-brown); color: var(--primary-gold); border: 2px solid var(--primary-brown); text-decoration: none; font-size: 14px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; margin-top: 20px; }
         .cta-button:hover { background: transparent; color: var(--primary-brown); border-color: var(--primary-brown); transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12); }
         .cta-button::after { content: '→'; font-size: 16px; }
-        @media (max-width: 768px) { .header { flex-direction: column; gap: 20px; padding: 30px 20px; } .tab-navigation { padding: 0 20px; } .tab-button { flex: 1; min-width: 110px; padding: 18px 10px; font-size: 11px; } .tab-content { padding: 40px 20px; } .content-header h2 { font-size: 28px; letter-spacing: 1px; } .card-grid { grid-template-columns: 1fr; gap: 20px; } .cta-button { width: 100%; justify-content: center; } }
+        @media (max-width: 768px) { .header { flex-direction: column; gap: 20px; padding: 30px 20px; } .tab-navigation { padding: 0 20px; } .tab-button { flex: 1; min-width: 110px; padding: 18px 14px; font-size: 11px; } .tab-content { padding: 30px 20px; } .content-header h2 { font-size: 30px; } .card-grid { grid-template-columns: 1fr; gap: 20px; } .card { padding: 30px; } .learning-path { padding: 30px 20px; } }
     </style>
     <link rel="stylesheet" href="vector-labs.css">
     <link rel="stylesheet" href="vector-examples.css">
@@ -138,16 +138,68 @@
         <div class="tab-content active" id="intro">
             <div class="content-header"><h2>Kenapa Pelajari Vektor?</h2><p>Temui bagaimana vektor digunakan dalam dunia nyata melalui cerita yang menarik</p></div>
             <div class="card-grid">
-                <div class="card"><div class="card-icon">✈️</div><div class="card-title">Pesawat Terbang - Halaju Paduan</div><div class="card-description">Pesawat terbang 300 km/j ke Utara, tetapi angin bertiup 50 km/j ke Timur. Arah sebenar pesawat (paduan) berbeza dari arah yang dimaksudkan! Vektor membantu pilot mengira laluan yang betul.</div><div class="card-meta"><span>Halaju Pesawat</span><span>Halaju Angin</span></div></div>
-                <div class="card"><div class="card-icon">🏗️</div><div class="card-title">Pembinaan Bangunan - Daya Paduan</div><div class="card-description">Dua kabel berkait pada hook untuk mengangkat beban berat. Satu kabel tarik dengan daya 800 N pada 30° dari mendatar, satu lagi 600 N pada 45°. Jurutera harus kira vektor paduan untuk keselamatan struktur.</div><div class="card-meta"><span>Daya Kabel 1</span><span>Daya Kabel 2</span></div></div>
-                <div class="card"><div class="card-icon">🎮</div><div class="card-title">Permainan Video - Pergerakan Objek</div><div class="card-description">Dalam permainan, setiap karakter, peluru, dan objek mempunyai vektor kedudukan (position) dan vektor halaju (velocity). Setiap bingkai permainan, halaju ditambah ke kedudukan untuk menggerakkan objek.</div><div class="card-meta"><span>Kedudukan XY</span><span>Halaju VX VY</span></div></div>
+                <div class="card"><div class="card-icon">✈️</div><div class="card-title">Pesawat Terbang - Halaju Paduan</div><div class="card-description">Pesawat terbang 300 km/j ke Utara, tetapi angin bertiup dari Barat. Arah sebenar pesawat bergantung pada penjumlahan vektor halaju.</div><div class="card-meta"><span>Halaju</span><span>Paduan</span></div></div>
+                <div class="card"><div class="card-icon">🏗️</div><div class="card-title">Pembinaan Bangunan - Daya Paduan</div><div class="card-description">Dua kabel berkait pada hook untuk mengangkat beban. Jurutera menggunakan vektor untuk mengira daya paduan dengan tepat.</div><div class="card-meta"><span>Daya</span><span>Jurutera</span></div></div>
+                <div class="card"><div class="card-icon">🎮</div><div class="card-title">Permainan Video - Pergerakan Objek</div><div class="card-description">Dalam permainan, setiap karakter, musuh, dan objek bergerak menggunakan vektor untuk menentukan arah dan jarak pergerakan.</div><div class="card-meta"><span>Gerakan</span><span>Koordinat</span></div></div>
             </div>
-            <div class="learning-path worked-examples"><h3>Contoh Vektor dalam Situasi Harian</h3><ol><li><strong>Kenal pasti jenis kuantiti:</strong> Laju 60 km/j ialah skalar; halaju 60 km/j ke Timur ialah vektor kerana arah dinyatakan.</li><li><strong>Gabung dua gerakan:</strong> 3 km ke Timur dan 4 km ke Utara memberi sesaran 3i + 4j km, dengan magnitud √(3² + 4²) = 5 km.</li></ol></div>
-            <div class="learning-path"><h3>🎯 Laluan Pembelajaran Anda (Struktur Syllabus Unit 5):</h3><ol><li><strong>Unit 5.1 - Mulai dengan asas:</strong> Pelajari definisi skalar vs vektor, jenis-jenis vektor (null, unit, parallel, equal, negative), dan perbezaan fundamental antara kuantiti yang hanya ada magnitud dan yang ada magnitud + arah</li><li><strong>Unit 5.2 - Visualisasi dan Komponen:</strong> Lihat vektor dalam satah Cartes 2D, pelajari bentuk komponen (xi + yj), bentuk kolom, cara tukar koordinat ke vektor, dan formula magnitud |v| = √(x² + y²)</li><li><strong>Unit 5.3 - Operasi Vektor:</strong> Praktik menambah dan tolak vektor menggunakan Hukum Segitiga dan Hukum Segiempat Selari. Pelajari pendaraban skalar (kv) dan sifat-sifat vektor algebra</li><li><strong>Latihan Interaktif:</strong> Selesaikan 55+ soalan dengan gambar interaktif, hint sistem 4-tahap, dan maklum balas serta-merta untuk setiap langkah penyelesaian</li><li><strong>Soal Dunia Nyata:</strong> Gunakan pengetahuan untuk masalah praktikal (pesawat + angin, daya paduan pada bangunan, pergerakan bot) dan kuasai aplikasi dalam kehidupan sebenar</li><li><strong>Kuasai dengan Ujian:</strong> Selesaikan ujian akhir 20 soalan bercampur semua topik. Kelulusan 80% memberi sijil penguasaan Unit 5 VECTOR</li></ol></div>
+            <div class="learning-path worked-examples"><h3>Contoh Vektor dalam Situasi Harian</h3><ol><li><strong>Kenal pasti jenis kuantiti:</strong> Laju 60 km/j ialah skalar; halaju 60 km/j ke utara ialah vektor.</li><li><strong>Gunakan komponen:</strong> Vektor 3i + 4j bermaksud 3 unit ke timur dan 4 unit ke utara.</li><li><strong>Gabungkan vektor:</strong> Jika bergerak 2 km timur kemudian 5 km utara, sesaran paduan ialah √29 km.</li><li><strong>Nilai magnitud:</strong> Panjang vektor 3i + 4j ialah 5 unit menggunakan Teorem Pythagoras.</li></ol></div>
+            <div class="learning-path"><h3>🎯 Laluan Pembelajaran Anda (Struktur Syllabus Unit 5):</h3><ol><li><strong>Unit 5.1 - Mulai dengan asas:</strong> Pelajari definisi skalar vs vektor, magnitud dan arah.</li><li><strong>Unit 5.2 - Bentuk komponen:</strong> Fahami notasi <strong>xi + yj</strong> dan koordinat Cartesian.</li><li><strong>Unit 5.3 - Operasi vektor:</strong> Kuasai penambahan, pengurangan, dan hasil paduan.</li><li><strong>Unit 5.4 - Aplikasi sebenar:</strong> Gunakan vektor untuk daya, halaju, dan sesaran dalam konteks nyata.</li></ol></div>
             <button class="cta-button" onclick="switchTab('concept1')">Mula Belajar</button>
         </div>
 
-        <!-- Tab contents omitted for brevity in this update; existing 5.2/5.3 ordering remains as in the current file. -->
+        <div class="tab-content" id="concept1">
+            <div class="content-header"><h2>Skalar vs Vektor</h2><p>Kenal pasti perbezaan antara kuantiti yang hanya mempunyai magnitud dan kuantiti yang mempunyai magnitud serta arah.</p></div>
+            <div class="card-grid">
+                <div class="card"><div class="card-icon">📏</div><div class="card-title">Skalar</div><div class="card-description">Kuantiti yang hanya mempunyai magnitud tanpa arah, seperti jarak, masa, suhu, dan jisim. Operasi biasa boleh digunakan.</div><div class="card-meta"><span>Magnitud</span><span>Tiada Arah</span></div></div>
+                <div class="card"><div class="card-icon">➡️</div><div class="card-title">Vektor</div><div class="card-description">Kuantiti yang mempunyai magnitud dan arah, seperti halaju, sesaran, daya, dan pecutan. Arah sangat penting dalam analisis.</div><div class="card-meta"><span>Magnitud</span><span>Arah</span></div></div>
+                <div class="card"><div class="card-icon">🧠</div><div class="card-title">Kenapa Penting?</div><div class="card-description">Satu nilai tanpa arah boleh mengelirukan. Vektor membantu kita menentukan bukan sahaja berapa besar sesuatu, tetapi juga ke mana ia bergerak.</div><div class="card-meta"><span>Fizik</span><span>Kejuruteraan</span></div></div>
+            </div>
+            <div class="learning-path worked-examples"><h3>Contoh Pembezaan</h3><ol><li><strong>20°C</strong> ialah skalar kerana tiada arah.</li><li><strong>30 km/j ke timur</strong> ialah vektor kerana ada magnitud dan arah.</li><li><strong>5 km</strong> ialah skalar; <strong>5 km ke utara</strong> ialah vektor.</li><li><strong>Daya 200 N ke bawah</strong> ialah vektor kerana arah menentukan kesan daya.</li></ol></div>
+            <div class="learning-path"><h3>🎯 Seterusnya: Bentuk Komponen</h3><ol><li>Fahami bagaimana satu vektor boleh ditulis sebagai <strong>i</strong> dan <strong>j</strong> komponen.</li><li>Contoh: <strong>3i + 4j</strong> menunjukkan 3 unit ke kanan dan 4 unit ke atas.</li></ol></div>
+            <button class="cta-button" onclick="switchTab('concept2')">Teruskan</button>
+        </div>
+
+        <div class="tab-content" id="concept2">
+            <div class="content-header"><h2>Bentuk Komponen</h2><p>Tulis vektor dalam bentuk <strong>xi + yj</strong> dan hubungan antara koordinat titik dengan vektor.</p></div>
+            <div class="card-grid">
+                <div class="card"><div class="card-icon">🧭</div><div class="card-title">Komponen i</div><div class="card-description">Bahagian mendatar vektor, bergerak ke kanan atau kiri pada paksi-x.</div><div class="card-meta"><span>Horizontal</span><span>x</span></div></div>
+                <div class="card"><div class="card-icon">🧭</div><div class="card-title">Komponen j</div><div class="card-description">Bahagian menegak vektor, bergerak ke atas atau bawah pada paksi-y.</div><div class="card-meta"><span>Vertical</span><span>y</span></div></div>
+                <div class="card"><div class="card-icon">🧾</div><div class="card-title">Contoh Notasi</div><div class="card-description">Vektor pada titik (3, 4) ditulis sebagai <strong>3i + 4j</strong>. Vektor ini mempunyai magnitud 5 unit.</div><div class="card-meta"><span>Notasi</span><span>Magnitud</span></div></div>
+            </div>
+            <div class="learning-path worked-examples"><h3>Contoh Bentuk Komponen</h3><ol><li><strong>(2, 3)</strong> ditulis sebagai <strong>2i + 3j</strong>.</li><li><strong>(5, -1)</strong> ditulis sebagai <strong>5i - 1j</strong>.</li><li><strong>-3i + 4j</strong> bermaksud 3 unit ke kiri dan 4 unit ke atas.</li><li><strong>Magnitud</strong> vektor 3i + 4j ialah √(3² + 4²) = 5.</li></ol></div>
+            <div class="learning-path"><h3>🎯 Aktiviti Ringkas</h3><ol><li>Tukar koordinat (6, 2) kepada bentuk komponen.</li><li>Tukar vektor -2i + 7j kepada koordinat.</li></ol></div>
+            <button class="cta-button" onclick="switchTab('concept3')">Teruskan</button>
+        </div>
+
+        <div class="tab-content" id="concept3">
+            <div class="content-header"><h2>Penambahan Vektor</h2><p>Tambah vektor secara komponen demi komponen dan lihat hasil paduan melalui penjelasan berperingkat.</p></div>
+            <div class="card-grid">
+                <div class="card"><div class="card-icon">➕</div><div class="card-title">Tambah Komponen</div><div class="card-description">Tambah komponen i dengan i dan j dengan j. Contoh: (2i + 3j) + (1i + 4j) = 3i + 7j.</div><div class="card-meta"><span>Tambah</span><span>Komponen</span></div></div>
+                <div class="card"><div class="card-icon">📐</div><div class="card-title">Hukum Segitiga</div><div class="card-description">Letakkan ekor vektor kedua pada hujung vektor pertama. Vektor paduan pergi dari titik permulaan ke titik akhir.</div><div class="card-meta"><span>Segitiga</span><span>Paduan</span></div></div>
+                <div class="card"><div class="card-icon">🟩</div><div class="card-title">Hukum Parallelogram</div><div class="card-description">Bina dua vektor dari titik yang sama dan lengkapkan parallelogram. Diagonal ialah hasil tambah.</div><div class="card-meta"><span>Parallelogram</span><span>Resultant</span></div></div>
+            </div>
+            <div class="learning-path worked-examples"><h3>Contoh Penambahan</h3><ol><li><strong>(2i + 3j) + (1i + 4j)</strong> = 3i + 7j.</li><li><strong>(5i - 2j) + (-3i + 1j)</strong> = 2i - 1j.</li><li><strong>(3i + 4j) - (1i + 2j)</strong> = 2i + 2j.</li><li><strong>Sesaran 3 km timur dan 4 km utara</strong> menghasilkan paduan 5 km ke timur laut.</li></ol></div>
+            <div class="learning-path"><h3>🎯 Cuba Sendiri</h3><ol><li>Tambah vektor 4i + 2j dengan -1i + 5j.</li><li>Kenal pasti magnitud paduan untuk 6i + 8j.</li></ol></div>
+            <button class="cta-button" onclick="switchTab('practice')">Pergi ke Latihan</button>
+        </div>
+
+        <div class="tab-content" id="practice">
+            <div class="content-header"><h2>Latihan Interaktif</h2><p>Gunakan latihan untuk mengukuhkan pemahaman anda. Soalan akan berubah secara interaktif.</p></div>
+            <div class="learning-path"><h3>Cara Menggunakan Latihan</h3><ol><li>Pilih kategori soalan yang anda mahu cuba.</li><li>Masukkan jawapan pada petak yang disediakan.</li><li>Klik semak untuk melihat maklum balas.</li><li>Gunakan petunjuk jika anda tersekat.</li></ol></div>
+            <button class="cta-button" onclick="switchTab('resources')">Lihat Sumber</button>
+        </div>
+
+        <div class="tab-content" id="resources">
+            <div class="content-header"><h2>Sumber Tambahan</h2><p>Rujukan formula dan nota ringkas untuk membantu anda mengulangkaji dengan cepat.</p></div>
+            <div class="learning-path"><h3>Rujukan Cepat</h3><ol><li><strong>Magnitud:</strong> |v| = √(x² + y²)</li><li><strong>Komponen:</strong> v = xi + yj</li><li><strong>Tambah:</strong> (a₁i + a₂j) + (b₁i + b₂j)</li><li><strong>Sesaran:</strong> Q - P</li></ol></div>
+            <button class="cta-button" onclick="switchTab('glossary')">Buka Glossary</button>
+        </div>
+
+        <div class="tab-content" id="glossary">
+            <div class="content-header"><h2>Glossary</h2><p>Buka halaman glossary vektor untuk definisi terperinci dan contoh tambahan.</p></div>
+            <div class="learning-path"><h3>Halaman Berasingan</h3><ol><li>Glossary mempunyai tab sendiri dengan definisi, contoh, dan notasi.</li><li>Klik butang di bawah untuk membuka halaman glossary.</li></ol></div>
+            <a class="cta-button" href="vector-glossary.html">Buka Glossary</a>
+        </div>
     </div>
 
     <script src="vector-math.js"></script>
