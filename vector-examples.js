@@ -333,7 +333,15 @@ const VectorExamples = (() => {
         const magv = Math.hypot(st.x, st.y);
         const mag1 = Math.abs(st.k1) * magv;
         const mag2 = Math.abs(st.k2) * magv;
-        return steps(`${m('|' + n(st.k1) + 'v| = ' + n(st.k1) + ' × ' + magv.toFixed(4) + ' ≈ ' + mag1.toFixed(2))}`, `${m('|' + n(st.k2) + 'v| = ' + n(st.k2) + ' × ' + magv.toFixed(4) + ' ≈ ' + mag2.toFixed(2))}`, `Ratio = ${mag2.toFixed(2)} ÷ ${mag1.toFixed(2)} ≈ ${(mag2 / mag1).toFixed(2)}`);
+        return solutionWithFinalAnswer(
+          [
+            `Original magnitude: ${m('|v| = √(' + st.x + '² + ' + st.y + '²) ≈ ' + magv.toFixed(4))}`,
+            `Calculate ${m('|' + n(st.k1) + 'v|')}: ${m('|' + n(st.k1) + '| × ' + magv.toFixed(4) + ' ≈ ' + mag1.toFixed(2))}`,
+            `Calculate ${m('|' + n(st.k2) + 'v|')}: ${m('|' + n(st.k2) + '| × ' + magv.toFixed(4) + ' ≈ ' + mag2.toFixed(2))}`,
+            `Ratio: ${mag2.toFixed(2)} ÷ ${mag1.toFixed(2)} ≈ ${(mag2 / mag1).toFixed(2)}`
+          ],
+          `|${n(st.k1)}v| = <strong>${mag1.toFixed(2)}</strong> | |${n(st.k2)}v| = <strong>${mag2.toFixed(2)}</strong> | Ratio = <strong>${(mag2 / mag1).toFixed(2)}</strong>`
+        );
       }
     },
     {
@@ -348,7 +356,17 @@ const VectorExamples = (() => {
       solution: st => {
         const i = 2 * st.a + st.b - st.c;
         const j = st.a - 3 * st.b + 2 * st.c;
-        return steps(`${m(term(st.a, 'A') + ' = ' + vec(2 * st.a, st.a))}`, `${m(term(st.b, 'B') + ' = ' + vec(st.b, -3 * st.b))}`, `${m(term(st.c, 'C') + ' = ' + vec(-st.c, 2 * st.c))}`, `Result = ${m(vec(i, j))}`, `Magnitude = √(${i}² + ${j}²) ≈ ${Math.hypot(i, j).toFixed(2)}`);
+        return solutionWithFinalAnswer(
+          [
+            `Scalar multiplication: ${m(term(st.a, 'A') + ' = ' + vec(2 * st.a, st.a))}`,
+            `${m(term(st.b, 'B') + ' = ' + vec(st.b, -3 * st.b))}`,
+            `${m(term(st.c, 'C') + ' = ' + vec(-st.c, 2 * st.c))}`,
+            `Add components (i): ${2 * st.a} + ${st.b} − ${st.c} = ${i}`,
+            `Add components (j): ${st.a} − ${-3 * st.b} + ${2 * st.c} = ${j}`,
+            `Calculate magnitude: ${m('√(' + i + '² + ' + j + '²) = √' + (i * i + j * j))} ≈ ${Math.hypot(i, j).toFixed(2)}`
+          ],
+          `Result: <strong>${m(vec(i, j))}</strong> | Magnitude: <strong>${Math.hypot(i, j).toFixed(2)}</strong>`
+        );
       }
     }
   ];
@@ -364,7 +382,13 @@ const VectorExamples = (() => {
       fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: st.x, j: st.y }),
       hint: () => 'x-coordinate becomes i-component, y-coordinate becomes j-component. No calculation needed!',
-      solution: st => `${m('OP = ' + vec(st.x, st.y))}`
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Point P is at coordinate (${st.x}, ${st.y})`,
+          `Position vector: x-coordinate → i-component, y-coordinate → j-component`
+        ],
+        `OP = <strong>${m(vec(st.x, st.y))}</strong>`
+      )
     },
     {
       title: 'Magnitude from Component Form',
@@ -375,7 +399,14 @@ const VectorExamples = (() => {
       fields: () => [box('mag', 'Magnitude (2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.x, st.y) }),
       hint: () => 'Square each component, add them, then take the square root.',
-      solution: st => `${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(2))}`
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Square each component: ${m(neg(st.x))}² = ${st.x * st.x}, ${m(neg(st.y))}² = ${st.y * st.y}`,
+          `Add: ${st.x * st.x} + ${st.y * st.y} = ${st.x * st.x + st.y * st.y}`,
+          `Take square root: ${m('√' + (st.x * st.x + st.y * st.y))}`
+        ],
+        `|v| = <strong>${Math.hypot(st.x, st.y).toFixed(2)}</strong>`
+      )
     },
     {
       title: 'Vector Between Two Points',
@@ -386,7 +417,15 @@ const VectorExamples = (() => {
       fields: () => [box('i', 'i-component'), box('j', 'j-component'), box('mag', 'Length of PQ (2 d.p.)', 2)],
       answers: st => ({ i: st.qx - st.px, j: st.qy - st.py, mag: Math.hypot(st.qx - st.px, st.qy - st.py) }),
       hint: () => 'Tip: End minus Start gives the vector from P to Q. If you reverse the order, you get QP (opposite direction).',
-      solution: st => steps(`${m('PQ = (' + st.qx + ' − ' + neg(st.px) + ')i + (' + st.qy + ' − ' + neg(st.py) + ')j = ' + vec(st.qx - st.px, st.qy - st.py))}`, `${m('|PQ| = √' + ((st.qx - st.px) ** 2 + (st.qy - st.py) ** 2) + ' ≈ ' + Math.hypot(st.qx - st.px, st.qy - st.py).toFixed(2))}`)
+      solution: st => solutionWithFinalAnswer(
+        [
+          `i-component: End x − Start x = ${st.qx} − ${st.px} = ${st.qx - st.px}`,
+          `j-component: End y − Start y = ${st.qy} − ${st.py} = ${st.qy - st.py}`,
+          `Magnitude: ${m('√' + ((st.qx - st.px) ** 2 + (st.qy - st.py) ** 2))}`,
+          `Magnitude ≈ ${m(Math.hypot(st.qx - st.px, st.qy - st.py).toFixed(2))}`
+        ],
+        `PQ = <strong>${m(vec(st.qx - st.px, st.qy - st.py))}</strong> | Length: <strong>${Math.hypot(st.qx - st.px, st.qy - st.py).toFixed(2)}</strong>`
+      )
     },
     {
       title: 'Vector Direction from Positive X-Axis',
@@ -397,7 +436,15 @@ const VectorExamples = (() => {
       fields: () => [box('mag', 'Magnitude (2 d.p.)', 2), box('ang', 'Angle (°, 2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.x, st.y), ang: degrees(st.y, st.x) }),
       hint: () => 'Calculator gives tan⁻¹ in range −90° to 90°. Add 180° for Q2 and Q3, or 360° for negative angles in Q4.',
-      solution: st => steps(`${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(2))}`, `${m('θ = atan2(' + neg(st.y) + ', ' + neg(st.x) + ') ≈ ' + degrees(st.y, st.x).toFixed(2))}°`)
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Calculate magnitude: ${m('|v| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + Math.hypot(st.x, st.y).toFixed(2))}`,
+          `Calculate angle: ${m('θ = atan2(' + neg(st.y) + ', ' + neg(st.x) + ')')}`,
+          `Adjust for quadrant and ensure 0° ≤ θ < 360°`,
+          `Result: ${m('θ ≈ ' + degrees(st.y, st.x).toFixed(2))}°`
+        ],
+        `Magnitude: <strong>${Math.hypot(st.x, st.y).toFixed(2)}</strong> | Direction: <strong>${degrees(st.y, st.x).toFixed(2)}°</strong>`
+      )
     },
     {
       title: 'Unit Vector in the Same Direction',
