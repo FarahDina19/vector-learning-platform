@@ -50,43 +50,78 @@ const ExerciseCarousel = (() => {
   // Exercises for Component Form (Komponen Cartes)
   const componentExercises = [
     {
-      title: 'Titik ke Bentuk Komponen',
-      question: 'Titik P berada pada koordinat (5, 2). Tulis vektor OP dalam bentuk <strong>xi + yj</strong>.',
-      answer: '5i + 2j',
-      hint: 'Vektor dari asalan O ke titik P(5, 2) ialah: 5 unit ke kanan dan 2 unit ke atas.',
+      title: 'Titik ke Bentuk Komponen - Set 1',
+      question: 'Titik A berada pada koordinat (7, 3). Tulis vektor OA dalam bentuk <strong>xi + yj</strong>.',
+      answer: '7i + 3j',
+      hint: 'Vektor dari asalan O ke titik A ialah 7 unit mendatar dan 3 unit menegak.',
       steps: [
-        'Koordinat titik: P(5, 2)',
-        'Komponen x (mendatar): 5',
-        'Komponen y (menegak): 2',
-        'Vektor OP = 5i + 2j'
+        'Koordinat titik A: (7, 3)',
+        'Komponen i (mendatar/x): 7',
+        'Komponen j (menegak/y): 3',
+        'Vektor OA = 7i + 3j'
       ],
-      solution: '<strong>OP = 5i + 2j</strong>'
+      solution: '<strong>OA = 7i + 3j</strong>'
     },
     {
-      title: 'Magnitud Vektor Komponen',
-      question: 'Cari magnitud vektor <strong>v = 3i + 4j</strong>. Bundarkan ke 2 tempat perpuluhan.',
+      title: 'Magnitud - Pythagoras 3-4-5',
+      question: 'Cari magnitud vektor <strong>a = 3i + 4j</strong>. Bundarkan ke 2 tempat perpuluhan.',
       answer: '5.00',
-      hint: '|v| = √(x² + y²) = √(3² + 4²) = √(9 + 16) = √25 = 5',
+      hint: '|a| = √(3² + 4²) = √(9 + 16) = √25 = 5.',
       steps: [
-        'Vektor: <strong>v = 3i + 4j</strong>',
-        'Gunakan formula Pythagoras: |v| = √(x² + y²)',
-        'Gantikan: |v| = √(3² + 4²)',
-        '|v| = √(9 + 16) = √25 = 5.00'
+        'Vektor: <strong>a = 3i + 4j</strong>',
+        'Formula magnitud: |a| = √(x² + y²)',
+        '|a| = √(3² + 4²) = √25 = 5.00'
       ],
-      solution: '<strong>|v| = 5.00</strong>'
+      solution: '<strong>|a| = 5.00</strong>'
     },
     {
-      title: 'Sudut Arah Komponen',
-      question: 'Vektor <strong>w = 1i + 1j</strong> membuat sudut berapakah dengan paksi-x positif?',
-      answer: '45',
-      hint: 'Tan(θ) = y/x = 1/1 = 1. Jadi θ = 45°.',
+      title: 'Magnitud - Pythagoras 5-12-13',
+      question: 'Cari magnitud vektor <strong>b = 5i + 12j</strong>. Bundarkan ke 2 tempat perpuluhan.',
+      answer: '13.00',
+      hint: '|b| = √(5² + 12²) = √(25 + 144) = √169 = 13.',
       steps: [
-        'Vektor: <strong>w = 1i + 1j</strong> jadi x = 1, y = 1',
-        'Cari sudut: tan(θ) = y/x = 1/1 = 1',
-        'θ = arctan(1) = 45°',
-        'Vektor membuat sudut <strong>45°</strong> dengan paksi-x'
+        'Vektor: <strong>b = 5i + 12j</strong>',
+        'Formula magnitud: |b| = √(x² + y²)',
+        '|b| = √(5² + 12²) = √169 = 13.00'
       ],
-      solution: '<strong>45°</strong>'
+      solution: '<strong>|b| = 13.00</strong>'
+    },
+    {
+      title: 'Sudut Arah - 45 Darjah',
+      question: 'Vektor <strong>c = 2i + 2j</strong> membuat sudut berapakah dengan paksi-x positif?',
+      answer: '45',
+      hint: 'Tan(θ) = y/x = 2/2 = 1. Jadi θ = 45°.',
+      steps: [
+        'Vektor: <strong>c = 2i + 2j</strong>, x = 2, y = 2',
+        'Formula sudut: tan(θ) = y/x = 2/2 = 1',
+        'θ = arctan(1) = 45°'
+      ],
+      solution: '<strong>θ = 45°</strong>'
+    },
+    {
+      title: 'Sudut Arah - 60 Darjah',
+      question: 'Vektor <strong>d = 1i + √3j</strong> membuat sudut berapakah dengan paksi-x positif?',
+      answer: '60',
+      hint: 'Tan(θ) = √3/1 = √3. Jadi θ = 60°.',
+      steps: [
+        'Vektor: <strong>d = 1i + √3j</strong>, x = 1, y = √3',
+        'Formula sudut: tan(θ) = √3/1 = √3',
+        'θ = arctan(√3) = 60°'
+      ],
+      solution: '<strong>θ = 60°</strong>'
+    },
+    {
+      title: 'Titik ke Bentuk Komponen - Set 2',
+      question: 'Titik B berada pada koordinat (−4, 6). Tulis vektor OB dalam bentuk <strong>xi + yj</strong>.',
+      answer: '-4i + 6j',
+      hint: 'Koordinat negatif bermakna ke kiri. Tulis dengan tanda negatif.',
+      steps: [
+        'Koordinat titik B: (−4, 6)',
+        'Komponen i: −4 (ke sebelah kiri)',
+        'Komponen j: 6 (ke atas)',
+        'Vektor OB = −4i + 6j'
+      ],
+      solution: '<strong>OB = −4i + 6j</strong>'
     }
   ];
 
@@ -181,43 +216,43 @@ const ExerciseCarousel = (() => {
   // Exercises for Unit Vector (Vektor Unit)
   const unitVectorExercises = [
     {
-      title: 'Vektor Unit Asas',
-      question: 'Cari vektor unit dalam arah <strong>v = 3i + 4j</strong>. Bundarkan ke 2 tempat perpuluhan.',
+      title: 'Vektor Unit - Pythagoras 3-4-5',
+      question: 'Cari vektor unit dalam arah <strong>u = 3i + 4j</strong>. Bundarkan ke 2 tempat perpuluhan.',
       answer: '0.60i + 0.80j',
-      hint: 'Vektor unit = v / |v|. Pertama cari |v| = √(3² + 4²) = 5.',
+      hint: 'Vektor unit = u / |u|. Gunakan Pythagoras: |u| = √(3² + 4²) = 5.',
       steps: [
-        'Vektor: <strong>v = 3i + 4j</strong>',
-        'Cari magnitud: |v| = √(3² + 4²) = √25 = 5',
-        'Vektor unit: v/|v| = (3i + 4j)/5',
+        'Vektor: <strong>u = 3i + 4j</strong>',
+        'Cari magnitud menggunakan Pythagoras: |u| = √(3² + 4²) = √25 = 5',
+        'Vektor unit: ê = u/|u| = (3i + 4j)/5',
         'Hasil: 0.60i + 0.80j'
       ],
-      solution: '<strong>0.60i + 0.80j</strong>'
+      solution: '<strong>ê = 0.60i + 0.80j</strong>'
     },
     {
-      title: 'Vektor Unit Negatif',
-      question: 'Cari vektor unit dalam arah <strong>w = −6i + 8j</strong>. Bundarkan ke 2 tempat perpuluhan.',
-      answer: '-0.60i + 0.80j',
-      hint: '|w| = √(36 + 64) = √100 = 10.',
+      title: 'Vektor Unit - Pythagoras 6-8-10',
+      question: 'Cari vektor unit dalam arah <strong>v = 6i − 8j</strong>. Bundarkan ke 2 tempat perpuluhan.',
+      answer: '0.60i − 0.80j',
+      hint: '|v| = √(36 + 64) = √100 = 10. Perhatian: j-komponen negatif.',
       steps: [
-        'Vektor: <strong>w = −6i + 8j</strong>',
-        'Cari magnitud: |w| = √((−6)² + 8²) = √100 = 10',
-        'Vektor unit: w/|w| = (−6i + 8j)/10',
-        'Hasil: −0.60i + 0.80j'
+        'Vektor: <strong>v = 6i − 8j</strong>',
+        'Cari magnitud: |v| = √(6² + (−8)²) = √100 = 10',
+        'Vektor unit: ê = v/|v| = (6i − 8j)/10',
+        'Hasil: 0.60i − 0.80j'
       ],
-      solution: '<strong>−0.60i + 0.80j</strong>'
+      solution: '<strong>ê = 0.60i − 0.80j</strong>'
     },
     {
-      title: 'Vektor Unit Kompleks',
-      question: 'Cari vektor unit dalam arah <strong>u = 5i + 12j</strong>. Bundarkan ke 4 tempat perpuluhan.',
-      answer: '0.3846i + 0.9231j',
-      hint: '|u| = √(25 + 144) = √169 = 13.',
+      title: 'Vektor Unit - Pythagoras 5-12-13',
+      question: 'Cari vektor unit dalam arah <strong>w = −5i + 12j</strong>. Bundarkan ke 4 tempat perpuluhan.',
+      answer: '-0.3846i + 0.9231j',
+      hint: '|w| = √(25 + 144) = √169 = 13. Perhatian: i-komponen negatif.',
       steps: [
-        'Vektor: <strong>u = 5i + 12j</strong>',
-        'Cari magnitud: |u| = √(5² + 12²) = √169 = 13',
-        'Vektor unit: u/|u| = (5i + 12j)/13',
-        'Hasil: 0.3846i + 0.9231j'
+        'Vektor: <strong>w = −5i + 12j</strong>',
+        'Cari magnitud: |w| = √((−5)² + 12²) = √169 = 13',
+        'Vektor unit: ê = w/|w| = (−5i + 12j)/13',
+        'Hasil: −0.3846i + 0.9231j'
       ],
-      solution: '<strong>0.3846i + 0.9231j</strong>'
+      solution: '<strong>ê = −0.3846i + 0.9231j</strong>'
     }
   ];
 
