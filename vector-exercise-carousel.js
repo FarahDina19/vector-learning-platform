@@ -484,31 +484,86 @@ const ExerciseCarousel = (() => {
   };
 })();
 
-// Export practice exercises for Practice tab
+// Combination/Mixed Exercises for Extra Practice
+const combinationExercises = [
+  {
+    title: 'Gabungan: Skalar dan Komponen',
+    question: 'Jika vektor <strong>x = 2i + 3j</strong>, cari <strong>2x</strong> dan kemudian cari magnitud vektor tersebut. Bundarkan ke 2 tempat perpuluhan.',
+    answer: '5 × √13 atau 18.03',
+    hint: '1. Cari 2x = 4i + 6j. 2. Cari |2x| = √(16 + 36) = √52 ≈ 7.21. Atau langsung: |2x| = 2|x| = 2√13.',
+    steps: ['Vektor asal: <strong>x = 2i + 3j</strong>', 'Darabkan dengan 2: <strong>2x = 4i + 6j</strong>', 'Cari magnitud: |2x| = √(4² + 6²) = √(16 + 36) = √52', 'Hasil: √52 = 2√13 ≈ 7.21'],
+    solution: '<strong>|2x| = 2√13 atau 7.21</strong>'
+  },
+  {
+    title: 'Gabungan: Penambahan dan Unit Vektor',
+    question: 'Diberi <strong>u = 3i + 4j</strong> dan <strong>v = 5i + 12j</strong>. Cari u + v, kemudian cari vektor unit dalam arah u + v. Bundarkan ke 2 tempat perpuluhan.',
+    answer: '0.62i + 0.78j',
+    hint: '1. u + v = 8i + 16j. 2. |u + v| = √(64 + 256) = √320 ≈ 17.89. 3. Unit vector = (8i + 16j)/17.89',
+    steps: ['Vektor u: <strong>3i + 4j</strong>', 'Vektor v: <strong>5i + 12j</strong>', 'Jumlah: u + v = 8i + 16j', 'Magnitud: |u + v| = √(8² + 16²) = √320 ≈ 17.89', 'Unit vektor: (8i + 16j) / 17.89 ≈ 0.45i + 0.89j'],
+    solution: '<strong>ê ≈ 0.45i + 0.89j</strong>'
+  },
+  {
+    title: 'Gabungan: Laluan dan Pendaraban',
+    question: 'Dalam segi empat selari PQRS: <strong>PQ = 2i + j</strong>, <strong>PS = i + 2j</strong>. Cari <strong>PR</strong> dan kemudian cari <strong>2PR</strong>.',
+    answer: '6i + 6j',
+    hint: 'PR = PQ + PS = 3i + 3j. Kemudian 2PR = 6i + 6j.',
+    steps: ['Sisi PQ: <strong>2i + j</strong>', 'Sisi PS: <strong>i + 2j</strong>', 'Diagonal PR = PQ + PS = 3i + 3j', 'Pendaraban: 2PR = 2(3i + 3j) = 6i + 6j'],
+    solution: '<strong>2PR = 6i + 6j</strong>'
+  },
+  {
+    title: 'Gabungan: Komponen dan Laluan',
+    question: 'Titik A(3, 4), B(7, 2), C(5, 8). Cari vektor AB, kemudian cari magnitud AB.',
+    answer: '4.47',
+    hint: 'AB = OB - OA = (7i + 2j) - (3i + 4j) = 4i - 2j. |AB| = √(16 + 4) = √20 ≈ 4.47',
+    steps: ['Titik A: (3, 4) → OA = 3i + 4j', 'Titik B: (7, 2) → OB = 7i + 2j', 'Vektor AB = OB - OA = 4i - 2j', 'Magnitud: |AB| = √(4² + (-2)²) = √20 ≈ 4.47'],
+    solution: '<strong>|AB| = √20 atau 4.47</strong>'
+  },
+  {
+    title: 'Gabungan: Skalar dan Unit Vektor',
+    question: 'Jika <strong>m = 2i + 3j</strong>, cari <strong>3m</strong> dan kemudian cari vektor unit dalam arah 3m.',
+    answer: '0.56i + 0.83j',
+    hint: '3m = 6i + 9j. |3m| = √(36 + 81) = √117 ≈ 10.82. Unit vektor = (6i + 9j) / 10.82',
+    steps: ['Vektor m: <strong>2i + 3j</strong>', 'Pendaraban: 3m = 6i + 9j', 'Magnitud: |3m| = √(36 + 81) = √117 ≈ 10.82', 'Unit vektor: (6i + 9j) / 10.82 ≈ 0.55i + 0.83j'],
+    solution: '<strong>ê ≈ 0.55i + 0.83j</strong>'
+  }
+];
+
+// Export practice exercises organized by tab
 window.PracticeExercises = {
-  scalar: [
+  // Tab 1: Scalar & Vector - Scalar multiplication practice
+  concept1: [
     { title: 'Pendaraban Skalar - Set Praktis 1', question: 'Jika <strong>m = 3i + 2j</strong>, cari <strong>3m</strong>.', answer: '9i + 6j', hint: 'Darabkan setiap komponen dengan 3.', steps: ['Vektor asal: <strong>m = 3i + 2j</strong>', 'Darabkan i: 3 × 3 = 9', 'Darabkan j: 3 × 2 = 6', 'Hasil: <strong>3m = 9i + 6j</strong>'], solution: '<strong>3m = 9i + 6j</strong>' },
     { title: 'Pendaraban Skalar - Set Praktis 2', question: 'Jika <strong>n = 5i − 4j</strong>, cari <strong>−2n</strong>.', answer: '-10i + 8j', hint: 'Darabkan dengan -2 menukar arah dan memperbesar magnitud.', steps: ['Vektor asal: <strong>n = 5i − 4j</strong>', 'Darabkan i: −2 × 5 = −10', 'Darabkan j: −2 × (−4) = +8', 'Hasil: <strong>−2n = −10i + 8j</strong>'], solution: '<strong>−2n = −10i + 8j</strong>' },
     { title: 'Pendaraban Skalar - Set Praktis 3', question: 'Jika <strong>p = 6i + 10j</strong>, cari <strong>⅕p</strong>.', answer: '1.2i + 2j', hint: 'Darabkan dengan ⅕ (bahagi dengan 5).', steps: ['Vektor asal: <strong>p = 6i + 10j</strong>', 'Darabkan i: ⅕ × 6 = 1.2', 'Darabkan j: ⅕ × 10 = 2', 'Hasil: <strong>⅕p = 1.2i + 2j</strong>'], solution: '<strong>⅕p = 1.2i + 2j</strong>' }
   ],
-  component: [
+
+  // Tab 2: Component Form - Component and unit vector practice
+  concept2: [
     { title: 'Komponen - Set Praktis 1', question: 'Titik C berada pada koordinat (8, 5). Tulis vektor OC dalam bentuk <strong>xi + yj</strong>.', answer: '8i + 5j', hint: 'Ambil koordinat titik sebagai komponen.', steps: ['Koordinat C: (8, 5)', 'Komponen i: 8', 'Komponen j: 5', 'Vektor OC = 8i + 5j'], solution: '<strong>OC = 8i + 5j</strong>' },
     { title: 'Magnitud - Set Praktis 1', question: 'Cari magnitud vektor <strong>e = 8i + 15j</strong>. Bundarkan ke 2 tempat perpuluhan.', answer: '17.00', hint: '|e| = √(8² + 15²) = √(64 + 225) = √289 = 17.', steps: ['Vektor: <strong>e = 8i + 15j</strong>', 'Formula: |e| = √(x² + y²)', '|e| = √(8² + 15²) = √289 = 17.00'], solution: '<strong>|e| = 17.00</strong>' },
-    { title: 'Sudut Arah - Set Praktis 1', question: 'Vektor <strong>f = 3i + 3j</strong> membuat sudut berapakah dengan paksi-x positif?', answer: '45', hint: 'tan(θ) = 3/3 = 1, jadi θ = 45°.', steps: ['Vektor: <strong>f = 3i + 3j</strong>', 'tan(θ) = y/x = 3/3 = 1', 'θ = 45°'], solution: '<strong>θ = 45°</strong>' }
-  ],
-  addition: [
-    { title: 'Penambahan - Set Praktis 1', question: 'Tambah <strong>g = 3i + 4j</strong> dan <strong>h = 2i + 5j</strong>. Cari g + h.', answer: '5i + 9j', hint: 'Tambah komponen yang sama.', steps: ['Vektor g: <strong>3i + 4j</strong>', 'Vektor h: <strong>2i + 5j</strong>', 'i: 3 + 2 = 5', 'j: 4 + 5 = 9', 'g + h = 5i + 9j'], solution: '<strong>g + h = 5i + 9j</strong>' },
-    { title: 'Pengurangan - Set Praktis 1', question: 'Tolak: <strong>i = 8i + 9j</strong> dan <strong>j = 3i + 2j</strong>. Cari i − j.', answer: '5i + 7j', hint: 'Tolak komponen yang sama.', steps: ['Vektor i: <strong>8i + 9j</strong>', 'Vektor j: <strong>3i + 2j</strong>', 'i: 8 − 3 = 5', 'j: 9 − 2 = 7', 'i − j = 5i + 7j'], solution: '<strong>i − j = 5i + 7j</strong>' },
-    { title: 'Penambahan Negatif - Set Praktis 1', question: 'Tambah <strong>k = 6i + 2j</strong> dan <strong>l = −3i + 4j</strong>. Cari k + l.', answer: '3i + 6j', hint: 'Tambah dengan tanda: (6-3)i dan (2+4)j.', steps: ['Vektor k: <strong>6i + 2j</strong>', 'Vektor l: <strong>−3i + 4j</strong>', 'i: 6 + (−3) = 3', 'j: 2 + 4 = 6', 'k + l = 3i + 6j'], solution: '<strong>k + l = 3i + 6j</strong>' }
-  ],
-  unitvector: [
+    { title: 'Sudut Arah - Set Praktis 1', question: 'Vektor <strong>f = 3i + 3j</strong> membuat sudut berapakah dengan paksi-x positif?', answer: '45', hint: 'tan(θ) = 3/3 = 1, jadi θ = 45°.', steps: ['Vektor: <strong>f = 3i + 3j</strong>', 'tan(θ) = y/x = 3/3 = 1', 'θ = 45°'], solution: '<strong>θ = 45°</strong>' },
     { title: 'Vektor Unit - Set Praktis 1', question: 'Cari vektor unit dalam arah <strong>k = 5i + 12j</strong>. Bundarkan ke 2 tempat perpuluhan.', answer: '0.38i + 0.92j', hint: '|k| = √(25 + 144) = 13. Vektor unit = k/|k|.', steps: ['Vektor: <strong>k = 5i + 12j</strong>', 'Magnitud: |k| = √(5² + 12²) = √169 = 13', 'Vektor unit: 5i/13 + 12j/13 = 0.38i + 0.92j'], solution: '<strong>ê = 0.38i + 0.92j</strong>' },
     { title: 'Vektor Unit - Set Praktis 2', question: 'Cari vektor unit dalam arah <strong>l = 12i − 9j</strong>. Bundarkan ke 2 tempat perpuluhan.', answer: '0.80i − 0.60j', hint: '|l| = √(144 + 81) = √225 = 15.', steps: ['Vektor: <strong>l = 12i − 9j</strong>', 'Magnitud: |l| = √(12² + 9²) = 15', 'Vektor unit: 12i/15 − 9j/15 = 0.80i − 0.60j'], solution: '<strong>ê = 0.80i − 0.60j</strong>' }
   ],
-  geometry: [
+
+  // Tab 3: Addition - Addition, subtraction and geometry practice
+  concept3: [
+    { title: 'Penambahan - Set Praktis 1', question: 'Tambah <strong>g = 3i + 4j</strong> dan <strong>h = 2i + 5j</strong>. Cari g + h.', answer: '5i + 9j', hint: 'Tambah komponen yang sama.', steps: ['Vektor g: <strong>3i + 4j</strong>', 'Vektor h: <strong>2i + 5j</strong>', 'i: 3 + 2 = 5', 'j: 4 + 5 = 9', 'g + h = 5i + 9j'], solution: '<strong>g + h = 5i + 9j</strong>' },
+    { title: 'Pengurangan - Set Praktis 1', question: 'Tolak: <strong>i = 8i + 9j</strong> dan <strong>j = 3i + 2j</strong>. Cari i − j.', answer: '5i + 7j', hint: 'Tolak komponen yang sama.', steps: ['Vektor i: <strong>8i + 9j</strong>', 'Vektor j: <strong>3i + 2j</strong>', 'i: 8 − 3 = 5', 'j: 9 − 2 = 7', 'i − j = 5i + 7j'], solution: '<strong>i − j = 5i + 7j</strong>' },
+    { title: 'Penambahan Negatif - Set Praktis 1', question: 'Tambah <strong>k = 6i + 2j</strong> dan <strong>l = −3i + 4j</strong>. Cari k + l.', answer: '3i + 6j', hint: 'Tambah dengan tanda: (6-3)i dan (2+4)j.', steps: ['Vektor k: <strong>6i + 2j</strong>', 'Vektor l: <strong>−3i + 4j</strong>', 'i: 6 + (−3) = 3', 'j: 2 + 4 = 6', 'k + l = 3i + 6j'], solution: '<strong>k + l = 3i + 6j</strong>' },
     { title: 'Laluan Praktis - DB', question: 'Dalam segi empat selari EFGH: <strong>EF = 4p</strong>, <strong>EH = 3q</strong>. Cari vektor <strong>GB</strong>.', answer: '-3q + 4p', hint: 'Gunakan hukum segitiga: GB = GH + HB, dimana HB = EF.', steps: ['Diberi: EF = 4p, EH = 3q', 'HE = −3q', 'GB = GH + HB = HE + EF = −3q + 4p'], solution: '<strong>GB = −3q + 4p</strong>' },
     { title: 'Laluan Praktis - AC', question: 'Dalam segi empat selari IJKL: <strong>IJ = 6q</strong>, <strong>IL = 2p</strong>. Cari vektor <strong>IK</strong>.', answer: '2p + 6q', hint: 'IK = IL + LK, dan LK = IJ kerana sisi selari sama.', steps: ['Diberi: IJ = 6q, IL = 2p', 'LK = IJ = 6q', 'IK = IL + LK = 2p + 6q'], solution: '<strong>IK = 2p + 6q</strong>' }
-  ]
+  ],
+
+  // Extra/Advanced combination exercises
+  combination: combinationExercises,
+
+  // Legacy aliases for backward compatibility with Practice tab
+  scalar: [],
+  component: [],
+  addition: [],
+  unitvector: [],
+  geometry: []
 };
 
 // Initialize carousels when DOM is ready
