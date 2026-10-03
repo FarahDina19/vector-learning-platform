@@ -11,13 +11,19 @@ const ExerciseCarousel = (() => {
     concept3: { completed: new Set(), total: 0 }
   };
 
+  // Carousel metadata for tracking which carousel belongs to which concept
+  const carouselMetadata = {};
+
   // Update progress display
   const updateProgressDisplay = (conceptId, exerciseIndex, totalExercises) => {
     const state = progressState[conceptId];
     if (!state) return;
 
     state.total = totalExercises;
-    state.completed.add(exerciseIndex);
+    // Only add to completed if exerciseIndex is valid (>= 0)
+    if (exerciseIndex >= 0) {
+      state.completed.add(exerciseIndex);
+    }
 
     const completed = state.completed.size;
     const percentage = Math.round((completed / totalExercises) * 100);
@@ -313,6 +319,13 @@ const ExerciseCarousel = (() => {
     let currentIndex = 0;
     let answered = new Set();
 
+    // Store carousel metadata
+    carouselMetadata[containerId] = {
+      conceptId: conceptId,
+      totalExercises: exercises.length,
+      answered: answered
+    };
+
     // Initialize progress display
     if (conceptId) {
       updateProgressDisplay(conceptId, -1, exercises.length);
@@ -341,28 +354,29 @@ const ExerciseCarousel = (() => {
             >
           </div>
           <div class="exercise-actions">
-            <button class="exercise-btn primary" onclick="ExerciseCarousel.checkAnswer('${containerId}', ${currentIndex})">Semak Jawapan</button>
-            <button class="exercise-btn" onclick="ExerciseCarousel.showHint('${containerId}', ${currentIndex})">Petunjuk</button>
-            <button class="exercise-btn" onclick="ExerciseCarousel.showSolution('${containerId}', ${currentIndex})">Penyelesaian</button>
+            <button class="exercise-btn primary" onclick="ExerciseCarousel['checkAnswer_${containerId}'](${currentIndex})">Semak Jawapan</button>
+            <button class="exercise-btn" onclick="ExerciseCarousel['showHint_${containerId}'](${currentIndex})">Petunjuk</button>
+            <button class="exercise-btn" onclick="ExerciseCarousel['showSolution_${containerId}'](${currentIndex})">Penyelesaian</button>
           </div>
           <div class="exercise-feedback" id="feedback-${containerId}"></div>
           <div class="exercise-hint" id="hint-${containerId}"><strong>💡 Petunjuk:</strong> ${ex.hint}</div>
           <div class="exercise-solution" id="solution-${containerId}"></div>
         </div>
         <div class="carousel-nav">
-          <button onclick="ExerciseCarousel.prevExercise('${containerId}')" ${currentIndex === 0 ? 'disabled' : ''}>← Sebelumnya</button>
-          <button onclick="ExerciseCarousel.nextExercise('${containerId}')" ${currentIndex === exercises.length - 1 ? 'disabled' : ''}>Seterusnya →</button>
+          <button onclick="ExerciseCarousel['prevExercise_${containerId}']( )" ${currentIndex === 0 ? 'disabled' : ''}>← Sebelumnya</button>
+          <button onclick="ExerciseCarousel['nextExercise_${containerId}']( )" ${currentIndex === exercises.length - 1 ? 'disabled' : ''}>Seterusnya →</button>
         </div>
       `;
     };
 
     window.ExerciseCarousel = window.ExerciseCarousel || {};
 
-    window.ExerciseCarousel.checkAnswer = (id, index) => {
-      const input = document.getElementById(`answer-${id}`);
-      const feedback = document.getElementById(`feedback-${id}`);
-      const hintEl = document.getElementById(`hint-${id}`);
-      const solutionEl = document.getElementById(`solution-${id}`);
+    // Create carousel-specific functions that capture the carousel state
+    window.ExerciseCarousel[`checkAnswer_${containerId}`] = (index) => {
+      const input = document.getElementById(`answer-${containerId}`);
+      const feedback = document.getElementById(`feedback-${containerId}`);
+      const hintEl = document.getElementById(`hint-${containerId}`);
+      const solutionEl = document.getElementById(`solution-${containerId}`);
       const userAnswer = input.value.trim().toLowerCase().replace(/\s+/g, '');
       const correctAnswer = exercises[index].answer.toLowerCase().replace(/\s+/g, '');
 
@@ -380,37 +394,45 @@ const ExerciseCarousel = (() => {
       if (hintEl) hintEl.classList.remove('show');
       if (solutionEl) solutionEl.classList.remove('show');
 
-      // Update progress if conceptId is set
-      if (conceptId) {
-        updateProgressDisplay(conceptId, index, exercises.length);
+      // Update progress using carousel metadata
+      const metadata = carouselMetadata[containerId];
+      if (metadata && metadata.conceptId) {
+        updateProgressDisplay(metadata.conceptId, index, metadata.totalExercises);
       }
     };
 
-    window.ExerciseCarousel.showHint = (id, index) => {
-      const hintEl = document.getElementById(`hint-${id}`);
+    window.ExerciseCarousel[`showHint_${containerId}`] = (index) => {
+      const hintEl = document.getElementById(`hint-${containerId}`);
       if (hintEl) hintEl.classList.toggle('show');
     };
 
-    window.ExerciseCarousel.showSolution = (id, index) => {
-      const solutionDiv = document.getElementById(`solution-${id}`);
+    window.ExerciseCarousel[`showSolution_${containerId}`] = (index) => {
+      const solutionDiv = document.getElementById(`solution-${containerId}`);
       const ex = exercises[index];
       solutionDiv.innerHTML = solutionWithFinalAnswer(ex.steps, ex.solution);
       solutionDiv.classList.toggle('show');
     };
 
-    window.ExerciseCarousel.nextExercise = (id) => {
+    window.ExerciseCarousel[`nextExercise_${containerId}`] = () => {
       if (currentIndex < exercises.length - 1) {
         currentIndex++;
         renderExercise();
       }
     };
 
-    window.ExerciseCarousel.prevExercise = (id) => {
+    window.ExerciseCarousel[`prevExercise_${containerId}`] = () => {
       if (currentIndex > 0) {
         currentIndex--;
         renderExercise();
       }
     };
+
+    // Also keep the old API for backward compatibility
+    window.ExerciseCarousel.checkAnswer = window.ExerciseCarousel[`checkAnswer_${containerId}`];
+    window.ExerciseCarousel.showHint = window.ExerciseCarousel[`showHint_${containerId}`];
+    window.ExerciseCarousel.showSolution = window.ExerciseCarousel[`showSolution_${containerId}`];
+    window.ExerciseCarousel.nextExercise = window.ExerciseCarousel[`nextExercise_${containerId}`];
+    window.ExerciseCarousel.prevExercise = window.ExerciseCarousel[`prevExercise_${containerId}`];
 
     renderExercise();
   };
