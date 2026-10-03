@@ -4,6 +4,50 @@ const ExerciseCarousel = (() => {
   const n = value => String(Number(Number(value).toFixed(4)));
   const vec = (x, y) => `${n(x)}i ${y < 0 ? '−' : '+'} ${n(Math.abs(y))}j`;
 
+  // Progress tracking storage
+  const progressState = {
+    concept1: { completed: new Set(), total: 0 },
+    concept2: { completed: new Set(), total: 0 },
+    concept3: { completed: new Set(), total: 0 }
+  };
+
+  // Update progress display
+  const updateProgressDisplay = (conceptId, exerciseIndex, totalExercises) => {
+    const state = progressState[conceptId];
+    if (!state) return;
+
+    state.total = totalExercises;
+    state.completed.add(exerciseIndex);
+
+    const completed = state.completed.size;
+    const percentage = Math.round((completed / totalExercises) * 100);
+
+    // Update progress sidebar
+    const percentEl = document.getElementById(`${conceptId}-percent`);
+    const barEl = document.getElementById(`${conceptId}-bar`);
+    const completedEl = document.getElementById(`${conceptId}-completed`);
+    const totalEl = document.getElementById(`${conceptId}-total`);
+
+    if (percentEl) percentEl.textContent = `${percentage}%`;
+    if (barEl) barEl.style.width = `${percentage}%`;
+    if (completedEl) completedEl.textContent = completed;
+    if (totalEl) totalEl.textContent = totalExercises;
+
+    // Update exercise list
+    const exercisesList = document.getElementById(`${conceptId}-exercises-list`);
+    if (exercisesList) {
+      let html = '';
+      for (let i = 0; i < totalExercises; i++) {
+        const isCompleted = state.completed.has(i);
+        html += `<div class="progress-exercise-item ${isCompleted ? 'completed' : 'incomplete'}">
+          <div class="icon">${isCompleted ? '✓' : '○'}</div>
+          <div class="label">Latihan ${i + 1}</div>
+        </div>`;
+      }
+      exercisesList.innerHTML = html;
+    }
+  };
+
   // Exercises for Scalar Multiplication (Pendaraban Skalar)
   const scalarExercises = [
     {
@@ -262,12 +306,17 @@ const ExerciseCarousel = (() => {
     return stepsHTML + answerHTML;
   };
 
-  const createCarousel = (containerId, exercises, title) => {
+  const createCarousel = (containerId, exercises, title, conceptId = null) => {
     const container = document.getElementById(containerId);
     if (!container) return;
 
     let currentIndex = 0;
     let answered = new Set();
+
+    // Initialize progress display
+    if (conceptId) {
+      updateProgressDisplay(conceptId, -1, exercises.length);
+    }
 
     const renderExercise = () => {
       const ex = exercises[currentIndex];
@@ -330,6 +379,11 @@ const ExerciseCarousel = (() => {
 
       if (hintEl) hintEl.classList.remove('show');
       if (solutionEl) solutionEl.classList.remove('show');
+
+      // Update progress if conceptId is set
+      if (conceptId) {
+        updateProgressDisplay(conceptId, index, exercises.length);
+      }
     };
 
     window.ExerciseCarousel.showHint = (id, index) => {
@@ -475,12 +529,14 @@ const ExerciseCarousel = (() => {
 
   return {
     init: () => {
-      createCarousel('scalar-exercises', scalarExercises, 'Pendaraban Skalar · 3 Soalan');
-      createCarousel('component-exercises', componentExercises, 'Komponen Cartes · 6 Soalan');
-      createCarousel('addition-exercises', additionExercises, 'Tambah dan Tolak · 5 Soalan');
-      createCarousel('geometry-exercises', geometryExercises, 'Laluan Rajah ABCD · 3 Soalan');
-      createCarousel('unit-vector-exercises', unitVectorExercises, 'Vektor Unit · 3 Soalan');
-    }
+      createCarousel('scalar-exercises', scalarExercises, 'Pendaraban Skalar · 3 Soalan', 'concept1');
+      createCarousel('component-exercises', componentExercises, 'Komponen Cartes · 6 Soalan', 'concept2');
+      createCarousel('addition-exercises', additionExercises, 'Tambah dan Tolak · 5 Soalan', 'concept3');
+      createCarousel('geometry-exercises', geometryExercises, 'Laluan Rajah ABCD · 3 Soalan', 'concept3');
+      createCarousel('unit-vector-exercises', unitVectorExercises, 'Vektor Unit · 3 Soalan', 'concept2');
+    },
+    updateProgress: updateProgressDisplay,
+    getProgress: () => progressState
   };
 })();
 

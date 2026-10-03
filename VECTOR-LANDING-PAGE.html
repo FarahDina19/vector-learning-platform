@@ -176,6 +176,28 @@
         .summary-stats { display: flex; justify-content: center; gap: 40px; margin-bottom: 30px; }
         .summary-stat strong { display: block; font-size: 26px; color: var(--primary-brown); }
         .summary-stat span { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); }
+        /* ===== CONCEPT PROGRESS SIDEBAR ===== */
+        .concept-wrapper { display: flex; gap: 30px; position: relative; }
+        .progress-sidebar { width: 280px; background: var(--accent-light-tan); padding: 24px; border-radius: 0; border-left: 4px solid var(--primary-gold); height: fit-content; position: sticky; top: 100px; flex-shrink: 0; }
+        .progress-sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid rgba(90, 74, 66, 0.2); }
+        .progress-sidebar-title { font-size: 14px; font-weight: 600; color: var(--primary-brown); text-transform: uppercase; letter-spacing: 0.5px; }
+        .progress-percentage { font-size: 20px; font-weight: 700; color: var(--primary-gold); }
+        .progress-bar-container { width: 100%; height: 8px; background: rgba(90, 74, 66, 0.15); margin-bottom: 20px; border-radius: 4px; overflow: hidden; }
+        .progress-bar { height: 100%; background: linear-gradient(90deg, var(--primary-gold) 0%, #d4af37 100%); width: 0%; transition: width 0.4s ease; border-radius: 4px; }
+        .progress-stats { display: flex; gap: 20px; margin-bottom: 24px; padding-bottom: 20px; border-bottom: 1px solid rgba(90, 74, 66, 0.2); }
+        .progress-stat { flex: 1; }
+        .progress-stat .stat-label { display: block; font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+        .progress-stat .stat-value { display: block; font-size: 18px; font-weight: 700; color: var(--primary-brown); }
+        .progress-exercises { }
+        .progress-exercises-title { font-size: 12px; font-weight: 600; color: var(--primary-brown); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+        .progress-exercises-list { display: flex; flex-direction: column; gap: 8px; }
+        .progress-exercise-item { padding: 10px 12px; background: var(--white); border-radius: 4px; font-size: 12px; color: var(--text-dark); display: flex; align-items: center; gap: 8px; transition: all 0.3s ease; border-left: 3px solid transparent; }
+        .progress-exercise-item.incomplete { border-left-color: var(--accent-light-tan); }
+        .progress-exercise-item.completed { border-left-color: var(--primary-gold); background: rgba(212, 175, 55, 0.08); }
+        .progress-exercise-item .icon { font-size: 14px; width: 16px; text-align: center; }
+        .progress-exercise-item .label { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .concept-content { flex: 1; min-width: 0; }
+        @media (max-width: 1024px) { .concept-wrapper { flex-direction: column; gap: 20px; } .progress-sidebar { width: 100%; position: static; sticky: unset; } }
         @media (max-width: 768px) { .problem-card { grid-template-columns: 1fr; } }
         @media (max-width: 768px) { .header { flex-direction: column; gap: 20px; padding: 30px 20px; } .tab-navigation { padding: 0 20px; } .tab-button { flex: 1; min-width: 110px; padding: 18px 14px; font-size: 11px; } .tab-content { padding: 30px 20px; } .content-header h2 { font-size: 30px; } .card-grid { grid-template-columns: 1fr; gap: 20px; } .card { padding: 30px; } .learning-path { padding: 30px 20px; } }
     </style>
@@ -217,8 +239,36 @@
         </div>
 
         <div class="tab-content" id="concept1">
-            <div class="content-header"><h2>Skalar vs Vektor</h2><p>Kenal pasti perbezaan antara kuantiti yang hanya mempunyai magnitud dan kuantiti yang mempunyai magnitud serta arah.</p></div>
-            <div class="card-grid">
+            <div class="concept-wrapper">
+                <!-- Progress Sidebar -->
+                <div class="progress-sidebar" id="concept1-progress">
+                    <div class="progress-sidebar-header">
+                        <div class="progress-sidebar-title">📊 Kemajuan</div>
+                        <div class="progress-percentage" id="concept1-percent">0%</div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="concept1-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <div class="progress-stat">
+                            <span class="stat-label">Siap:</span>
+                            <span class="stat-value" id="concept1-completed">0</span>
+                        </div>
+                        <div class="progress-stat">
+                            <span class="stat-label">Jumlah:</span>
+                            <span class="stat-value" id="concept1-total">0</span>
+                        </div>
+                    </div>
+                    <div class="progress-exercises">
+                        <div class="progress-exercises-title">Latihan</div>
+                        <div class="progress-exercises-list" id="concept1-exercises-list"></div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="concept-content">
+                    <div class="content-header"><h2>Skalar vs Vektor</h2><p>Kenal pasti perbezaan antara kuantiti yang hanya mempunyai magnitud dan kuantiti yang mempunyai magnitud serta arah.</p></div>
+                    <div class="card-grid">
                 <div class="card"><div class="card-icon">📏</div><div class="card-title">Skalar</div><div class="card-description">Kuantiti yang hanya mempunyai magnitud tanpa arah, seperti jarak, masa, suhu, dan jisim. Operasi biasa boleh digunakan.</div><div class="card-meta"><span>Magnitud</span><span>Tiada Arah</span></div></div>
                 <div class="card"><div class="card-icon">➡️</div><div class="card-title">Vektor</div><div class="card-description">Kuantiti yang mempunyai magnitud dan arah, seperti halaju, sesaran, daya, dan pecutan. Arah sangat penting dalam analisis.</div><div class="card-meta"><span>Magnitud</span><span>Arah</span></div></div>
                 <div class="card"><div class="card-icon">🧠</div><div class="card-title">Kenapa Penting?</div><div class="card-description">Satu nilai tanpa arah boleh mengelirukan. Vektor membantu kita menentukan bukan sahaja berapa besar sesuatu, tetapi juga ke mana ia bergerak.</div><div class="card-meta"><span>Fizik</span><span>Kejuruteraan</span></div></div>
@@ -232,11 +282,41 @@
             </div>
             <div id="scalar-exercises" class="exercise-carousel-section" style="margin-top: 40px;"></div>
             <button class="cta-button" onclick="switchTab('concept2')">Teruskan</button>
+                </div><!-- End concept-content -->
+            </div><!-- End concept-wrapper -->
         </div>
 
         <div class="tab-content" id="concept2">
-            <div class="content-header"><h2>Bentuk Komponen</h2><p>Tulis vektor dalam bentuk <strong>xi + yj</strong> dan hubungan antara koordinat titik dengan vektor.</p></div>
-            <div class="card-grid">
+            <div class="concept-wrapper">
+                <!-- Progress Sidebar -->
+                <div class="progress-sidebar" id="concept2-progress">
+                    <div class="progress-sidebar-header">
+                        <div class="progress-sidebar-title">📊 Kemajuan</div>
+                        <div class="progress-percentage" id="concept2-percent">0%</div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="concept2-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <div class="progress-stat">
+                            <span class="stat-label">Siap:</span>
+                            <span class="stat-value" id="concept2-completed">0</span>
+                        </div>
+                        <div class="progress-stat">
+                            <span class="stat-label">Jumlah:</span>
+                            <span class="stat-value" id="concept2-total">0</span>
+                        </div>
+                    </div>
+                    <div class="progress-exercises">
+                        <div class="progress-exercises-title">Latihan</div>
+                        <div class="progress-exercises-list" id="concept2-exercises-list"></div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="concept-content">
+                    <div class="content-header"><h2>Bentuk Komponen</h2><p>Tulis vektor dalam bentuk <strong>xi + yj</strong> dan hubungan antara koordinat titik dengan vektor.</p></div>
+                    <div class="card-grid">
                 <div class="card"><div class="card-icon">🧭</div><div class="card-title">Komponen i</div><div class="card-description">Bahagian mendatar vektor, bergerak ke kanan atau kiri pada paksi-x.</div><div class="card-meta"><span>Horizontal</span><span>x</span></div></div>
                 <div class="card"><div class="card-icon">🧭</div><div class="card-title">Komponen j</div><div class="card-description">Bahagian menegak vektor, bergerak ke atas atau bawah pada paksi-y.</div><div class="card-meta"><span>Vertical</span><span>y</span></div></div>
                 <div class="card"><div class="card-icon">🧾</div><div class="card-title">Contoh Notasi</div><div class="card-description">Vektor pada titik (3, 4) ditulis sebagai <strong>3i + 4j</strong>. Vektor ini mempunyai magnitud 5 unit.</div><div class="card-meta"><span>Notasi</span><span>Magnitud</span></div></div>
@@ -246,11 +326,41 @@
             <div id="component-exercises" class="exercise-carousel-section" style="margin-top: 40px;"></div>
             <div id="unit-vector-exercises" class="exercise-carousel-section" style="margin-top: 40px;"></div>
             <button class="cta-button" onclick="switchTab('concept3')">Teruskan</button>
+                </div><!-- End concept-content -->
+            </div><!-- End concept-wrapper -->
         </div>
 
         <div class="tab-content" id="concept3">
-            <div class="content-header"><h2>Penambahan Vektor</h2><p>Tambah vektor secara komponen demi komponen dan lihat hasil paduan melalui penjelasan berperingkat.</p></div>
-            <div class="card-grid">
+            <div class="concept-wrapper">
+                <!-- Progress Sidebar -->
+                <div class="progress-sidebar" id="concept3-progress">
+                    <div class="progress-sidebar-header">
+                        <div class="progress-sidebar-title">📊 Kemajuan</div>
+                        <div class="progress-percentage" id="concept3-percent">0%</div>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="concept3-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="progress-stats">
+                        <div class="progress-stat">
+                            <span class="stat-label">Siap:</span>
+                            <span class="stat-value" id="concept3-completed">0</span>
+                        </div>
+                        <div class="progress-stat">
+                            <span class="stat-label">Jumlah:</span>
+                            <span class="stat-value" id="concept3-total">0</span>
+                        </div>
+                    </div>
+                    <div class="progress-exercises">
+                        <div class="progress-exercises-title">Latihan</div>
+                        <div class="progress-exercises-list" id="concept3-exercises-list"></div>
+                    </div>
+                </div>
+
+                <!-- Main Content -->
+                <div class="concept-content">
+                    <div class="content-header"><h2>Penambahan Vektor</h2><p>Tambah vektor secara komponen demi komponen dan lihat hasil paduan melalui penjelasan berperingkat.</p></div>
+                    <div class="card-grid">
                 <div class="card"><div class="card-icon">➕</div><div class="card-title">Tambah Komponen</div><div class="card-description">Tambah komponen i dengan i dan j dengan j. Contoh: (2i + 3j) + (1i + 4j) = 3i + 7j.</div><div class="card-meta"><span>Tambah</span><span>Komponen</span></div></div>
                 <div class="card"><div class="card-icon">📐</div><div class="card-title">Hukum Segitiga</div><div class="card-description">Letakkan ekor vektor kedua pada hujung vektor pertama. Vektor paduan pergi dari titik permulaan ke titik akhir.</div><div class="card-meta"><span>Segitiga</span><span>Paduan</span></div></div>
                 <div class="card"><div class="card-icon">🟩</div><div class="card-title">Hukum Parallelogram</div><div class="card-description">Bina dua vektor dari titik yang sama dan lengkapkan parallelogram. Diagonal ialah hasil tambah.</div><div class="card-meta"><span>Parallelogram</span><span>Resultant</span></div></div>
@@ -458,6 +568,8 @@
                 </div>
             </div>
             <button class="cta-button" onclick="switchTab('resources')">Lihat Sumber</button>
+                </div><!-- End concept-content -->
+            </div><!-- End concept-wrapper -->
         </div>
 
         <div class="tab-content" id="resources">
