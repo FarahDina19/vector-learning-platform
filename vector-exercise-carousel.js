@@ -312,6 +312,8 @@ const ExerciseCarousel = (() => {
     window.ExerciseCarousel.checkAnswer = (id, index) => {
       const input = document.getElementById(`answer-${id}`);
       const feedback = document.getElementById(`feedback-${id}`);
+      const hintEl = document.getElementById(`hint-${id}`);
+      const solutionEl = document.getElementById(`solution-${id}`);
       const userAnswer = input.value.trim().toLowerCase().replace(/\s+/g, '');
       const correctAnswer = exercises[index].answer.toLowerCase().replace(/\s+/g, '');
 
@@ -326,12 +328,13 @@ const ExerciseCarousel = (() => {
         feedback.textContent = `✗ Kurang tepat. Jawapan yang betul ialah: ${exercises[index].answer}`;
       }
 
-      document.querySelector(`#${id} .exercise-hint`).classList.remove('show');
-      document.querySelector(`#${id} .exercise-solution`).classList.remove('show');
+      if (hintEl) hintEl.classList.remove('show');
+      if (solutionEl) solutionEl.classList.remove('show');
     };
 
     window.ExerciseCarousel.showHint = (id, index) => {
-      document.getElementById(`hint-${id}`).classList.toggle('show');
+      const hintEl = document.getElementById(`hint-${id}`);
+      if (hintEl) hintEl.classList.toggle('show');
     };
 
     window.ExerciseCarousel.showSolution = (id, index) => {
