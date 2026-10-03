@@ -462,7 +462,16 @@ const VectorExamples = (() => {
       solution: st => {
         const mag = Math.hypot(st.x, st.y);
         if (!mag) return 'The zero vector has no unit vector.';
-        return steps(`${m('|r| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + mag.toFixed(4))}`, `${m('u = (' + vec(st.x, st.y) + ')/|r| ≈ ' + vec(Number((st.x / mag).toFixed(4)), Number((st.y / mag).toFixed(4))))}`, `Check: ${m('|u| = 1')}`);
+        return solutionWithFinalAnswer(
+          [
+            `Calculate magnitude: ${m('|r| = √' + (st.x * st.x + st.y * st.y) + ' ≈ ' + mag.toFixed(4))}`,
+            `Divide each component by magnitude: ${m('u = (' + vec(st.x, st.y) + ')/' + mag.toFixed(4))}`,
+            `i-component: ${m(st.x + ' ÷ ' + mag.toFixed(4) + ' ≈ ' + (st.x / mag).toFixed(4))}`,
+            `j-component: ${m(st.y + ' ÷ ' + mag.toFixed(4) + ' ≈ ' + (st.y / mag).toFixed(4))}`,
+            `Verify: ${m('|u| = √((')${(st.x / mag).toFixed(4)}${m(')² + (')${(st.y / mag).toFixed(4)}${m(')²) = 1')}`
+          ],
+          `u = <strong>${m(vec(Number((st.x / mag).toFixed(4)), Number((st.y / mag).toFixed(4))))}</strong>`
+        );
       }
     },
     {
@@ -474,7 +483,14 @@ const VectorExamples = (() => {
       fields: () => [box('i', 'i-component (2 d.p.)', 2), box('j', 'j-component (2 d.p.)', 2)],
       answers: st => ({ i: st.r * Math.cos((st.a * Math.PI) / 180), j: st.r * Math.sin((st.a * Math.PI) / 180) }),
       hint: () => 'Horizontal (x) component uses cosine, vertical (y) component uses sine. Make sure calculator is in DEGREE mode!',
-      solution: st => steps(`${m('x = ' + st.r + ' cos ' + st.a)}° ${m('≈ ' + (st.r * Math.cos((st.a * Math.PI) / 180)).toFixed(2))}`, `${m('y = ' + st.r + ' sin ' + st.a)}° ${m('≈ ' + (st.r * Math.sin((st.a * Math.PI) / 180)).toFixed(2))}`)
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Apply component formulas:`,
+          `i-component: ${m('x = ' + st.r + ' × cos ' + st.a + '° ≈ ' + (st.r * Math.cos((st.a * Math.PI) / 180)).toFixed(2))}`,
+          `j-component: ${m('y = ' + st.r + ' × sin ' + st.a + '° ≈ ' + (st.r * Math.sin((st.a * Math.PI) / 180)).toFixed(2))}`
+        ],
+        `v = <strong>${m(vec((st.r * Math.cos((st.a * Math.PI) / 180)).toFixed(2), (st.r * Math.sin((st.a * Math.PI) / 180)).toFixed(2)))}</strong>`
+      )
     },
     {
       title: 'Angle Between Two Vectors',
@@ -491,8 +507,17 @@ const VectorExamples = (() => {
       hint: () => 'Angle between = difference of their direction angles. If difference > 180°, take 360° − difference to get the smaller angle.',
       solution: st => {
         let diff = Math.abs(st.a2 - st.a1);
+        const initialDiff = diff;
         if (diff > 180) diff = 360 - diff;
-        return `Difference = |${st.a2}° − ${st.a1}°| = ${Math.abs(st.a2 - st.a1)}°, so angle between = ${diff.toFixed(2)}°`;
+        return solutionWithFinalAnswer(
+          [
+            `Direction angle of v₁: θ₁ = ${st.a1}°`,
+            `Direction angle of v₂: θ₂ = ${st.a2}°`,
+            `Calculate difference: |θ₂ − θ₁| = |${st.a2}° − ${st.a1}°| = ${initialDiff}°`,
+            `Since ${initialDiff}° ${initialDiff > 180 ? '> 180°, take the smaller angle: 360° − ' + initialDiff + '° = ' : '≤ 180°, the angle between is '}${diff.toFixed(2)}°`
+          ],
+          `Angle between vectors = <strong>${diff.toFixed(2)}°</strong>`
+        );
       }
     },
     {
@@ -560,7 +585,13 @@ const VectorExamples = (() => {
       fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: st.ax + st.bx, j: st.ay + st.by }),
       hint: () => 'Add i-components together, then j-components together. DO NOT MIX THEM!',
-      solution: st => `${m('A + B = (' + st.ax + ' + ' + neg(st.bx) + ')i + (' + st.ay + ' + ' + neg(st.by) + ')j = ' + vec(st.ax + st.bx, st.ay + st.by))}`
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Add i-components: ${st.ax} + ${st.bx} = ${st.ax + st.bx}`,
+          `Add j-components: ${st.ay} + ${st.by} = ${st.ay + st.by}`
+        ],
+        `A + B = <strong>${m(vec(st.ax + st.bx, st.ay + st.by))}</strong>`
+      )
     },
     {
       title: 'Subtracting Vectors: A − B = A + (−B)',
@@ -571,7 +602,14 @@ const VectorExamples = (() => {
       fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: st.ax - st.bx, j: st.ay - st.by }),
       hint: () => 'Rewrite subtraction as adding negative B so the signs of each component are clear.',
-      solution: st => `${m('A − B = (' + st.ax + ' − ' + neg(st.bx) + ')i + (' + st.ay + ' − ' + neg(st.by) + ')j = ' + vec(st.ax - st.bx, st.ay - st.by))}`
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Negate B: ${m('−B = ' + vec(-st.bx, -st.by))}`,
+          `Subtract i-components: ${st.ax} − ${st.bx} = ${st.ax - st.bx}`,
+          `Subtract j-components: ${st.ay} − ${st.by} = ${st.ay - st.by}`
+        ],
+        `A − B = <strong>${m(vec(st.ax - st.bx, st.ay - st.by))}</strong>`
+      )
     },
     {
       title: 'Linear Combination pA + qB',
@@ -582,7 +620,15 @@ const VectorExamples = (() => {
       fields: () => [box('i', 'i-component'), box('j', 'j-component')],
       answers: st => ({ i: 2 * st.p + st.q, j: 5 * st.p - 4 * st.q }),
       hint: () => 'Perform each scalar multiplication first, then add the two results component by component.',
-      solution: st => steps(`${m(term(st.p, 'a') + ' = ' + vec(2 * st.p, 5 * st.p))}`, `${m(term(st.q, 'b') + ' = ' + vec(st.q, -4 * st.q))}`, `Sum: ${m(vec(2 * st.p + st.q, 5 * st.p - 4 * st.q))}`)
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Scalar multiplication: ${m(term(st.p, 'a') + ' = ' + vec(2 * st.p, 5 * st.p))}`,
+          `${m(term(st.q, 'b') + ' = ' + vec(st.q, -4 * st.q))}`,
+          `Add i-components: ${2 * st.p} + ${st.q} = ${2 * st.p + st.q}`,
+          `Add j-components: ${5 * st.p} + (${-4 * st.q}) = ${5 * st.p - 4 * st.q}`
+        ],
+        `Result = <strong>${m(vec(2 * st.p + st.q, 5 * st.p - 4 * st.q))}</strong>`
+      )
     },
     {
       title: 'Magnitude and Direction of the Resultant Vector',
@@ -593,7 +639,16 @@ const VectorExamples = (() => {
       fields: () => [box('mag', 'Magnitude |A + B| (2 d.p.)', 2), box('ang', 'Angle (°, 2 d.p.)', 2)],
       answers: st => ({ mag: Math.hypot(st.ax + st.bx, st.ay + st.by), ang: degrees(st.ay + st.by, st.ax + st.bx) }),
       hint: () => 'Add components first. Do NOT add |A| and |B| directly unless both vectors point in the same direction.',
-      solution: st => steps(`${m('R = ' + vec(st.ax + st.bx, st.ay + st.by))}`, `${m('|R| = √' + ((st.ax + st.bx) ** 2 + (st.ay + st.by) ** 2) + ' ≈ ' + Math.hypot(st.ax + st.bx, st.ay + st.by).toFixed(2))}`, `${m('θ ≈ ' + degrees(st.ay + st.by, st.ax + st.bx).toFixed(2))}°`)
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Add components: ${m('R = ' + vec(st.ax + st.bx, st.ay + st.by))}`,
+          `Calculate magnitude: ${m('|R| = √' + ((st.ax + st.bx) ** 2 + (st.ay + st.by) ** 2))}`,
+          `Magnitude ≈ ${m(Math.hypot(st.ax + st.bx, st.ay + st.by).toFixed(2))}`,
+          `Calculate direction: ${m('θ = atan2(' + (st.ay + st.by) + ', ' + (st.ax + st.bx) + ')')}`,
+          `Direction ≈ ${m(degrees(st.ay + st.by, st.ax + st.bx).toFixed(2))}°`
+        ],
+        `Resultant: <strong>${m(vec(st.ax + st.bx, st.ay + st.by))}</strong> | Magnitude: <strong>${Math.hypot(st.ax + st.bx, st.ay + st.by).toFixed(2)}</strong> | Direction: <strong>${degrees(st.ay + st.by, st.ax + st.bx).toFixed(2)}°</strong>`
+      )
     },
     {
       title: 'Solving Vector Equations: A + X = B',
@@ -604,7 +659,16 @@ const VectorExamples = (() => {
       fields: () => [box('i', 'i-component of X'), box('j', 'j-component of X'), box('mag', 'Magnitude |X| (2 d.p.)', 2)],
       answers: st => ({ i: st.bx - st.ax, j: st.by - st.ay, mag: Math.hypot(st.bx - st.ax, st.by - st.ay) }),
       hint: () => 'Isolate X by subtracting A from both sides of the equation, then work component by component.',
-      solution: st => steps(`${m('X = B − A = ' + vec(st.bx - st.ax, st.by - st.ay))}`, `${m('|X| = √' + ((st.bx - st.ax) ** 2 + (st.by - st.ay) ** 2) + ' ≈ ' + Math.hypot(st.bx - st.ax, st.by - st.ay).toFixed(2))}`)
+      solution: st => solutionWithFinalAnswer(
+        [
+          `Rearrange equation: ${m('A + X = B')}`,
+          `Subtract A from both sides: ${m('X = B − A')}`,
+          `i-component: ${st.bx} − ${st.ax} = ${st.bx - st.ax}`,
+          `j-component: ${st.by} − ${st.ay} = ${st.by - st.ay}`,
+          `Calculate magnitude: ${m('|X| = √' + ((st.bx - st.ax) ** 2 + (st.by - st.ay) ** 2) + ' ≈ ' + Math.hypot(st.bx - st.ax, st.by - st.ay).toFixed(2))}`
+        ],
+        `X = <strong>${m(vec(st.bx - st.ax, st.by - st.ay))}</strong> | Magnitude: <strong>${Math.hypot(st.bx - st.ax, st.by - st.ay).toFixed(2)}</strong>`
+      )
     },
     {
       title: 'Vector Routes in Quadrilateral ABCD',
