@@ -5,12 +5,10 @@ const VectorExamples = (() => {
   const LEVELS = [
     { label: 'Easy 1', tier: 'easy' },
     { label: 'Easy 2', tier: 'easy' },
-    { label: 'Easy 3', tier: 'easy' },
+    { label: 'Medium 3', tier: 'medium' },
     { label: 'Medium 4', tier: 'medium' },
-    { label: 'Medium 5', tier: 'medium' },
-    { label: 'Medium 6', tier: 'medium' },
-    { label: 'Hard 7', tier: 'hard' },
-    { label: 'Hard 8', tier: 'hard' }
+    { label: 'Hard 5', tier: 'hard' },
+    { label: 'Hard 6', tier: 'hard' }
   ];
   const XP = { easy: 5, medium: 10, hard: 15 };
   const solved = new Set();
@@ -756,8 +754,10 @@ const VectorExamples = (() => {
     { tab: 'concept2', key: 'component', title: 'Six Interactive Examples: Components, Magnitude, Direction, and Unit Vectors', examples: componentExamples },
     { tab: 'concept3', key: 'addition', title: 'Six Interactive Examples: Addition, Subtraction, and Geometric Routes', examples: additionExamples },
     { tab: 'practice', key: 'drill', title: 'Six Interactive Examples: Exam-Style Practice Drills', examples: practiceExamples },
-    { tab: 'resources', key: 'formula', title: 'Six Interactive Examples: Each Reference Formula Applied', examples: resourceExamples }
-  ];
+    { tab: 'resources', key: 'formula', title: 'Six Interactive Examples: Each Reference Formula Applied', examples: resourceExamples },
+    { tab: 'glossary', key: 'glossary', title: 'Six Interactive Examples: Vector Terms in Action',
+      examples: [introExamples[0], scalarExamples[0], scalarExamples[2], componentExamples[0], componentExamples[4], additionExamples[0]] }
+  ].map(area => ({ ...area, examples: area.examples.slice(0, LEVELS.length) }));
 
   /* ---------- rendering and interaction ---------- */
   const escapeCache=new Map();const MAX_CACHE=64;
@@ -929,9 +929,9 @@ const VectorExamples = (() => {
     const section = document.createElement('section');
     section.className = 'example-ladder';
     section.id = `ladder-${area.key}`;
-    section.innerHTML = `<div class="lab-kicker">Eight Examples · Easy to Hard</div>
+    section.innerHTML = `<div class="lab-kicker">Six Interactive Examples · Easy to Hard</div>
       <h3>${escapeAttr(area.title)}</h3>
-      <p class="ex-ladder-intro">The eight interactive examples below continue the concept with a clear learning progression. Levels 1–3 test recognition or direct calculation. Levels 4–6 require multi-step vector reasoning with equality (balance). Levels 7–8 are application problems, geometry, or complex systems. Adjust the controls, enter your answer, then check.</p>
+      <p class="ex-ladder-intro">Each tab includes six interactive examples. Levels 1–2 test recognition or direct calculation. Levels 3–4 require multi-step vector reasoning. Levels 5–6 explore applications and geometry. Adjust the controls, enter your answer, then check. Use Hint, Solution, or Reset whenever you need them.</p>
       <ol class="ex-ladder-scale">${LEVELS.map(level => `<li>${level.label}</li>`).join('')}</ol>`;
     area.examples.forEach((spec, index) => {
       const card = buildCard(area, spec, index);

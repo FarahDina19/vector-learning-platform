@@ -90,7 +90,7 @@ To keep deployment working:
 
 ## Six interactive examples per example area
 
-Each tab already ended its explanation with a short worked-example list (`.worked-examples`). Every one of those six areas is now followed by an **example ladder** of six extra interactive examples, mounted by `vector-examples.js`:
+Every landing-page tab includes a short worked-example list (`.worked-examples`) followed by an **example ladder** of exactly six interactive examples, mounted by `vector-examples.js` (42 cards across seven tabs):
 
 | Area (tab) | Ladder | Progression |
 |---|---|---|
@@ -100,8 +100,9 @@ Each tab already ended its explanation with a short worked-example list (`.worke
 | Addition (5.3) | `#ladder-addition` | Addition → subtraction → linear combination → resultant magnitude and direction → solving `A + X = B` → route in the ABCD figure |
 | Practice | `#ladder-drill` | Reading a column vector → scalar multiple → `ka − b` → its magnitude → its unit vector → finding the `k` that removes the i component |
 | Resources | `#ladder-formula` | Two-point vector formula → distance formula → midpoint → negative scalar multiple → direction angle with quadrant check → the section formula |
+| Glossary | `#ladder-glossary` | Scalar vs vector → negative vector → scalar multiplication → position vector → unit vector → vector addition |
 
-Levels 1–2 are direct recognition or one-step calculation, levels 3–4 need multi-step vector reasoning, and levels 5–6 are applied or geometric problems. Every card is labelled (for example `Sederhana 3 · Medium 3`), carries sliders or selects, redraws its SVG diagram live, validates typed answers against the required number of decimal places, and offers a hint, a worked solution and a reset. A first correct answer awards XP through the existing progress engine. The ladders reuse `buildDiagramSVG`, `VectorMath`, `VectorExtensions.polygon` and `VectorExtensions.routeResult`, and add no build step or external dependency.
+Levels 1–2 are direct recognition or one-step calculation, levels 3–4 need multi-step vector reasoning, and levels 5–6 are applied or geometric problems. Every card is labelled (for example `Medium 3`), carries sliders or selects, updates its readout or SVG diagram live, validates typed answers against the required number of decimal places, and offers a hint, a worked solution and a reset. A first correct answer awards XP through the existing progress engine. The ladders reuse `buildDiagramSVG`, `VectorMath`, `VectorExtensions.polygon` and `VectorExtensions.routeResult`, and add no build step or external dependency.
 
 ### Browser checks
 
