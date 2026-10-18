@@ -25,7 +25,7 @@
     s.timeline.oninput=e=>{stop(s);s.t=Number(e.target.value)/100;draw(s);}; draw(s);
   }
   function stop(s){cancelAnimationFrame(s.frame);s.running=false;s.playBtn.textContent='Main animasi';}
-  function tick(s,time){if(!s.running)return;if(document.hidden||!s.el.closest('.tab-content').classList.contains('active')){stop(s);return;}if(s.last)s.t=Math.min(1,s.t+(time-s.last)/6500);s.last=time;draw(s);if(s.t<1)s.frame=requestAnimationFrame(t=>tick(s,t));else stop(s);}
+  function tick(s,time){if(!s.running)return;const panel=s.el.closest('.tab-content');if(document.hidden||(panel&&!panel.classList.contains('active'))){stop(s);return;}if(s.last)s.t=Math.min(1,s.t+(time-s.last)/6500);s.last=time;draw(s);if(s.t<1)s.frame=requestAnimationFrame(t=>tick(s,t));else stop(s);}
   function draw(s){
     const X=x=>240+x*22,Y=y=>190-y*22;
     const gridPaths=[],labels=[];

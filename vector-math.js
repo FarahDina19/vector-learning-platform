@@ -7,7 +7,7 @@ const VectorMath = (() => {
   const MATH_CHECK = /[=+−×÷≈≠√²³/∥]/;
   const PART_CHECK = /^[+−\-×÷=≈≠<>∥√|()[\],/½²³]$/;
   function tokenize(text) {
-    return text.match(TOKEN_REGEX)||[];
+    return String(text).match(TOKEN_REGEX)||[];
   }
   const row = s => `<mrow>${s}</mrow>`;
   function symbol(s) {
@@ -39,7 +39,7 @@ const VectorMath = (() => {
   function column(x,y){return `<math xmlns="http://www.w3.org/1998/Math/MathML" aria-label="Vektor lajur ${x}, ${y}"><mrow><mo stretchy="true">(</mo><mtable><mtr><mtd>${markup(String(x))}</mtd></mtr><mtr><mtd>${markup(String(y))}</mtd></mtr></mtable><mo stretchy="true">)</mo></mrow></math>`;}
   // Token runs stop at prose. No HTML, SVG labels, controls or source code are parsed.
   function textHTML(text){
-    const parts=text.match(PART_REGEX)||[];
+    const parts=String(text).match(PART_REGEX)||[];
     let output='',run='';
     function flush(){if(!run)return;const trimmed=run.trim();const core=trimmed.replace(/^[,]+|[,]+$/g,'');
       const valid=core&&(MATH_CHECK.test(core)||/\b(?:i|j|v|u|kv|xi|yj|OP|A|B|C|X|Y|R|a|b|c)\b/.test(core));

@@ -291,7 +291,7 @@ const VectorExamples = (() => {
         [
           `Calculate magnitude of original vector: ${m('|v| = √(' + st.x + '² + ' + st.y + '²) = √' + (st.x * st.x + st.y * st.y))}`,
           `Calculate magnitude: ${m('|v| ≈ ' + Math.hypot(st.x, st.y).toFixed(4))}`,
-          `Set up equation: ${m('|k| × ' + Math.hypot(st.x, st.y).toFixed(4) + ' = ' + st.t)}``,
+          `Set up equation: ${m('|k| × ' + Math.hypot(st.x, st.y).toFixed(4) + ' = ' + st.t)}`,
           `Solve for k: ${m('k = ' + st.t + ' ÷ ' + Math.hypot(st.x, st.y).toFixed(4))}`
         ],
         `k = <strong>${(st.t / Math.hypot(st.x, st.y)).toFixed(4)}</strong>`
@@ -468,7 +468,7 @@ const VectorExamples = (() => {
             `Divide each component by magnitude: ${m('u = (' + vec(st.x, st.y) + ')/' + mag.toFixed(4))}`,
             `i-component: ${m(st.x + ' ÷ ' + mag.toFixed(4) + ' ≈ ' + (st.x / mag).toFixed(4))}`,
             `j-component: ${m(st.y + ' ÷ ' + mag.toFixed(4) + ' ≈ ' + (st.y / mag).toFixed(4))}`,
-            `Verify: ${m('|u| = √((')${(st.x / mag).toFixed(4)}${m(')² + (')${(st.y / mag).toFixed(4)}${m(')²) = 1')}`
+            `Verify: ${m('|u| = √((')}${(st.x / mag).toFixed(4)}${m(')² + (')}${(st.y / mag).toFixed(4)}${m(')²) = 1')}`
           ],
           `u = <strong>${m(vec(Number((st.x / mag).toFixed(4)), Number((st.y / mag).toFixed(4))))}</strong>`
         );
