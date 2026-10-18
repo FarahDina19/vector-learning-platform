@@ -62,6 +62,19 @@ function buildDiagramSVG(vectors) {
   const grid=gridPaths.join(''),axes=axesLabels.join('')+`<path d="M${pad} ${py(0)}H${size-pad+10}l-6 -3m6 3l-6 3 M${px(0)} ${size-pad}V${pad-10}l-3 6m3 -6l3 6" stroke="#333333" stroke-width="2.5" fill="none"/><text x="${size-pad+22}" y="${py(0)+5}" font-size="14" font-weight="bold" fill="#333">x</text><text x="${px(0)+10}" y="${pad-15}" font-size="14" font-weight="bold" fill="#333">y</text><text x="${px(0)-16}" y="${py(0)+19}" font-size="13" font-weight="bold" fill="#333">O</text>`;
   let lines='';
   const lineElements=[];
+  const placedLabels=[];
+  // Axis numbers are obstacles too, so vector labels do not sit on top of them.
+  for(let i=0;i<=Math.round(span/step);i++){
+    const x=minX+i*step,y=minY+i*step;
+    if(Math.abs(x)>1e-8)placedLabels.push({x1:px(x)-12,x2:px(x)+12,y1:py(0)+7,y2:py(0)+21});
+    if(Math.abs(y)>1e-8)placedLabels.push({x1:px(0)-30,x2:px(0)-6,y1:py(y)-8,y2:py(y)+6});
+  }
+  // Arrows are obstacles too: sample points along every vector, so labels sit beside arrows, not on them.
+  vectors.forEach(v=>{
+    const sx=px(v.ox),sy=py(v.oy),ex=px(v.ox+v.dx),ey=py(v.oy+v.dy);
+    const steps=Math.max(2,Math.ceil(Math.hypot(ex-sx,ey-sy)/6));
+    for(let k=0;k<=steps;k++){const x=sx+(ex-sx)*k/steps,y=sy+(ey-sy)*k/steps;placedLabels.push({x1:x-3,x2:x+3,y1:y-3,y2:y+3});}
+  });
 
   // Draw component decomposition for vectors that request it
   const componentElements=[];
@@ -80,7 +93,29 @@ function buildDiagramSVG(vectors) {
     const realMag=Math.hypot(v.dx,v.dy);
     if(length<1e-7){lineElements.push(`<circle cx="${x1}" cy="${y1}" r="4" fill="${color}"/><text x="${x1+8}" y="${y1-10}" fill="${color}" font-weight="bold">${esc(v.label ? v.label+' = 0' : '0')}</text>`);return;}
     lineElements.push(`<path data-vector="${index}" d="M${x1} ${y1}L${x2} ${y2}" stroke="${color}" stroke-width="2.8" ${v.dashed?'stroke-dasharray="5 4"':''} fill="none"/><path d="M${x2-head*Math.cos(angle-.45)} ${y2-head*Math.sin(angle-.45)}L${x2} ${y2}L${x2-head*Math.cos(angle+.45)} ${y2-head*Math.sin(angle+.45)}" stroke="${color}" stroke-width="2.8" fill="none"/>`);
-    if(v.label){const lx=Math.max(pad+15,Math.min(size-pad-15,(x1+x2)/2+15)),ly=Math.max(25,Math.min(size-20,(y1+y2)/2-12-index*3));lineElements.push(`<text x="${lx}" y="${ly}" text-anchor="middle" fill="${color}" font-weight="bold" font-size="13" paint-order="stroke" stroke="white" stroke-width="4">${esc(v.label)}</text>`);if(realMag>0.1){const magLabel=realMag.toFixed(1);lineElements.push(`<text x="${lx}" y="${ly+16}" text-anchor="middle" fill="${color}" font-size="11" opacity="0.8" paint-order="stroke" stroke="white" stroke-width="3">|${esc(v.label)}|=${magLabel}</text>`);}}
+    if(v.label){
+      // Place the label beside the arrow. Try nearer positions first, on either side, and keep the first one
+      // that does not overlap a label already drawn in this diagram.
+      const magText=realMag>0.1?`|${esc(v.label)}|=${realMag.toFixed(1)}`:'';
+      const side=index%2?1:-1;
+      const nx=-(y2-y1)/length,ny=(x2-x1)/length;
+      const anchorAt=(t,offset,s)=>({
+        lx:Math.max(pad+15,Math.min(size-pad-15,x1+(x2-x1)*t+nx*offset*s)),
+        ly:Math.max(28,Math.min(size-50,y1+(y2-y1)*t+ny*offset*s))
+      });
+      const boxAt=(p,text,withMag)=>({x1:p.lx-(text.length*7+8)/2,x2:p.lx+(text.length*7+8)/2,y1:p.ly-14,y2:p.ly+(withMag?20:4)});
+      const overlaps=(a,b)=>a.x1<b.x2&&b.x1<a.x2&&a.y1<b.y2&&b.y1<a.y2;
+      const free=(p,withMag)=>!placedLabels.some(b=>overlaps(boxAt(p,v.label.length>magText.length?v.label:magText,withMag),b));
+      // Search nearer positions first. Keep the magnitude line if any position fits it; otherwise show the name alone.
+      const positions=[0.55,0.35,0.75].flatMap(t=>[16,32,48,64,80,96].flatMap(offset=>[side,-side].map(s=>anchorAt(t,offset,s))));
+      let anchor=positions.find(p=>magText&&free(p,true)),withMag=Boolean(anchor);
+      if(!anchor)anchor=positions.find(p=>free(p,false));
+      if(!anchor){anchor=positions[0];withMag=false;}
+      placedLabels.push(boxAt(anchor,v.label.length>magText.length?v.label:magText,withMag));
+      const {lx,ly}=anchor;
+      lineElements.push(`<text x="${lx}" y="${ly}" text-anchor="middle" fill="${color}" font-weight="bold" font-size="13" paint-order="stroke" stroke="white" stroke-width="4">${esc(v.label)}</text>`);
+      if(withMag)lineElements.push(`<text x="${lx}" y="${ly+16}" text-anchor="middle" fill="${color}" font-size="11" opacity="0.8" paint-order="stroke" stroke="white" stroke-width="3">${magText}</text>`);
+    }
   });
   lines=lineElements.join('');
   const description=vectors.map(v=>`${v.label||'Vector'}: (${num(v.ox)}, ${num(v.oy)}) to (${num(v.ox+v.dx)}, ${num(v.oy+v.dy)})`).join('; ');

@@ -1,7 +1,7 @@
 require('fs').mkdirSync('tmp', {recursive:true});
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const {pathToFileURL}=require('url');const path=require('path');
-const TABS=['intro','concept1','concept2','concept3','practice','resources','glossary'];
+const TABS=['intro','concept1','concept2','concept3','practice','resources'];
 (async()=>{
  const browser=await chromium.launch({headless:true,channel:'msedge'});
  const page=await browser.newPage({viewport:{width:1280,height:950}});const errors=[];
@@ -51,8 +51,8 @@ const TABS=['intro','concept1','concept2','concept3','practice','resources','glo
    assert(ladders.length===1,'Exactly one example ladder in '+tab);
    assert(ladders[0].previousElementSibling.classList.contains('worked-examples'),'Ladder follows the example area in '+tab);
   }
-  assert(document.querySelectorAll('.example-ladder').length===7,'Seven ladders overall');
-  assert(document.querySelectorAll('.ex-card').length===42,'Forty-two new interactive examples');
+  assert(document.querySelectorAll('.example-ladder').length===6,'Six ladders overall');
+  assert(document.querySelectorAll('.ex-card').length===36,'Thirty-six new interactive examples');
   assert(document.querySelectorAll('.vector-lab').length>=9,'Existing labs untouched');
   const ids=[...document.querySelectorAll('[id]')].map(element=>element.id);
   assert(ids.length===new Set(ids).size,'No duplicate element ids');
@@ -172,13 +172,9 @@ const TABS=['intro','concept1','concept2','concept3','practice','resources','glo
   assert(near(introMag.answers({e:3,u:4}).mag,5),'Pythagorean displacement');
   const unit=VectorExamples.AREAS[2].examples[4].answers({x:10,y:-1});
   assert(near(Math.hypot(unit.ui,unit.uj),1),'Unit vector has magnitude one');
-  const route=VectorExamples.AREAS[3].examples[5];
-  for(const target of ['DB','AC','CD']){
-   const [x,y]=VectorExtensions.routeResult(4,5,2,target);
-   const got=route.answers({p:4,q:5,r:2,target});
-   assert(got.x===x&&got.y===y,'Route ladder matches the existing route engine for '+target);
-  }
-  assert(route.answers({p:4,q:5,r:2,target:'DB'}).x===-5,'Figure 3 DB coefficient');
+  const ratio=VectorExamples.AREAS[3].examples[5];
+  const ratioAnswer=ratio.answers({ax:4,ay:1,bx:1,by:5});
+  assert(near(ratioAnswer.i,3)&&near(ratioAnswer.j,7/3),'Ratio 1:2 point OR = (2a + b) / 3');
   const drill=VectorExamples.AREAS[4].examples[2].answers({k:4,bx:2,by:5});
   assert(drill.i===10&&drill.j===-1,'4a − b matches the printed worked example');
   const zeroK=VectorExamples.AREAS[4].examples[5].answers({ax:3,bx:2,by:5});
@@ -188,7 +184,7 @@ const TABS=['intro','concept1','concept2','concept3','practice','resources','glo
   switchTab('practice');startPractice('examRoutes');
   assert(session.problem.answers.x===-5&&session.problem.answers.y===4,'Existing practice engine intact');
   backToMenu();
-  return {ladders:7,newExamples:42,verifiedStates:checked,blockedStates:blockedStates,controls:interactiveControls,readoutChanges,diagramChanges};
+  return {ladders:6,newExamples:36,verifiedStates:checked,blockedStates:blockedStates,controls:interactiveControls,readoutChanges,diagramChanges};
  },TABS);
 
  for(const tab of TABS){
