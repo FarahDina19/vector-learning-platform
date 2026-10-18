@@ -97,8 +97,8 @@ Every landing-page tab includes a short worked-example list (`.worked-examples`)
 | Intro | `#ladder-intro` | Classify a quantity → perpendicular displacement → distance vs displacement → plane + wind → forces and the equilibrant → game object after *n* frames |
 | Scalar & Vector (5.1) | `#ladder-scalar` | Negative vector → magnitude → scalar multiplication → identifying the vector type → solving for a multiplier → the third vector that gives the null vector |
 | Component Form (5.2) | `#ladder-component` | Position vector → magnitude → vector between two points → direction angle → unit vector → magnitude and angle back to components |
-| Addition (5.3) | `#ladder-addition` | Addition → subtraction → linear combination → resultant magnitude and direction → solving `A + X = B` → route in the ABCD figure |
-| Practice | `#ladder-drill` | Reading a column vector → scalar multiple → `ka − b` → its magnitude → its unit vector → finding the `k` that removes the i component |
+| Addition (5.3) | `#ladder-addition` | Addition → subtraction → linear combination → resultant magnitude and direction → solving `A + X = B` → point R dividing AB in the ratio 1 : 2 |
+| Practice | `#ladder-drill` | Reading a column vector → scalar multiple → `ka − b` → direction angle of `2a + b` → endpoint of a scaled displacement → finding the `k` that removes the i component |
 | Resources | `#ladder-formula` | Two-point vector formula → distance formula → midpoint → negative scalar multiple → direction angle with quadrant check → the section formula |
 
 Levels 1–2 are direct recognition or one-step calculation, levels 3–4 need multi-step vector reasoning, and levels 5–6 are applied or geometric problems. Every card is labelled (for example `Medium 3`), carries sliders or selects, updates its readout or SVG diagram live, validates typed answers against the required number of decimal places, and offers a hint, a worked solution and a reset. A first correct answer awards XP through the existing progress engine. The ladders reuse `buildDiagramSVG`, `VectorMath`, `VectorExtensions.polygon` and `VectorExtensions.routeResult`, and add no build step or external dependency.

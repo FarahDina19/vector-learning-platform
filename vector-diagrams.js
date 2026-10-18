@@ -80,7 +80,12 @@ function buildDiagramSVG(vectors) {
     const realMag=Math.hypot(v.dx,v.dy);
     if(length<1e-7){lineElements.push(`<circle cx="${x1}" cy="${y1}" r="4" fill="${color}"/><text x="${x1+8}" y="${y1-10}" fill="${color}" font-weight="bold">${esc(v.label ? v.label+' = 0' : '0')}</text>`);return;}
     lineElements.push(`<path data-vector="${index}" d="M${x1} ${y1}L${x2} ${y2}" stroke="${color}" stroke-width="2.8" ${v.dashed?'stroke-dasharray="5 4"':''} fill="none"/><path d="M${x2-head*Math.cos(angle-.45)} ${y2-head*Math.sin(angle-.45)}L${x2} ${y2}L${x2-head*Math.cos(angle+.45)} ${y2-head*Math.sin(angle+.45)}" stroke="${color}" stroke-width="2.8" fill="none"/>`);
-    if(v.label){const lx=Math.max(pad+15,Math.min(size-pad-15,(x1+x2)/2+15)),ly=Math.max(25,Math.min(size-20,(y1+y2)/2-12-index*3));lineElements.push(`<text x="${lx}" y="${ly}" text-anchor="middle" fill="${color}" font-weight="bold" font-size="13" paint-order="stroke" stroke="white" stroke-width="4">${esc(v.label)}</text>`);if(realMag>0.1){const magLabel=realMag.toFixed(1);lineElements.push(`<text x="${lx}" y="${ly+16}" text-anchor="middle" fill="${color}" font-size="11" opacity="0.8" paint-order="stroke" stroke="white" stroke-width="3">|${esc(v.label)}|=${magLabel}</text>`);}}
+    if(v.label){
+      // Put the label beside the arrow (perpendicular to it), on alternating sides so neighbouring labels separate.
+      const t=0.55,side=index%2?1:-1,offset=16;
+      const nx=-(y2-y1)/length,ny=(x2-x1)/length;
+      const ax=x1+(x2-x1)*t+nx*offset*side,ay=y1+(y2-y1)*t+ny*offset*side;
+      const lx=Math.max(pad+15,Math.min(size-pad-15,ax)),ly=Math.max(28,Math.min(size-30,ay));lineElements.push(`<text x="${lx}" y="${ly}" text-anchor="middle" fill="${color}" font-weight="bold" font-size="13" paint-order="stroke" stroke="white" stroke-width="4">${esc(v.label)}</text>`);if(realMag>0.1){const magLabel=realMag.toFixed(1);lineElements.push(`<text x="${lx}" y="${ly+16}" text-anchor="middle" fill="${color}" font-size="11" opacity="0.8" paint-order="stroke" stroke="white" stroke-width="3">|${esc(v.label)}|=${magLabel}</text>`);}}
   });
   lines=lineElements.join('');
   const description=vectors.map(v=>`${v.label||'Vector'}: (${num(v.ox)}, ${num(v.oy)}) to (${num(v.ox+v.dx)}, ${num(v.oy+v.dy)})`).join('; ');

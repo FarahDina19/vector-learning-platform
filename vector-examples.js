@@ -671,18 +671,15 @@ const VectorExamples = (() => {
       )
     },
     {
-      title: 'Vector Routes in Quadrilateral ABCD',
-      controls: [chooser('target', 'Target vector', [['DB', 'DB'], ['AC', 'AC'], ['CD', 'CD']], 'DB'), slider('p', 'Coefficient p in AB = p y', 2, 6, 1, 4), slider('q', 'Coefficient q in AD = q x', 3, 8, 1, 5), slider('r', 'Coefficient r in BC = r x', 1, 5, 1, 2)],
-      prompt: st => `In quadrilateral ABCD, ${m('AB = ' + st.p + 'y')}, ${m('AD = ' + st.q + 'x')} and ${m('BC = ' + st.r + 'x')}. Express ${m(st.target)} in terms of x and y, including both coefficients.`,
-      visual: st => VectorExtensions.polygon(st.p, st.q, st.r),
-      readout: st => eq(`Route: ${{ DB: 'D → A → B', AC: 'A → B → C', CD: 'C → B → A → D' }[st.target]}`, 'Reversing the direction of a side reverses its sign.'),
-      fields: () => [box('x', 'Coefficient of x'), box('y', 'Coefficient of y')],
-      answers: st => {
-        const [x, y] = VectorExtensions.routeResult(st.p, st.q, st.r, st.target);
-        return { x, y };
-      },
-      hint: () => 'Write the route as a sum of labeled sides. Each time you move against the given arrow, flip the sign.',
-      solution: st => m(VectorExtensions.routeWork(st.p, st.q, st.r, st.target))
+      title: 'Point R Dividing AB in the Ratio 1 : 2',
+      controls: [slider('ax', 'i-component of OA', -3, 6, 1, 4), slider('ay', 'j-component of OA', -3, 6, 1, 1), slider('bx', 'i-component of OB', -3, 6, 1, 1), slider('by', 'j-component of OB', -3, 6, 1, 5)],
+      prompt: st => `O is the origin, ${m('OA = ' + vec(st.ax, st.ay))} and ${m('OB = ' + vec(st.bx, st.by))}. R lies on AB so that AR : RB = 1 : 2. Find OR in the form ${m('xi + yj')}.`,
+      visual: st => buildDiagramSVG(drawable([v(0, 0, st.ax, st.ay, 'blue', 'A'), v(0, 0, st.bx, st.by, 'blue', 'B'), v(st.ax, st.ay, st.bx - st.ax, st.by - st.ay, 'red', 'AB', true), v(0, 0, (2 * st.ax + st.bx) / 3, (2 * st.ay + st.by) / 3, 'green', 'OR')])),
+      readout: st => eq(`${m('AB = OB − OA = ' + vec(st.bx - st.ax, st.by - st.ay))}`, `${m('AR = (1/3)AB')}`),
+      fields: () => [box('i', 'i-component of OR (2 d.p.)', 2), box('j', 'j-component of OR (2 d.p.)', 2)],
+      answers: st => ({ i: (2 * st.ax + st.bx) / 3, j: (2 * st.ay + st.by) / 3 }),
+      hint: () => 'AR is one third of AB, so OR = OA + (1/3)AB. Work out AB first.',
+      solution: st => steps(`${m('AB = OB − OA = ' + vec(st.bx - st.ax, st.by - st.ay))}`, `${m('AR = (1/3)AB = ' + vec((st.bx - st.ax) / 3, (st.by - st.ay) / 3))}`, `${m('OR = OA + AR = ' + vec((2 * st.ax + st.bx) / 3, (2 * st.ay + st.by) / 3))}`)
     },
     {
       title: 'Vector Equality: Recognizing Equal Vectors',
@@ -761,43 +758,26 @@ const VectorExamples = (() => {
       solution: st => `${m('r = ' + vec(3 * st.k, st.k) + ' − (' + vec(st.bx, st.by) + ') = ' + vec(3 * st.k - st.bx, st.k - st.by))}`
     },
     {
-      title: 'Magnitude of ka − b',
-      controls: [slider('k', 'Multiplier k', -3, 5, 1, 4), slider('bx', 'Top row of b', -6, 6, 1, 2), slider('by', 'Bottom row of b', -6, 6, 1, 5)],
-      prompt: st => `Given ${m('a')} = ${col(3, 1)} and ${m('b')} = ${col(st.bx, st.by)}, find ${m('|' + st.k + 'a − b|')} to 4 decimal places.`,
-      visual: st => buildDiagramSVG([v(0, 0, 3 * st.k, st.k, 'blue', `${st.k}a`), v(3 * st.k, st.k, -st.bx, -st.by, 'red', '−b'), v(0, 0, 3 * st.k - st.bx, st.k - st.by, 'green', 'r', false, true)]),
-      readout: st => eq(`${m('r = ' + vec(3 * st.k - st.bx, st.k - st.by))}`, `${m('|r| = √(r_x² + r_y²)')}`),
-      fields: () => [box('mag', 'Magnitude (4 d.p.)', 4)],
-      answers: st => ({ mag: Math.hypot(3 * st.k - st.bx, st.k - st.by) }),
-      hint: () => 'Get the resultant vector first, then use the magnitude formula on its components.',
-      solution: st => `${m('|r| = √(' + neg(3 * st.k - st.bx) + '² + ' + neg(st.k - st.by) + '²) = √' + ((3 * st.k - st.bx) ** 2 + (st.k - st.by) ** 2) + ' ≈ ' + Math.hypot(3 * st.k - st.bx, st.k - st.by).toFixed(4))}`
+      title: 'Direction Angle of 2a + b',
+      controls: [slider('x', 'Top row of a', -4, 4, 1, 1), slider('y', 'Bottom row of a', -4, 4, 1, 4), slider('bx', 'Top row of b', -5, 5, 2, -3), slider('by', 'Bottom row of b', -4, 4, 1, 2)],
+      prompt: st => `Given ${m('a')} = ${col(st.x, st.y)} and ${m('b')} = ${col(st.bx, st.by)}, find the direction of ${m('2a + b')}, measured anticlockwise from the positive x-axis, to 1 decimal place.`,
+      visual: st => buildDiagramSVG(drawable([v(0, 0, 2 * st.x, 2 * st.y, 'blue', '2a'), v(2 * st.x, 2 * st.y, st.bx, st.by, 'red', 'b'), v(0, 0, 2 * st.x + st.bx, 2 * st.y + st.by, 'green', 'r', false, true)])),
+      readout: st => eq(`${m('2a = ' + vec(2 * st.x, 2 * st.y))}`, `${m('b = ' + vec(st.bx, st.by))}`, `${m('2a + b = ' + vec(2 * st.x + st.bx, 2 * st.y + st.by))}`),
+      fields: () => [box('theta', 'Direction θ (°, 1 d.p.)', 1)],
+      answers: st => ({ theta: degrees(2 * st.y + st.by, 2 * st.x + st.bx) }),
+      hint: () => 'Find the components of 2a + b first. Use the signs of the components to choose the quadrant before you find the angle.',
+      solution: st => steps(`${m('2a = ' + vec(2 * st.x, 2 * st.y))}`, `${m('2a + b = ' + vec(2 * st.x + st.bx, 2 * st.y + st.by))}`, `${m('tan θ = ' + (2 * st.y + st.by) + ' ÷ ' + (2 * st.x + st.bx))}`, `${m('θ ≈ ' + degrees(2 * st.y + st.by, 2 * st.x + st.bx).toFixed(1) + '°')}`)
     },
     {
-      title: 'Unit Vector in Direction of ka − b',
-      invalid: st => (Math.hypot(3 * st.k - st.bx, st.k - st.by) ? '' : 'The result ka − b is the zero vector, so no unit vector is defined. Adjust settings to continue.'),
-      controls: [slider('k', 'Multiplier k', -3, 5, 1, 4), slider('bx', 'Top row of b', -6, 6, 1, 2), slider('by', 'Bottom row of b', -6, 6, 1, 5)],
-      prompt: st => `Given ${m('a')} = ${col(3, 1)} and ${m('b')} = ${col(st.bx, st.by)}, find the unit vector in the direction of ${m('' + st.k + 'a − b')} to 4 decimal places.`,
-      visual: st => VectorExtensions.unitCircle(3 * st.k - st.bx, st.k - st.by),
-      readout: st => {
-        const x = 3 * st.k - st.bx;
-        const y = st.k - st.by;
-        const mag = Math.hypot(x, y);
-        return mag ? eq(`${m('r = ' + vec(x, y))}`, `${m('|r| = √' + (x * x + y * y) + ' ≈ ' + mag.toFixed(4))}`, `${m('u = r/|r|')}`) : `${m('r = zero')}: unit vector is undefined for these settings.`;
-      },
-      fields: () => [box('ui', 'i-component of u (4 d.p.)', 4), box('uj', 'j-component of u (4 d.p.)', 4)],
-      answers: st => {
-        const x = 3 * st.k - st.bx;
-        const y = st.k - st.by;
-        const mag = Math.hypot(x, y) || 1;
-        return { ui: x / mag, uj: y / mag };
-      },
-      hint: () => 'Order of steps: multiply, subtract, find magnitude, divide. Do NOT divide by magnitude before finding the resultant vector.',
-      solution: st => {
-        const x = 3 * st.k - st.bx;
-        const y = st.k - st.by;
-        const mag = Math.hypot(x, y);
-        if (!mag) return 'The resultant vector is zero, so no unit vector exists.';
-        return steps(`${m('r = ' + vec(x, y))}`, `${m('|r| = √' + (x * x + y * y) + ' ≈ ' + mag.toFixed(4))}`, `${m('u ≈ ' + vec(Number((x / mag).toFixed(4)), Number((y / mag).toFixed(4))))}`);
-      }
+      title: 'Endpoint of a Scaled Displacement',
+      controls: [slider('k', 'Multiplier k', -3, 4, 1, 2), slider('dx', 'Top row of d', -4, 4, 1, 3), slider('dy', 'Bottom row of d', -4, 4, 1, -2)],
+      prompt: st => `Point P has position vector ${m('p = 2i + j')}. Point Q has position vector ${m('q = p + kd')}, where ${m('d = ' + col(st.dx, st.dy))} and k = ${st.k}. Find the coordinates of Q.`,
+      visual: st => buildDiagramSVG(drawable([v(0, 0, 2, 1, 'blue', 'p'), v(2, 1, st.k * st.dx, st.k * st.dy, 'red', 'kd', false, true), v(0, 0, 2 + st.k * st.dx, 1 + st.k * st.dy, 'green', 'q')])),
+      readout: st => eq(`${m('kd = ' + vec(st.k * st.dx, st.k * st.dy))}`, `${m('q = p + kd')}`),
+      fields: () => [box('x', 'x-coordinate of Q'), box('y', 'y-coordinate of Q')],
+      answers: st => ({ x: 2 + st.k * st.dx, y: 1 + st.k * st.dy }),
+      hint: () => 'Multiply every component of d by k first, then add the result to the components of p.',
+      solution: st => steps(`${m('kd = ' + vec(st.k * st.dx, st.k * st.dy))}`, `${m('q = p + kd = (2 + ' + neg(st.k * st.dx) + ', 1 + ' + neg(st.k * st.dy) + ')')}`, `${m('q = (' + (2 + st.k * st.dx) + ', ' + (1 + st.k * st.dy) + ')')}`)
     },
     {
       title: 'Finding k That Eliminates the i-Component',
