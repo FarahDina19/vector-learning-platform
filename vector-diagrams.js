@@ -69,6 +69,12 @@ function buildDiagramSVG(vectors) {
     if(Math.abs(x)>1e-8)placedLabels.push({x1:px(x)-12,x2:px(x)+12,y1:py(0)+7,y2:py(0)+21});
     if(Math.abs(y)>1e-8)placedLabels.push({x1:px(0)-30,x2:px(0)-6,y1:py(y)-8,y2:py(y)+6});
   }
+  // Arrows are obstacles too: sample points along every vector, so labels sit beside arrows, not on them.
+  vectors.forEach(v=>{
+    const sx=px(v.ox),sy=py(v.oy),ex=px(v.ox+v.dx),ey=py(v.oy+v.dy);
+    const steps=Math.max(2,Math.ceil(Math.hypot(ex-sx,ey-sy)/6));
+    for(let k=0;k<=steps;k++){const x=sx+(ex-sx)*k/steps,y=sy+(ey-sy)*k/steps;placedLabels.push({x1:x-3,x2:x+3,y1:y-3,y2:y+3});}
+  });
 
   // Draw component decomposition for vectors that request it
   const componentElements=[];
