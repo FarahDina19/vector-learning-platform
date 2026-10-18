@@ -968,9 +968,7 @@ const VectorExamples = (() => {
     { tab: 'concept2', key: 'component', title: 'Six Interactive Examples: Components, Magnitude, Direction, and Unit Vectors', examples: componentExamples },
     { tab: 'concept3', key: 'addition', title: 'Six Interactive Examples: Addition, Subtraction, and Geometric Routes', examples: additionExamples },
     { tab: 'practice', key: 'drill', title: 'Six Interactive Examples: Exam-Style Practice Drills', examples: practiceExamples },
-    { tab: 'resources', key: 'formula', title: 'Six Interactive Examples: Each Reference Formula Applied', examples: resourceExamples },
-    { tab: 'glossary', key: 'glossary', title: 'Six Interactive Examples: Vector Terms in Action',
-      examples: [introExamples[0], scalarExamples[0], scalarExamples[2], componentExamples[0], componentExamples[4], additionExamples[0]] }
+    { tab: 'resources', key: 'formula', title: 'Six Interactive Examples: Each Reference Formula Applied', examples: resourceExamples }
   ].map(area => ({ ...area, examples: area.examples.slice(0, LEVELS.length) }));
 
   /* ---------- rendering and interaction ---------- */

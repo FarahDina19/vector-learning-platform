@@ -30,7 +30,7 @@ The deployed app covers:
 
 - Seven tabs: Intro, Scalar & Vector, Component Form, Addition, **Practice**, Resources, and Glossary
 - Interactive labs that visualize journeys, components, operations, and scalar multiplication
-- **Six additional interactive examples for every example area** (42 in total, across seven tabs), ordered Easy 1 → Hard 6, each with live controls, a live diagram, answer checking, hints, worked solutions and a reset control
+- **Six additional interactive examples for every example area** (36 in total, across six tabs), ordered Easy 1 → Hard 6, each with live controls, a live diagram, answer checking, hints, worked solutions and a reset control
 - A full **Practice** engine with:
   - Generated questions across Easy / Medium / Hard difficulty
   - Workbook-style exercises reconstructed from the source learning materials
@@ -90,7 +90,7 @@ To keep deployment working:
 
 ## Six interactive examples per example area
 
-Every landing-page tab includes a short worked-example list (`.worked-examples`) followed by an **example ladder** of exactly six interactive examples, mounted by `vector-examples.js` (42 cards across seven tabs):
+Every landing-page tab includes a short worked-example list (`.worked-examples`) followed by an **example ladder** of exactly six interactive examples, mounted by `vector-examples.js` (36 cards across six tabs; the Glossary tab shows worked examples only):
 
 | Area (tab) | Ladder | Progression |
 |---|---|---|
@@ -100,7 +100,6 @@ Every landing-page tab includes a short worked-example list (`.worked-examples`)
 | Addition (5.3) | `#ladder-addition` | Addition → subtraction → linear combination → resultant magnitude and direction → solving `A + X = B` → route in the ABCD figure |
 | Practice | `#ladder-drill` | Reading a column vector → scalar multiple → `ka − b` → its magnitude → its unit vector → finding the `k` that removes the i component |
 | Resources | `#ladder-formula` | Two-point vector formula → distance formula → midpoint → negative scalar multiple → direction angle with quadrant check → the section formula |
-| Glossary | `#ladder-glossary` | Scalar vs vector → negative vector → scalar multiplication → position vector → unit vector → vector addition |
 
 Levels 1–2 are direct recognition or one-step calculation, levels 3–4 need multi-step vector reasoning, and levels 5–6 are applied or geometric problems. Every card is labelled (for example `Medium 3`), carries sliders or selects, updates its readout or SVG diagram live, validates typed answers against the required number of decimal places, and offers a hint, a worked solution and a reset. A first correct answer awards XP through the existing progress engine. The ladders reuse `buildDiagramSVG`, `VectorMath`, `VectorExtensions.polygon` and `VectorExtensions.routeResult`, and add no build step or external dependency.
 

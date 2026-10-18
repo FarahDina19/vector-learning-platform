@@ -1,7 +1,7 @@
 require('fs').mkdirSync('tmp', {recursive:true});
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE || 'playwright');
 const {pathToFileURL}=require('url');const path=require('path');
-const TABS=['intro','concept1','concept2','concept3','practice','resources','glossary'];
+const TABS=['intro','concept1','concept2','concept3','practice','resources'];
 (async()=>{
  const browser=await chromium.launch({headless:true,channel:'msedge'});
  const page=await browser.newPage({viewport:{width:1280,height:950}});const errors=[];
@@ -51,8 +51,8 @@ const TABS=['intro','concept1','concept2','concept3','practice','resources','glo
    assert(ladders.length===1,'Exactly one example ladder in '+tab);
    assert(ladders[0].previousElementSibling.classList.contains('worked-examples'),'Ladder follows the example area in '+tab);
   }
-  assert(document.querySelectorAll('.example-ladder').length===7,'Seven ladders overall');
-  assert(document.querySelectorAll('.ex-card').length===42,'Forty-two new interactive examples');
+  assert(document.querySelectorAll('.example-ladder').length===6,'Six ladders overall');
+  assert(document.querySelectorAll('.ex-card').length===36,'Thirty-six new interactive examples');
   assert(document.querySelectorAll('.vector-lab').length>=9,'Existing labs untouched');
   const ids=[...document.querySelectorAll('[id]')].map(element=>element.id);
   assert(ids.length===new Set(ids).size,'No duplicate element ids');
@@ -188,7 +188,7 @@ const TABS=['intro','concept1','concept2','concept3','practice','resources','glo
   switchTab('practice');startPractice('examRoutes');
   assert(session.problem.answers.x===-5&&session.problem.answers.y===4,'Existing practice engine intact');
   backToMenu();
-  return {ladders:7,newExamples:42,verifiedStates:checked,blockedStates:blockedStates,controls:interactiveControls,readoutChanges,diagramChanges};
+  return {ladders:6,newExamples:36,verifiedStates:checked,blockedStates:blockedStates,controls:interactiveControls,readoutChanges,diagramChanges};
  },TABS);
 
  for(const tab of TABS){
