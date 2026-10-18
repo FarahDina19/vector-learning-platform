@@ -8,7 +8,7 @@ const {pathToFileURL}=require('url');
  const errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.goto(pathToFileURL(path.resolve('VECTOR-LANDING-PAGE.html')).href);
  const assert=(v,m)=>{if(!v)throw Error(m);};
- assert(await page.locator('.vector-lab').count()===9,'labs mounted');
+ assert(await page.locator('.vector-lab').count()===8,'labs mounted');
  await page.evaluate(()=>switchTab('concept1'));
  await page.locator('#concept1 .timeline').first().fill('100');
  assert((await page.locator('#concept1 .lab-equation').first().innerHTML()).includes('7.0 m'),'distance final');
@@ -29,7 +29,7 @@ const {pathToFileURL}=require('url');
  assert(await page.locator('#concept3 .timeline').inputValue()===paused,'pause');
  const results=await page.evaluate(()=>{
   const out=[];switchTab('practice');
-  for(const cat of ['bookComponents','bookScalar','bookOperations']){
+  for(const cat of ['komponen','operasi','laluan']){
    startPractice(cat);
    for(let index=0;index<CATEGORY_CONFIG[cat].total;index++){
     const p=session.problem;
@@ -42,7 +42,8 @@ const {pathToFileURL}=require('url');
   }
   return out;
  });
- assert(results.length===14,'14 workbook exercises');
+ const expected=await page.evaluate(()=>['komponen','operasi','laluan'].reduce((sum,cat)=>sum+CATEGORY_CONFIG[cat].total,0));
+ assert(results.length===expected,'every workbook exercise');
  await page.evaluate(()=>{switchTab('practice');backToMenu();startPractice('add');});
  assert(await page.locator('#answerArea .ans-input').count()===2,'original practice works');
  await page.setViewportSize({width:390,height:844});

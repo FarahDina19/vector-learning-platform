@@ -28,7 +28,7 @@ The deployed app covers:
 
 ## ✨ Features
 
-- Seven tabs: Intro, Scalar & Vector, Component Form, Addition, **Practice**, Resources, and Glossary
+- Seven tabs: Intro, Scalar & Vector, Component Form, Addition, **Latihan** (Practice), Resources, and Glossary
 - Interactive labs that visualize journeys, components, operations, and scalar multiplication
 - **Six additional interactive examples for every example area** (36 in total, across six tabs), ordered Easy 1 → Hard 6, each with live controls, a live diagram, answer checking, hints, worked solutions and a reset control
 - A full **Practice** engine with:
@@ -82,9 +82,9 @@ To keep deployment working:
 
 ## Added screenshot-based lessons
 
-- **5.3 / Addition:** step through DB, AC and CD using the ABCD diagram. The first `examRoutes` item is the Figure 3 question with AB = 4y, AD = 5x and BC = 2x; its DB solution follows D → A → B, so DA = −5x and DB = −5x + 4y. AC and BD intersect at a calculated E; E is not assumed to be a midpoint. The given x and y are oblique basis vectors, not Cartesian axes.
+- **5.3 / Addition:** step through DB, AC and CD using the ABCD diagram. The first `laluan` item is the Figure 3 question with AB = 4y, AD = 5x and BC = 2x; its DB solution follows D → A → B, so DA = −5x and DB = −5x + 4y. AC and BD intersect at a calculated E; E is not assumed to be a midpoint. The given x and y are oblique basis vectors, not Cartesian axes.
 - **5.2 / Component Form:** change k in ka − b; inspect the resultant, magnitude and normalized vector on a separate unit-circle diagram. The original example starts at k = 4.
-- **Practice:** the geometric-route set has 12 questions across DB, AC and CD; the component/unit-vector set has 6. Both reuse the existing hints, solutions and XP/progress support. Unit-vector answers use four decimal places; magnitudes use two.
+- **Practice:** the workbook menu has three skill sets: `komponen` (components and unit vectors, 18 questions), `laluan` (routes and displacements in quadrilaterals, 24) and `operasi` (scalar multiplication and add/subtract, 8). The random cards (Express, Add, Equality, Scalar, Real-world, Final exam) are unchanged. The sets reuse the existing hints, solutions and XP/progress support. Unit-vector answers use four decimal places; magnitudes use two.
 - **Worked examples:** every tab now includes multiple concise worked examples, and the geometric-route bank uses four coefficient sets.
 - `vector-extensions.js` contains these lessons and exercises. `vector-visuals.js` contains vector anatomy and five vector-type diagrams.
 

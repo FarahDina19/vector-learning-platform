@@ -37,7 +37,7 @@ const {pathToFileURL}=require('url');const path=require('path');
   const zero=new DOMParser().parseFromString(buildDiagramSVG([{ox:0,oy:0,dx:0,dy:0,color:'green',label:'R'}]),'image/svg+xml');
   assert(zero.querySelectorAll('[data-vector]').length===0,'Zero has no arrow');
   assert(document.querySelectorAll('math msqrt').length>0,'Radical');assert(document.querySelectorAll('math mfrac').length>0,'Fractions');assert(document.querySelectorAll('math mtable').length>=1,'Column vector');
-  switchTab('practice');startPractice('bookComponents');
+  switchTab('practice');startPractice('komponen');
   const inputs=document.querySelectorAll('#answerArea input');inputs[0].value='3abc';inputs[1].value='4';checkAnswer();assert(!session.answered,'Malformed answer accepted');
   inputs[0].value='3.05';checkAnswer();assert(!session.answered,'Inexact component accepted');
   inputs[0].value='3';checkAnswer();assert(session.answered,'Correct answer rejected');
@@ -48,7 +48,7 @@ const {pathToFileURL}=require('url');const path=require('path');
   for(const range of await page.locator('#'+tab+' .timeline').all())await range.fill('100');
   await page.screenshot({path:`tmp/audit-${tab}.png`,fullPage:true,animations:'disabled'});
  }
- await page.evaluate(()=>{switchTab('practice');startPractice('bookOperations');showHint();showSolution();});
+ await page.evaluate(()=>{switchTab('practice');startPractice('operasi');showHint();showSolution();});
  await page.screenshot({path:'tmp/audit-practice.png',fullPage:true,animations:'disabled'});
  await page.setViewportSize({width:390,height:844});
  for(const tab of ['concept1','concept2','concept3','practice','resources']){
