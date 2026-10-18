@@ -84,7 +84,7 @@
         }
 
         .tab-container { background: var(--white); border-radius: 0; overflow: hidden; box-shadow: none; margin-bottom: 0; }
-        .tab-navigation { display: flex; flex-wrap: wrap; background: var(--white); border-bottom: 2px solid var(--accent-light-tan); overflow-x: auto; -webkit-overflow-scrolling: touch; padding: 0 60px; }
+        .tab-navigation { display: flex; flex-wrap: nowrap; background: var(--white); border-bottom: 2px solid var(--accent-light-tan); overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: thin; padding: 0 60px; }
         .tab-button { flex: 0 1 auto; min-width: 140px; padding: 24px 20px; border: none; background: transparent; cursor: pointer; font-size: 13px; font-weight: 600; color: var(--text-muted); transition: all 0.3s ease; border-bottom: 2px solid transparent; position: relative; white-space: nowrap; display: flex; align-items: center; justify-content: center; gap: 8px; text-transform: uppercase; letter-spacing: 1px; }
         .tab-button:hover { background: transparent; color: var(--primary-brown); }
         .tab-button.active { background: transparent; color: var(--primary-brown); border-bottom-color: var(--primary-gold); }
@@ -213,7 +213,7 @@
             </div>
             <div class="learning-path worked-examples"><h3>Contoh Vektor dalam Situasi Harian</h3><ol><li><strong>Kenal pasti jenis kuantiti:</strong> Laju 60 km/j ialah skalar; halaju 60 km/j ke utara ialah vektor.</li><li><strong>Gunakan komponen:</strong> Vektor 3i + 4j bermaksud 3 unit ke timur dan 4 unit ke utara.</li><li><strong>Gabungkan vektor:</strong> Jika bergerak 2 km timur kemudian 5 km utara, sesaran paduan ialah √29 km.</li><li><strong>Nilai magnitud:</strong> Panjang vektor 3i + 4j ialah 5 unit menggunakan Teorem Pythagoras.</li></ol></div>
             <div class="learning-path"><h3>🎯 Laluan Pembelajaran Anda (Struktur Syllabus Unit 5):</h3><ol><li><strong>Unit 5.1 - Mulai dengan asas:</strong> Pelajari definisi skalar vs vektor, magnitud dan arah.</li><li><strong>Unit 5.2 - Bentuk komponen:</strong> Fahami notasi <strong>xi + yj</strong> dan koordinat Cartesian.</li><li><strong>Unit 5.3 - Operasi vektor:</strong> Kuasai penambahan, pengurangan, dan hasil paduan.</li><li><strong>Unit 5.4 - Aplikasi sebenar:</strong> Gunakan vektor untuk daya, halaju, dan sesaran dalam konteks nyata.</li></ol></div>
-            <button class="cta-button" onclick="switchTab('concept1')">Mula Belajar</button>
+            <button class="cta-button" data-switch-tab="concept1">Mula Belajar</button>
         </div>
 
         <div class="tab-content" id="concept1">
@@ -230,7 +230,7 @@
                 <div class="card-description">Bandingkan vektor sifar, unit, selari, sama dan negatif.</div>
                 <span class="difficulty-badge difficulty-easy">Asas</span>
             </div>
-            <button class="cta-button" onclick="switchTab('concept2')">Teruskan</button>
+            <button class="cta-button" data-switch-tab="concept2">Teruskan</button>
         </div>
 
         <div class="tab-content" id="concept2">
@@ -242,7 +242,7 @@
             </div>
             <div class="learning-path worked-examples"><h3>Contoh Bentuk Komponen</h3><ol><li><strong>(2, 3)</strong> ditulis sebagai <strong>2i + 3j</strong>.</li><li><strong>(5, -1)</strong> ditulis sebagai <strong>5i - 1j</strong>.</li><li><strong>-3i + 4j</strong> bermaksud 3 unit ke kiri dan 4 unit ke atas.</li><li><strong>Magnitud</strong> vektor 3i + 4j ialah √(3² + 4²) = 5.</li></ol></div>
             <div class="learning-path"><h3>🎯 Aktiviti Ringkas</h3><ol><li>Tukar koordinat (6, 2) kepada bentuk komponen.</li><li>Tukar vektor -2i + 7j kepada koordinat.</li></ol></div>
-            <button class="cta-button" onclick="switchTab('concept3')">Teruskan</button>
+            <button class="cta-button" data-switch-tab="concept3">Teruskan</button>
         </div>
 
         <div class="tab-content" id="concept3">
@@ -367,7 +367,7 @@
                     </ul>
                 </section>
             </section>
-            <button class="cta-button" onclick="switchTab('practice')">Pergi ke Latihan</button>
+            <button class="cta-button" data-switch-tab="practice">Pergi ke Latihan</button>
         </div>
 
         <div class="tab-content" id="practice">
@@ -442,42 +442,40 @@
                     </div>
                 </div>
             </div>
-            <button class="cta-button" onclick="switchTab('resources')">Lihat Sumber</button>
+            <button class="cta-button" data-switch-tab="resources">Lihat Sumber</button>
         </div>
 
         <div class="tab-content" id="resources">
             <div class="content-header"><h2>Sumber Tambahan</h2><p>Rujukan formula dan nota ringkas untuk membantu anda mengulangkaji dengan cepat.</p></div>
             <div class="learning-path"><h3>Rujukan Cepat</h3><ol><li><strong>Magnitud:</strong> |v| = √(x² + y²)</li><li><strong>Komponen:</strong> v = xi + yj</li><li><strong>Tambah:</strong> (a₁i + a₂j) + (b₁i + b₂j)</li><li><strong>Sesaran:</strong> Q - P</li></ol></div>
             <div class="learning-path worked-examples"><h3>Contoh Menggunakan Formula</h3><ol><li><strong>Magnitud:</strong> v = −3i + 4j ⇒ |v| = √((−3)² + 4²) = 5.</li><li><strong>Sesaran:</strong> P(1, 2), Q(4, 6) ⇒ PQ = (4 − 1)i + (6 − 2)j = 3i + 4j.</li><li><strong>Vektor unit:</strong> u = v/|v| = −3/5 i + 4/5 j, dan |u| = 1.</li></ol></div>
-            <button class="cta-button" onclick="switchTab('glossary')">Buka Glossary</button>
+            <button class="cta-button" data-switch-tab="glossary">Buka Glossary</button>
         </div>
 
         <div class="tab-content" id="glossary">
             <div class="content-header"><h2>Glossary</h2><p>Buka halaman glossary vektor untuk definisi terperinci dan contoh tambahan.</p></div>
-            <div class="learning-path"><h3>Halaman Berasingan</h3><ol><li>Glossary mempunyai tab sendiri dengan definisi, contoh, dan notasi.</li><li>Klik butang di bawah untuk membuka halaman glossary.</li></ol></div>
+            <div class="learning-path"><h3>Halaman Penuh</h3><ol><li>Tab ini memberi ringkasan istilah dengan contoh berperingkat.</li><li>Untuk senarai penuh dengan definisi dan notasi, klik butang di bawah untuk membuka halaman glossary.</li></ol></div>
             <div class="learning-path worked-examples"><h3>Istilah dalam Pengiraan</h3><ol><li><strong>Komponen dan magnitud:</strong> v = 3i + 4j mempunyai komponen (3, 4) dan magnitud √(3² + 4²) = 5.</li><li><strong>Vektor negatif:</strong> −v = −3i − 4j; v + (−v) = 0i + 0j ialah vektor sifar.</li><li><strong>Vektor unit:</strong> v/|v| = 0.6i + 0.8j mempunyai magnitud √(0.6² + 0.8²) = 1.</li></ol></div>
-            <a class="cta-button" href="vector-glossary.html">Buka Glossary</a>
+            <a class="cta-button" href="vector-glossary.html">Buka Glossary Penuh</a>
         </div>
     </div>
 
     <script src="vector-math.js"></script>
     <script src="vector-diagrams.js"></script>
+    <script src="vector-tabs.js"></script>
     <script>
+        const landingTabs = VectorTabs.init({ useHash: true });
+
         function switchTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            document.querySelectorAll('.tab-button').forEach(button => button.classList.remove('active'));
-            const selectedContent = document.getElementById(tabName);
-            if (selectedContent) selectedContent.classList.add('active');
-            const selectedButton = document.querySelector(`.tab-button[data-tab="${tabName}"]`);
-            if (selectedButton) selectedButton.classList.add('active');
+            return landingTabs.switchTo(tabName);
         }
 
+        document.addEventListener('click', function(event) {
+            const trigger = event.target.closest('[data-switch-tab]');
+            if (trigger) switchTab(trigger.getAttribute('data-switch-tab'));
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('.tab-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    switchTab(this.getAttribute('data-tab'));
-                });
-            });
             updateXpHeader();
         });
 

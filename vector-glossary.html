@@ -856,23 +856,10 @@
         </footer>
     </div>
 
+    <script src="vector-tabs.js"></script>
     <script>
-        // Tab switching functionality
-        const tabBtns = document.querySelectorAll('.tab-btn');
-        const sections = document.querySelectorAll('.section');
-
-        tabBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                // Remove active class from all buttons and sections
-                tabBtns.forEach(b => b.classList.remove('active'));
-                sections.forEach(s => s.classList.remove('active'));
-
-                // Add active class to clicked button and corresponding section
-                btn.classList.add('active');
-                const tabId = btn.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
-            });
-        });
+        // Tab switching is shared with the landing page
+        VectorTabs.init({ buttonSelector: '.tab-btn[data-tab]', panelSelector: '.section', activeClass: 'active' });
 
         // Optional: Add search functionality for future enhancement
         console.log('Vector Glossary loaded successfully!');
