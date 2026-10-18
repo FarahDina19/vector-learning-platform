@@ -28,9 +28,9 @@ The deployed app covers:
 
 ## ✨ Features
 
-- Six tabs: Intro, Scalar & Vector, Component Form, Addition, **Practice**, and Resources
+- Seven tabs: Intro, Scalar & Vector, Component Form, Addition, **Practice**, Resources, and Glossary
 - Interactive labs that visualize journeys, components, operations, and scalar multiplication
-- **Six additional interactive examples for every example area** (36 in total), ordered Easy 1 → Hard 6, each with live controls, a live diagram, answer checking, hints, worked solutions and a reset control
+- **Six additional interactive examples for every example area** (42 in total, across seven tabs), ordered Easy 1 → Hard 6, each with live controls, a live diagram, answer checking, hints, worked solutions and a reset control
 - A full **Practice** engine with:
   - Generated questions across Easy / Medium / Hard difficulty
   - Workbook-style exercises reconstructed from the source learning materials
