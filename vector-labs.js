@@ -1,5 +1,5 @@
 /* Concrete journeys and their mathematical representations share one timeline. */
-(() => {
+const VectorLabs = (() => {
   const blue='#2f6fed', red='#c73c32', green='#227849';
   const labs=[];
   const config=[
@@ -100,8 +100,5 @@
   // Merge component questions: basic + enhanced (12 total)
   const allComponentQuestions=[...componentQuestions,...unitVectorQuestions];
 
-  const groups=[['bookComponents','Komponen Cartes',allComponentQuestions],['bookScalar','Pendaraban skalar',operationQuestions.slice(0,3)],['bookOperations','Tambah dan tolak',operationQuestions.slice(3)],['bookGeometry','Rajah Geometri & Laluan',pathQuestions]];
-  groups.forEach(([id,title,questions])=>{CATEGORY_CONFIG[id]={title:'Buku kerja · '+title,total:questions.length,isWorkbook:true,gen:()=>questions[session.index]};});
-  const section=document.createElement('section');section.className='vector-lab';section.innerHTML='<div class="lab-kicker">NUM10192 & Latihan Geometri · Latihan terpilih</div><h3>Dari animasi ke buku kerja</h3><p class="lab-intro">32 soalan daripada UNIT 5 (latihan), dengan semakan jawapan, petua dan penyelesaian. Komponen: m.s. 78 (PDF 11), soalan 1-8 (diasah dengan soalan komponen/unit). Pendaraban skalar: m.s. 82 (PDF 15), Task 1 soalan 1, 2, 4. Operasi: halaman sama, soalan 5, 6, 7, 9, 10. Rajah Geometri & Laluan: 12 soalan baru tentang ABCD dan PQRS untuk mengukuhkan pemahaman segi empat tepat dan vektor sesaran. Masukkan jawapan pecahan sebagai perpuluhan (contoh: 5/2 = 2.5). Rujukan mengikut topik kerana penomboran bahagian buku dan aplikasi tidak semuanya sama.</p><div class="workbook-links"></div>';
-  groups.forEach(([id,title,questions])=>{const button=document.createElement('button');button.textContent=`${title} · ${questions.length} soalan`;button.onclick=()=>{switchTab('practice');startPractice(id);};section.querySelector('.workbook-links').append(button);});document.getElementById('practiceMenu').prepend(section);
+  return {componentQuestions:allComponentQuestions,scalarQuestions:operationQuestions.slice(0,3),operationQuestions:operationQuestions.slice(3),pathQuestions};
 })();

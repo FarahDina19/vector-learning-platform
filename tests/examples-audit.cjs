@@ -53,7 +53,7 @@ const TABS=['intro','concept1','concept2','concept3','practice','resources'];
   }
   assert(document.querySelectorAll('.example-ladder').length===6,'Six ladders overall');
   assert(document.querySelectorAll('.ex-card').length===36,'Thirty-six new interactive examples');
-  assert(document.querySelectorAll('.vector-lab').length>=9,'Existing labs untouched');
+  assert(document.querySelectorAll('.vector-lab').length>=8,'Existing labs untouched');
   const ids=[...document.querySelectorAll('[id]')].map(element=>element.id);
   assert(ids.length===new Set(ids).size,'No duplicate element ids');
 
@@ -181,7 +181,7 @@ const TABS=['intro','concept1','concept2','concept3','practice','resources'];
   assert(near(zeroK.k,2/3)&&near(zeroK.j,2/3-5),'Eliminating the i component');
 
   // the practice engine and its workbook categories still behave
-  switchTab('practice');startPractice('examRoutes');
+  switchTab('practice');startPractice('laluan');
   assert(session.problem.answers.x===-5&&session.problem.answers.y===4,'Existing practice engine intact');
   backToMenu();
   return {ladders:6,newExamples:36,verifiedStates:checked,blockedStates:blockedStates,controls:interactiveControls,readoutChanges,diagramChanges};
